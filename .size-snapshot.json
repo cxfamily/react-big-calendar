@@ -22,5 +22,10 @@
         "code": 67195
       }
     }
+  },
+  "./dist/react-big-calendar.esm.js": {
+    "bundled": 430017,
+    "minified": 132577,
+    "gzipped": 42425
   }
 }

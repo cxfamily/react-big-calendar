@@ -44,7 +44,7 @@ export default [
   {
     input,
     output: {
-      file: './dist/react-big-calendar.min.js',
+      file: './dist/react-big-calendar.esm.js',
       format: 'umd',
       name,
       globals,
