@@ -276,6 +276,9 @@ button.rbc-input::-moz-focus-inner {
 .rbc-row-segment {
   padding: 0 1px 1px 1px;
 }
+.rbc-row-segment .rbc-event-content {
+  color: #fff;
+}
 
 .rbc-selected-cell {
   background-color: rgba(0, 0, 0, 0.1);
