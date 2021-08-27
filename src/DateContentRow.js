@@ -21,7 +21,7 @@ class DateContentRow extends React.Component {
   }
 
   handleSelectSlot = slot => {
-    console.log('111',slot);
+    // console.log('111', slot)
     const { range, onSelectSlot } = this.props
 
     onSelectSlot(range.slice(slot.start, slot.end + 1), slot)
@@ -57,12 +57,14 @@ class DateContentRow extends React.Component {
     let headingHeight = this.headingRow ? getHeight(this.headingRow) : 0
     let eventSpace = getHeight(findDOMNode(this)) - headingHeight
 
-    return Math.max(Math.floor(eventSpace / eventHeight), 5) /*todo显示几行行程*/
+    return Math.max(
+      Math.floor(eventSpace / eventHeight),
+      5
+    ) /*todo显示几行行程*/
   }
 
   renderHeadingCell = (date, index) => {
     let { renderHeader, getNow } = this.props
-
     return renderHeader({
       date,
       key: `header_${index}`,
@@ -152,7 +154,6 @@ class DateContentRow extends React.Component {
       slotMetrics: metrics,
       resizable,
     }
-
     return (
       <div className={className} role="rowgroup">
         <BackgroundCells

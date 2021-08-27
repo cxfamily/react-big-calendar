@@ -14,15 +14,15 @@ class EventCell extends React.Component {
       onSelect,
       onDoubleClick,
       onKeyPress,
-      localizer,
+      // localizer,
       continuesPrior,
       continuesAfter,
       accessors,
       getters,
       children,
       components: { eventWrapper: EventWrapper },
-      slotStart,
-      slotEnd,
+      // slotStart,
+      // slotEnd,
       ...props
     } = this.props
     delete props.resizable
@@ -39,9 +39,14 @@ class EventCell extends React.Component {
     let userProps = getters.eventProp(event, start, end, selected)
 
     const content = (
-      <div className="rbc-event-content" title={tooltip || undefined}> {/*todo日历li*/}
-          {title}
-      </div>
+      <a
+        href={event.url ? event.url : '#'}
+        className="rbc-event-content"
+        title={tooltip || undefined}
+      >
+        {/*todo日历li*/}
+        {title}
+      </a>
     )
 
     return (

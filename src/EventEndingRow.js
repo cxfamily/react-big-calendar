@@ -76,13 +76,13 @@ class EventEndingRow extends React.Component {
   renderShowMore(segments, slot) {
     let { localizer } = this.props
     let count = eventsInSlot(segments, slot)
-
+    // console.log('9999',events,accessors.title(events));
     return count ? (
       <a
         key={'sm_' + slot}
         href="#"
         className={'rbc-show-more'}
-        onClick={e => this.showMore(slot, e)}
+        onClick={e => this.showMore(slot, e, segments)}
       >
         {localizer.messages.showMore(count)}
       </a>
@@ -91,9 +91,13 @@ class EventEndingRow extends React.Component {
     )
   }
 
-  showMore(slot, e) {/*todo点击more*/
+  showMore(slot, e) {
+    /*todo点击more*/
     e.preventDefault()
     e.stopPropagation()
+    // let {segments} = this.props
+    // segments = segments.filter(el => el.left === slot)
+    // console.log('111',slot, segments);
     // this.props.onShowMore(slot, e.target)
   }
 }

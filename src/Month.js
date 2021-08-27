@@ -9,7 +9,7 @@ import chunk from 'lodash/chunk'
 import { navigate, views } from './utils/constants'
 import { notify } from './utils/helpers'
 import getPosition from 'dom-helpers/position'
-import * as animationFrame from 'dom-helpers/animationFrame'
+// import * as animationFrame from 'dom-helpers/animationFrame'
 
 import Popup from './Popup'
 import Overlay from 'react-overlays/Overlay'
@@ -42,22 +42,22 @@ class MonthView extends React.Component {
   }
 
   componentDidMount() {
-    let running
+    // let running
 
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
 
-    window.addEventListener(
-      'resize',
-      (this._resizeListener = () => {
-        if (!running) {
-          animationFrame.request(() => {
-            running = false
-            this.setState({ needLimitMeasure: true }) //eslint-disable-line
-          })
-        }
-      }),
-      false
-    )
+    // window.addEventListener(/*todo改变宽度日程显示全部*/
+    //   'resize',
+    //   (this._resizeListener = () => {
+    //     if (!running) {
+    //       animationFrame.request(() => {
+    //         running = false
+    //         this.setState({ needLimitMeasure: true }) //eslint-disable-line
+    //       })
+    //     }
+    //   }),
+    //   false
+    // )
   }
 
   componentDidUpdate() {
