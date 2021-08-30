@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import clsx from 'clsx'
 import { navigate } from './utils/constants'
 
 class Toolbar extends React.Component {
@@ -11,15 +10,16 @@ class Toolbar extends React.Component {
     } = this.props
 
     return (
-      <div className="rbc-toolbar">{/*todo日历头部*/}
-        <div className="rbc-toolbar-title">活动日历</div>
+      <div className="rbc-toolbar">
+        {/*todo日历头部*/}
+        <span className="rbc-toolbar-label">{label}</span>
         <span className="rbc-btn-group">
-          <span className="rbc-toolbar-label">{label}</span>
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.PREVIOUS)}
+            className="arrow arrow-left"
           >
-            {messages.previous}
+            {/*{messages.previous}*/}
           </button>
           <button
             type="button"
@@ -30,12 +30,11 @@ class Toolbar extends React.Component {
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.NEXT)}
+            className="arrow arrow-right"
           >
-            {messages.next}
+            {/*{messages.next}*/}
           </button>
         </span>
-
-
 
         {/*<span className="rbc-btn-group">{this.viewNamesGroup(messages)}</span>*/}
       </div>

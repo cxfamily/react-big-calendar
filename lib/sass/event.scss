@@ -1,17 +1,24 @@
 @import './variables';
 
 .rbc-event {
-  border: none;
-  box-sizing: border-box;
-  box-shadow: none;
-  margin: 0;
-  padding: $event-padding;
-  background-color: $event-bg;
-  border-radius: $event-border-radius;
-  color: $event-color;
-  cursor: pointer;
-  width: 100%;
   text-align: left;
+  width: 100%;
+  .rbc-event-content {
+    border-left: 4px solid #2E8AE6;
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    padding: 2px 5px 2px 9px;
+    background-color: $event-bg;
+    border-radius: $event-border-radius;
+    color: $event-color;
+    cursor: pointer;
+  }
+  .rbc-event-content-train {
+    color: #FF8040;
+    background: #FFEBE0;
+    border-left-color: #FF8040;
+  }
 
   .rbc-slot-selecting & {
     cursor: inherit;

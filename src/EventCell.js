@@ -11,9 +11,9 @@ class EventCell extends React.Component {
       event,
       selected,
       isAllDay,
-      onSelect,
-      onDoubleClick,
-      onKeyPress,
+      // onSelect,
+      // onDoubleClick,
+      // onKeyPress,
       // localizer,
       continuesPrior,
       continuesAfter,
@@ -41,7 +41,9 @@ class EventCell extends React.Component {
     const content = (
       <a
         href={event.url ? event.url : '#'}
-        className="rbc-event-content"
+        className={clsx('rbc-event-content', {
+          'rbc-event-content-train': event.type === '2',
+        })}
         title={tooltip || undefined}
       >
         {/*todo日历li*/}
@@ -61,9 +63,9 @@ class EventCell extends React.Component {
             'rbc-event-continues-prior': continuesPrior,
             'rbc-event-continues-after': continuesAfter,
           })}
-          onClick={e => onSelect && onSelect(event, e)}
-          onDoubleClick={e => onDoubleClick && onDoubleClick(event, e)}
-          onKeyPress={e => onKeyPress && onKeyPress(event, e)}
+          // onClick={e => onSelect && onSelect(event, e)}
+          // onDoubleClick={e => onDoubleClick && onDoubleClick(event, e)}
+          // onKeyPress={e => onKeyPress && onKeyPress(event, e)}
         >
           {typeof children === 'function' ? children(content) : content}
         </div>
@@ -74,8 +76,8 @@ class EventCell extends React.Component {
 
 EventCell.propTypes = {
   event: PropTypes.object.isRequired,
-  slotStart: PropTypes.instanceOf(Date),
-  slotEnd: PropTypes.instanceOf(Date),
+  // slotStart: PropTypes.instanceOf(Date),
+  // slotEnd: PropTypes.instanceOf(Date),
 
   resizable: PropTypes.bool,
   selected: PropTypes.bool,

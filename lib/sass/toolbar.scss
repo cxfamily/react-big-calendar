@@ -8,7 +8,7 @@ $active-border: darken($btn-border, 12%);
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-size: 16px;
   .rbc-toolbar-title {
     font-size: 20px;
@@ -17,12 +17,14 @@ $active-border: darken($btn-border, 12%);
 
   .rbc-toolbar-label {
     flex-grow:1;
-    padding: 0 10px;
-    text-align: center;
+    padding: 0 10px 0 0;
+    font-size: 18px;
+    color: #222;
+    font-weight: bold;
   }
 
   & button {
-    color: $btn-color;
+    color: #555;
     display: inline-block;
     margin: 0;
     text-align: center;
@@ -30,10 +32,12 @@ $active-border: darken($btn-border, 12%);
     background: none;
     background-image: none;
     border: 1px solid $btn-border;
-    padding: .375rem 1rem;
-    border-radius: 4px;
+    border-radius: 5px;
     line-height: normal;
     white-space: nowrap;
+    font-size: 14px;
+    height: 24px;
+    width: 60px;
 
     &:active,
     &.rbc-active {
@@ -60,6 +64,25 @@ $active-border: darken($btn-border, 12%);
       color: $btn-color;
       background-color: $active-background;
           border-color: $active-border;
+    }
+  }
+  .arrow {
+    width: 24px;
+    padding: 0 0 0 9px;
+    &:before {
+      content: '';
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-top: 1px solid #555;
+      border-right: 1px solid #555;
+      transform: rotate(-135deg);
+    }
+  }
+  .arrow-right {
+    padding: 0 0 0 6px;
+    &:before {
+      transform: rotate(45deg);
     }
   }
 }

@@ -7,7 +7,7 @@ const DateHeader = ({ label, drilldownView /*onDrillDown*/ }) => {
   }
 
   return (
-    <div role="cell">
+    <div className="current-text" role="cell">
       {/*todo日历日期点击*/}
       {/*<a href="#" onClick={onDrillDown} role="cell">*/}
       {label}

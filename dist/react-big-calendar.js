@@ -3324,75 +3324,18 @@
     })
   }
 
-  var canUseDOM = !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  )
-
-  /* https://github.com/component/raf */
-  var prev = new Date().getTime()
-
-  function fallback(fn) {
-    var curr = new Date().getTime()
-    var ms = Math.max(0, 16 - (curr - prev))
-    var handle = setTimeout(fn, ms)
-    prev = curr
-    return handle
-  }
-
-  var vendors = ['', 'webkit', 'moz', 'o', 'ms']
-  var cancelMethod = 'clearTimeout'
-  var rafImpl = fallback // eslint-disable-next-line import/no-mutable-exports
-
-  var getKey = function getKey(vendor, k) {
-    return (
-      vendor +
-      (!vendor ? k : k[0].toUpperCase() + k.substr(1)) +
-      'AnimationFrame'
-    )
-  }
-
-  if (canUseDOM) {
-    vendors.some(function(vendor) {
-      var rafMethod = getKey(vendor, 'request')
-
-      if (rafMethod in window) {
-        cancelMethod = getKey(vendor, 'cancel') // @ts-ignore
-
-        rafImpl = function rafImpl(cb) {
-          return window[rafMethod](cb)
-        }
-      }
-
-      return !!rafImpl
-    })
-  }
-
-  var cancel = function cancel(id) {
-    // @ts-ignore
-    if (typeof window[cancelMethod] === 'function') window[cancelMethod](id)
-  }
-  var request = rafImpl
-
   var _excluded = [
     'style',
     'className',
     'event',
     'selected',
     'isAllDay',
-    'onSelect',
-    'onDoubleClick',
-    'onKeyPress',
-    'localizer',
     'continuesPrior',
     'continuesAfter',
     'accessors',
     'getters',
     'children',
     'components',
-    'slotStart',
-    'slotEnd',
   ]
 
   var EventCell = /*#__PURE__*/ (function(_React$Component) {
@@ -3411,18 +3354,12 @@
         event = _this$props.event,
         selected = _this$props.selected,
         isAllDay = _this$props.isAllDay,
-        onSelect = _this$props.onSelect,
-        _onDoubleClick = _this$props.onDoubleClick,
-        _onKeyPress = _this$props.onKeyPress,
-        localizer = _this$props.localizer,
         continuesPrior = _this$props.continuesPrior,
         continuesAfter = _this$props.continuesAfter,
         accessors = _this$props.accessors,
         getters = _this$props.getters,
         children = _this$props.children,
         EventWrapper = _this$props.components.eventWrapper,
-        slotStart = _this$props.slotStart,
-        slotEnd = _this$props.slotEnd,
         props = _objectWithoutPropertiesLoose(_this$props, _excluded)
 
       delete props.resizable
@@ -3438,10 +3375,11 @@
         'a',
         {
           href: event.url ? event.url : '#',
-          className: 'rbc-event-content',
+          className: clsx('rbc-event-content', {
+            'rbc-event-content-train': event.type === '2',
+          }),
           title: tooltip || undefined,
         },
-        ' ',
         title
       )
       return /*#__PURE__*/ React__default.createElement(
@@ -3459,16 +3397,9 @@
               'rbc-event-allday': showAsAllDay,
               'rbc-event-continues-prior': continuesPrior,
               'rbc-event-continues-after': continuesAfter,
-            }),
-            onClick: function onClick(e) {
-              return onSelect && onSelect(event, e)
-            },
-            onDoubleClick: function onDoubleClick(e) {
-              return _onDoubleClick && _onDoubleClick(event, e)
-            },
-            onKeyPress: function onKeyPress(e) {
-              return _onKeyPress && _onKeyPress(event, e)
-            },
+            }), // onClick={e => onSelect && onSelect(event, e)}
+            // onDoubleClick={e => onDoubleClick && onDoubleClick(event, e)}
+            // onKeyPress={e => onKeyPress && onKeyPress(event, e)}
           }),
           typeof children === 'function' ? children(content) : content
         )
@@ -3480,8 +3411,8 @@
 
   EventCell.propTypes = {
     event: propTypes.object.isRequired,
-    slotStart: propTypes.instanceOf(Date),
-    slotEnd: propTypes.instanceOf(Date),
+    // slotStart: PropTypes.instanceOf(Date),
+    // slotEnd: PropTypes.instanceOf(Date),
     resizable: propTypes.bool,
     selected: propTypes.bool,
     isAllDay: propTypes.bool,
@@ -3660,9 +3591,8 @@
             onDoubleClick: onDoubleClick,
             onKeyPress: onKeyPress,
             continuesPrior: lt(accessors.end(event), slotStart, 'day'),
-            continuesAfter: gte(accessors.start(event), slotEnd, 'day'),
-            slotStart: slotStart,
-            slotEnd: slotEnd,
+            continuesAfter: gte(accessors.start(event), slotEnd, 'day'), // slotStart={slotStart}
+            // slotEnd={slotEnd}
             selected: isSelected(event, selected),
             draggable: true,
             onDragStart: function onDragStart() {
@@ -6318,6 +6248,12 @@
     return popperState
   }
 
+  var canUseDOM = !!(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+  )
+
   /* eslint-disable no-return-assign */
   var optionsSupported = false
   var onceSupported = false
@@ -7938,9 +7874,8 @@
         onDoubleClick: onDoubleClick,
         onKeyPress: onKeyPress,
         continuesPrior: continuesPrior,
-        continuesAfter: continuesAfter,
-        slotStart: slotMetrics.first,
-        slotEnd: slotMetrics.last,
+        continuesAfter: continuesAfter, // slotStart={slotMetrics.first}
+        // slotEnd={slotMetrics.last}
         selected: isSelected(event, selected),
         resizable: resizable,
       })
@@ -10828,7 +10763,6 @@
 
     _proto.canRenderSlotEvent = function canRenderSlotEvent(slot, span) {
       var segments = this.props.segments
-      console.log('111', this.props)
       return range$1(slot, slot + span).every(function(s) {
         var count = eventsInSlot(segments, s)
         return count === 1
@@ -10838,10 +10772,7 @@
     _proto.renderShowMore = function renderShowMore(segments, slot) {
       var _this = this
 
-      var _this$props2 = this.props,
-        localizer = _this$props2.localizer,
-        accessors = _this$props2.accessors,
-        events = _this$props2.events
+      var localizer = this.props.localizer
       var count = eventsInSlot(segments, slot) // console.log('9999',events,accessors.title(events));
 
       return count
@@ -10860,13 +10791,12 @@
         : false
     }
 
-    _proto.showMore = function showMore(slot, e, segments) {
+    _proto.showMore = function showMore(slot, e) {
       /*todo点击more*/
       e.preventDefault()
-      e.stopPropagation()
-      segments = segments.filter(function(el) {
-        return el.left === slot
-      }) // console.log('111',slot, segments);
+      e.stopPropagation() // let {segments} = this.props
+      // segments = segments.filter(el => el.left === slot)
+      // console.log('111',slot, segments);
       // this.props.onShowMore(slot, e.target)
     }
 
@@ -11042,7 +10972,7 @@
         this
 
       _this.handleSelectSlot = function(slot) {
-        console.log('111', slot)
+        // console.log('111', slot)
         var _this$props = _this.props,
           range = _this$props.range,
           onSelectSlot = _this$props.onSelectSlot
@@ -11349,8 +11279,7 @@
 
   var DateHeader = function DateHeader(_ref) {
     var label = _ref.label,
-      drilldownView = _ref.drilldownView,
-      onDrillDown = _ref.onDrillDown
+      drilldownView = _ref.drilldownView
 
     if (!drilldownView) {
       return /*#__PURE__*/ React__default.createElement('span', null, label)
@@ -11359,6 +11288,7 @@
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
+        className: 'current-text',
         role: 'cell',
       },
       label
@@ -11612,6 +11542,7 @@
     }
 
     _proto.componentDidMount = function componentDidMount() {
+      // let running
       if (this.state.needLimitMeasure) this.measureRowLimit(this.props) // window.addEventListener(/*todo改变宽度日程显示全部*/
       //   'resize',
       //   (this._resizeListener = () => {
@@ -11838,6 +11769,51 @@
     var localizer = _ref5.localizer
     return localizer.format(date, 'monthHeaderFormat')
   }
+
+  /* https://github.com/component/raf */
+  var prev = new Date().getTime()
+
+  function fallback(fn) {
+    var curr = new Date().getTime()
+    var ms = Math.max(0, 16 - (curr - prev))
+    var handle = setTimeout(fn, ms)
+    prev = curr
+    return handle
+  }
+
+  var vendors = ['', 'webkit', 'moz', 'o', 'ms']
+  var cancelMethod = 'clearTimeout'
+  var rafImpl = fallback // eslint-disable-next-line import/no-mutable-exports
+
+  var getKey = function getKey(vendor, k) {
+    return (
+      vendor +
+      (!vendor ? k : k[0].toUpperCase() + k.substr(1)) +
+      'AnimationFrame'
+    )
+  }
+
+  if (canUseDOM) {
+    vendors.some(function(vendor) {
+      var rafMethod = getKey(vendor, 'request')
+
+      if (rafMethod in window) {
+        cancelMethod = getKey(vendor, 'cancel') // @ts-ignore
+
+        rafImpl = function rafImpl(cb) {
+          return window[rafMethod](cb)
+        }
+      }
+
+      return !!rafImpl
+    })
+  }
+
+  var cancel = function cancel(id) {
+    // @ts-ignore
+    if (typeof window[cancelMethod] === 'function') window[cancelMethod](id)
+  }
+  var request = rafImpl
 
   var getDstOffset = function getDstOffset(start, end) {
     return start.getTimezoneOffset() - end.getTimezoneOffset()
@@ -15119,32 +15095,22 @@
           className: 'rbc-toolbar',
         },
         /*#__PURE__*/ React__default.createElement(
-          'div',
+          'span',
           {
-            className: 'rbc-toolbar-title',
+            className: 'rbc-toolbar-label',
           },
-          '\u6D3B\u52A8\u65E5\u5386'
+          label
         ),
         /*#__PURE__*/ React__default.createElement(
           'span',
           {
             className: 'rbc-btn-group',
           },
-          /*#__PURE__*/ React__default.createElement(
-            'span',
-            {
-              className: 'rbc-toolbar-label',
-            },
-            label
-          ),
-          /*#__PURE__*/ React__default.createElement(
-            'button',
-            {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.PREVIOUS),
-            },
-            messages.previous
-          ),
+          /*#__PURE__*/ React__default.createElement('button', {
+            type: 'button',
+            onClick: this.navigate.bind(null, navigate.PREVIOUS),
+            className: 'arrow arrow-left',
+          }),
           /*#__PURE__*/ React__default.createElement(
             'button',
             {
@@ -15153,14 +15119,11 @@
             },
             messages.today
           ),
-          /*#__PURE__*/ React__default.createElement(
-            'button',
-            {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.NEXT),
-            },
-            messages.next
-          )
+          /*#__PURE__*/ React__default.createElement('button', {
+            type: 'button',
+            onClick: this.navigate.bind(null, navigate.NEXT),
+            className: 'arrow arrow-right',
+          })
         )
       )
     } // viewNamesGroup(messages) {

@@ -56,8 +56,8 @@ export default {
         onKeyPress={onKeyPress}
         continuesPrior={continuesPrior}
         continuesAfter={continuesAfter}
-        slotStart={slotMetrics.first}
-        slotEnd={slotMetrics.last}
+        // slotStart={slotMetrics.first}
+        // slotEnd={slotMetrics.last}
         selected={isSelected(event, selected)}
         resizable={resizable}
       />

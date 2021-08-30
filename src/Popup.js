@@ -77,8 +77,8 @@ class Popup extends React.Component {
             onKeyPress={onKeyPress}
             continuesPrior={dates.lt(accessors.end(event), slotStart, 'day')}
             continuesAfter={dates.gte(accessors.start(event), slotEnd, 'day')}
-            slotStart={slotStart}
-            slotEnd={slotEnd}
+            // slotStart={slotStart}
+            // slotEnd={slotEnd}
             selected={isSelected(event, selected)}
             draggable={true}
             onDragStart={() => this.props.handleDragStart(event)}
