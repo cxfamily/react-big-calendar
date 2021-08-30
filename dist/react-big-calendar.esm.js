@@ -4161,9 +4161,7 @@
         null != e &&
         !jt(e)
       ) ||
-      li.test(e) ||
-      !ci.test(e) ||
-      (null != t && e in Object(t))
+      li.test(e) || !ci.test(e) || (null != t && e in Object(t))
     )
   }
   var fi = 'Expected a function'
@@ -4469,7 +4467,7 @@
               {
                 key: 'sm_' + t,
                 href: '#',
-                className: 'rbc-show-more',
+                className: 'rbc-event-content rbc-show-more',
                 onClick: function(r) {
                   return n.showMore(t, r, e)
                 },

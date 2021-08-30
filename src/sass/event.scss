@@ -3,22 +3,6 @@
 .rbc-event {
   text-align: left;
   width: 100%;
-  .rbc-event-content {
-    border-left: 4px solid #2E8AE6;
-    box-sizing: border-box;
-    box-shadow: none;
-    margin: 0;
-    padding: 2px 5px 2px 9px;
-    background-color: $event-bg;
-    border-radius: $event-border-radius;
-    color: $event-color;
-    cursor: pointer;
-  }
-  .rbc-event-content-train {
-    color: #FF8040;
-    background: #FFEBE0;
-    border-left-color: #FF8040;
-  }
 
   .rbc-slot-selecting & {
     cursor: inherit;
@@ -32,6 +16,28 @@
   &:focus {
     outline: 5px auto $event-outline;
   }
+}
+
+.rbc-event-content {
+  border-left: 4px solid #2E8AE6;
+  box-sizing: border-box;
+  box-shadow: none;
+  margin: 0;
+  padding: 2px 5px;
+  background-color: $event-bg;
+  border-radius: $event-border-radius;
+  color: $event-color;
+  cursor: pointer;
+}
+.rbc-event-content-train {
+  color: #FF8040;
+  background: #FFEBE0;
+  border-left-color: #FF8040;
+}
+.rbc-show-more {
+  color: #222;
+  background: #E6ECF2;
+  border-left-color: #6D7073;
 }
 
 .rbc-event-label {

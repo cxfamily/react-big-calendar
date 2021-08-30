@@ -81,7 +81,7 @@ class EventEndingRow extends React.Component {
       <a
         key={'sm_' + slot}
         href="#"
-        className={'rbc-show-more'}
+        className="rbc-event-content rbc-show-more"
         onClick={e => this.showMore(slot, e, segments)}
       >
         {localizer.messages.showMore(count)}
