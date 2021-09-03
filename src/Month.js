@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import clsx from 'clsx'
+import flatten from 'lodash/flatten'
 
 import * as dates from './utils/dates'
 import chunk from 'lodash/chunk'
@@ -32,6 +33,8 @@ class MonthView extends React.Component {
     this.state = {
       rowLimit: 5,
       needLimitMeasure: true,
+      newWeeks: [],
+      newWeeksIndex: 0,
     }
   }
 
@@ -46,6 +49,9 @@ class MonthView extends React.Component {
 
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
 
+    // document.addEventListener('click', this.hideClickMore);
+    document.addEventListener('click', e => this.hideClickMore(e), false)
+
     // window.addEventListener(/*todo改变宽度日程显示全部*/
     //   'resize',
     //   (this._resizeListener = () => {
@@ -58,6 +64,22 @@ class MonthView extends React.Component {
     //   }),
     //   false
     // )
+    let { date, localizer } = this.props,
+      month = dates.visibleDays(date, localizer),
+      weeks = chunk(month, 7)
+    let newWeeks = weeks.map(el =>
+      el.map(sel => {
+        sel = `${sel.getMonth() + 1}${sel.getDate()}`
+        return sel
+      })
+    )
+    newWeeks = flatten(newWeeks).map(el => {
+      el = { key: el, isMore: false, right: false, bottom: false }
+      return el
+    })
+    this.setState({
+      newWeeks: newWeeks,
+    })
   }
 
   componentDidUpdate() {
@@ -94,6 +116,68 @@ class MonthView extends React.Component {
     )
   }
 
+  hideClickMore(e) {
+    let { newWeeks, newWeeksIndex } = this.state
+    let newMoreShow = newWeeks
+    let node = e.target.parentNode
+
+    if (node.id !== `ref${newMoreShow[newWeeksIndex].key}`) {
+      newMoreShow[this.state.newWeeksIndex].isMore = false
+      this.setState({
+        newWeeks: newMoreShow,
+      })
+    }
+  }
+
+  clickMore = (slot, e, index) => {
+    let newMoreShow = this.state.newWeeks
+    newMoreShow = newMoreShow.map((el, i) => {
+      el.isMore = false
+      el.right = false
+      el.bottom = false
+      if (i === index) {
+        el.isMore = true
+      }
+      return el
+    })
+    this.setState(
+      {
+        newWeeks: newMoreShow,
+        newWeeksIndex: index,
+      },
+      () => {
+        let moreClassName = document.getElementsByClassName('rbc-event-more')[0]
+        let moreHeight = moreClassName.offsetHeight
+        let moreWidth = moreClassName.offsetWidth
+        let scrollX =
+          document.documentElement.scrollLeft || document.body.scrollLeft
+        let scrollY =
+          document.documentElement.scrollTop || document.body.scrollTop
+        let width = window.innerWidth + scrollX
+        let height = window.innerHeight + scrollY
+        let x = e.pageX
+        let y = e.pageY
+        let isRight = x >= width - moreWidth
+        let isBottom = y >= height - moreHeight
+
+        let newPositionMore = this.state.newWeeks
+        newPositionMore = newPositionMore.map((el, i) => {
+          el.right = false
+          el.bottom = false
+          if (i === index) {
+            el.right = isRight
+            el.bottom = isBottom
+          }
+          return el
+        })
+
+        this.setState({
+          newWeeks: newPositionMore,
+        })
+      }
+    )
+  }
+
   renderWeek = (week, weekIdx) => {
     let {
       events,
@@ -107,14 +191,15 @@ class MonthView extends React.Component {
       accessors,
       getters,
       showAllEvents,
+      lang,
+      label,
     } = this.props
 
-    const { needLimitMeasure, rowLimit } = this.state
+    const { needLimitMeasure, rowLimit, newWeeks } = this.state
 
     events = eventsForWeek(events, week[0], week[week.length - 1], accessors)
 
     events.sort((a, b) => sortEvents(a, b, accessors))
-
     return (
       <DateContentRow
         key={weekIdx}
@@ -143,6 +228,10 @@ class MonthView extends React.Component {
         rtl={this.props.rtl}
         resizable={this.props.resizable}
         showAllEvents={showAllEvents}
+        lang={lang}
+        label={label}
+        newWeeks={newWeeks}
+        clickMore={this.clickMore}
       />
     )
   }
@@ -178,17 +267,18 @@ class MonthView extends React.Component {
   }
 
   renderHeaders(row) {
-    let { localizer, components } = this.props
+    let { localizer, components, lang } = this.props
     let first = row[0]
     let last = row[row.length - 1]
     let HeaderComponent = components.header || Header
-
+    lang = lang ? lang : 'en'
+    var label = localizer.messages[lang].weeks
     return dates.range(first, last, 'day').map((day, idx) => (
       <div key={'header_' + idx} className="rbc-header">
         <HeaderComponent
           date={day}
           localizer={localizer}
-          label={localizer.format(day, 'weekdayFormat')}
+          label={label[idx]} //localizer.format(day, 'weekdayFormat')
         />
       </div>
     ))
@@ -348,6 +438,7 @@ MonthView.propTypes = {
   components: PropTypes.object.isRequired,
   getters: PropTypes.object.isRequired,
   localizer: PropTypes.object.isRequired,
+  lang: PropTypes.string,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
@@ -366,6 +457,7 @@ MonthView.propTypes = {
 
   popup: PropTypes.bool,
   handleDragStart: PropTypes.func,
+  label: PropTypes.string,
 
   popupOffset: PropTypes.oneOfType([
     PropTypes.number,

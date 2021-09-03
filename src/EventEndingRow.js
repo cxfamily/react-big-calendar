@@ -3,12 +3,17 @@ import React from 'react'
 import EventRowMixin from './EventRowMixin'
 import { eventLevels } from './utils/eventLevels'
 import range from 'lodash/range'
+import clsx from 'clsx'
 
 let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 let eventsInSlot = (segments, slot) =>
   segments.filter(seg => isSegmentInSlot(seg, slot)).length
 
 class EventEndingRow extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     let {
       segments,
@@ -47,7 +52,6 @@ class EventEndingRow extends React.Component {
         if (gap) {
           row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
         }
-
         row.push(
           EventRowMixin.renderSpan(
             slots,
@@ -74,31 +78,72 @@ class EventEndingRow extends React.Component {
   }
 
   renderShowMore(segments, slot) {
-    let { localizer } = this.props
+    let { localizer, lang, range, newWeeks } = this.props
     let count = eventsInSlot(segments, slot)
-    // console.log('9999',events,accessors.title(events));
-    return count ? (
-      <a
-        key={'sm_' + slot}
-        href="#"
-        className="rbc-event-content rbc-show-more"
-        onClick={e => this.showMore(slot, e, segments)}
-      >
-        {localizer.messages.showMore(count)}
-      </a>
-    ) : (
-      false
+    let newDate = range[slot - 1]
+    let currentMonth = newDate.getMonth() + 1
+    let currentDate = newDate.getDate()
+    segments =
+      segments.filter(
+        el =>
+          new Date(el.event.start).getDate() <= currentDate &&
+          new Date(el.event.end).getDate() >= currentDate
+      ) || []
+    let index = 0
+    let newIsMoreShow = newWeeks.filter((el, i) => {
+      if (el.key === `${currentMonth}${currentDate}`) {
+        index = i
+        return el
+      }
+    })
+    return (
+      count && (
+        <div className="rbc-event-wrap" id={`ref${currentMonth}${currentDate}`}>
+          <div
+            key={'sm_' + slot}
+            className="rbc-event-content rbc-show-more"
+            onClick={e => this.showMore(slot, e, index)}
+          >
+            {localizer.messages[lang].showMore(count)}
+          </div>
+          {newIsMoreShow[0]?.isMore && (
+            <div
+              className={clsx(
+                'rbc-event-more',
+                newIsMoreShow[0]?.right && 'rbc-event-more-right',
+                newIsMoreShow[0]?.bottom && 'rbc-event-more-bottom'
+              )}
+            >
+              <div className="more-title">
+                {currentMonth}月{currentDate}日活动
+              </div>
+              {segments?.map((item, i) => {
+                let newItem = item.event
+                return (
+                  <div className="more-li" key={i}>
+                    <a href={newItem.url} className="more-li-title">
+                      {newItem.title}
+                    </a>
+                    <div className="more-text">
+                      报名时间：{newItem.start} 至 {newItem.end}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      )
     )
   }
 
-  showMore(slot, e) {
+  showMore(slot, e, index) {
     /*todo点击more*/
     e.preventDefault()
     e.stopPropagation()
-    // let {segments} = this.props
-    // segments = segments.filter(el => el.left === slot)
-    // console.log('111',slot, segments);
-    // this.props.onShowMore(slot, e.target)
+    e.persist()
+
+    this.props.clickMore(slot, e, index)
   }
 }
 
@@ -106,6 +151,9 @@ EventEndingRow.propTypes = {
   segments: PropTypes.array,
   slots: PropTypes.number,
   onShowMore: PropTypes.func,
+  clickMore: PropTypes.func,
+  lang: PropTypes.string,
+  newWeeks: PropTypes.array,
   ...EventRowMixin.propTypes,
 }
 

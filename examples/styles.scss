@@ -14,6 +14,7 @@ body {
     sans-serif, 'Apple Color';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
 
 h4 {
@@ -59,15 +60,24 @@ a {
   position: relative;
   max-width: 1280px;
   margin: 0 auto;
+  .changeLang {
+    cursor: pointer;
+    span {
+      color: #f00;
+      min-width: 152px;
+      display: inline-block;
+      text-align: left;
+      margin-left: 5px;
+    }
+  }
 }
 
 .example {
   font-size: 14px;
-  padding: 0 20px;
-  height: calc(100vh + 35px);
+  padding: 0 30px;
   width: 100%;
   margin: auto;
-  max-height: 1028px;
+  height: 978px;
 
   &,
   & > * {

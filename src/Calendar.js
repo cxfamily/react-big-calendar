@@ -462,6 +462,7 @@ class Calendar extends React.Component {
      * Determines whether the toolbar is displayed
      */
     toolbar: PropTypes.bool,
+    lang: PropTypes.string,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.
@@ -937,9 +938,9 @@ class Calendar extends React.Component {
       formats: _1,
       messages: _2,
       culture: _3,
+      lang,
       ...props
     } = this.props
-
     current = current || getNow()
 
     let View = this.getView()
@@ -969,6 +970,7 @@ class Calendar extends React.Component {
             onView={this.handleViewChange}
             onNavigate={this.handleNavigate}
             localizer={localizer}
+            lang={lang}
           />
         )}
         <View
@@ -992,6 +994,8 @@ class Calendar extends React.Component {
           onSelectSlot={this.handleSelectSlot}
           onShowMore={onShowMore}
           doShowMoreDrillDown={doShowMoreDrillDown}
+          lang={lang}
+          label={label}
         />
       </div>
     )

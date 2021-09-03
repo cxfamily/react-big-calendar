@@ -1,18 +1,31 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { navigate } from './utils/constants'
+import compact from 'lodash/compact'
+import words from 'lodash/words'
 
 class Toolbar extends React.Component {
   render() {
     let {
       localizer: { messages },
       label,
+      lang,
     } = this.props
-
+    lang = lang ? lang : 'en'
+    let labelArr = words(label)
+    let labelIndex = compact(
+      messages.en.month.map((el, i) => {
+        if (el === labelArr[1]) {
+          return i
+        }
+      })
+    )
+    let newMonth = messages[lang].month[labelIndex[0] || 0]
+    let newLabel = lang === 'en' ? label : `${labelArr[0]}年${newMonth}`
     return (
       <div className="rbc-toolbar">
         {/*todo日历头部*/}
-        <span className="rbc-toolbar-label">{label}</span>
+        <span className="rbc-toolbar-label">{newLabel}</span>
         <span className="rbc-btn-group">
           <button
             type="button"
@@ -25,7 +38,7 @@ class Toolbar extends React.Component {
             type="button"
             onClick={this.navigate.bind(null, navigate.TODAY)}
           >
-            {messages.today}
+            {messages[lang].today}
           </button>
           <button
             type="button"
@@ -75,6 +88,7 @@ Toolbar.propTypes = {
   localizer: PropTypes.object,
   onNavigate: PropTypes.func.isRequired,
   onView: PropTypes.func.isRequired,
+  lang: PropTypes.string,
 }
 
 export default Toolbar

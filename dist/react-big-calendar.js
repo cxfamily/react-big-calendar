@@ -2144,8 +2144,60 @@
       return '+' + total + ' more'
     },
   }
+  var mes = {
+    en: {
+      today: 'Today',
+      weeks: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
+      showMore: function showMore(total) {
+        return total + ' more ' + (total > 1 ? 'activities' : 'activity')
+      },
+      month: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+    },
+    cn: {
+      today: '今天',
+      weeks: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+      showMore: function showMore(total) {
+        return '\u66F4\u591A' + total + '\u4E2A\u6D3B\u52A8'
+      },
+      month: [
+        '1月',
+        '2月',
+        '3月',
+        '4月',
+        '5月',
+        '6月',
+        '7月',
+        '8月',
+        '9月',
+        '10月',
+        '11月',
+        '12月',
+      ],
+    },
+  }
   function messages(msgs) {
-    return _extends({}, defaultMessages, msgs)
+    return _extends({}, defaultMessages, mes, msgs)
   }
 
   function _assertThisInitialized(self) {
@@ -2156,6 +2208,305 @@
     }
 
     return self
+  }
+
+  /**
+   * Appends the elements of `values` to `array`.
+   *
+   * @private
+   * @param {Array} array The array to modify.
+   * @param {Array} values The values to append.
+   * @returns {Array} Returns `array`.
+   */
+  function arrayPush(array, values) {
+    var index = -1,
+      length = values.length,
+      offset = array.length
+
+    while (++index < length) {
+      array[offset + index] = values[index]
+    }
+    return array
+  }
+
+  /** Detect free variable `global` from Node.js. */
+  var freeGlobal =
+    typeof global == 'object' && global && global.Object === Object && global
+
+  /** Detect free variable `self`. */
+  var freeSelf =
+    typeof self == 'object' && self && self.Object === Object && self
+
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || Function('return this')()
+
+  /** Built-in value references. */
+  var Symbol$1 = root.Symbol
+
+  /** Used for built-in method references. */
+  var objectProto = Object.prototype
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$1 = objectProto.hasOwnProperty
+
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString = objectProto.toString
+
+  /** Built-in value references. */
+  var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined
+
+  /**
+   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the raw `toStringTag`.
+   */
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty$1.call(value, symToStringTag),
+      tag = value[symToStringTag]
+
+    try {
+      value[symToStringTag] = undefined
+      var unmasked = true
+    } catch (e) {}
+
+    var result = nativeObjectToString.call(value)
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag
+      } else {
+        delete value[symToStringTag]
+      }
+    }
+    return result
+  }
+
+  /** Used for built-in method references. */
+  var objectProto$1 = Object.prototype
+
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString$1 = objectProto$1.toString
+
+  /**
+   * Converts `value` to a string using `Object.prototype.toString`.
+   *
+   * @private
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
+   */
+  function objectToString(value) {
+    return nativeObjectToString$1.call(value)
+  }
+
+  /** `Object#toString` result references. */
+  var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]'
+
+  /** Built-in value references. */
+  var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined
+
+  /**
+   * The base implementation of `getTag` without fallbacks for buggy environments.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the `toStringTag`.
+   */
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === undefined ? undefinedTag : nullTag
+    }
+    return symToStringTag$1 && symToStringTag$1 in Object(value)
+      ? getRawTag(value)
+      : objectToString(value)
+  }
+
+  /**
+   * Checks if `value` is object-like. A value is object-like if it's not `null`
+   * and has a `typeof` result of "object".
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+   * @example
+   *
+   * _.isObjectLike({});
+   * // => true
+   *
+   * _.isObjectLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isObjectLike(_.noop);
+   * // => false
+   *
+   * _.isObjectLike(null);
+   * // => false
+   */
+  function isObjectLike(value) {
+    return value != null && typeof value == 'object'
+  }
+
+  /** `Object#toString` result references. */
+  var argsTag = '[object Arguments]'
+
+  /**
+   * The base implementation of `_.isArguments`.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   */
+  function baseIsArguments(value) {
+    return isObjectLike(value) && baseGetTag(value) == argsTag
+  }
+
+  /** Used for built-in method references. */
+  var objectProto$2 = Object.prototype
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty$2 = objectProto$2.hasOwnProperty
+
+  /** Built-in value references. */
+  var propertyIsEnumerable = objectProto$2.propertyIsEnumerable
+
+  /**
+   * Checks if `value` is likely an `arguments` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   *  else `false`.
+   * @example
+   *
+   * _.isArguments(function() { return arguments; }());
+   * // => true
+   *
+   * _.isArguments([1, 2, 3]);
+   * // => false
+   */
+  var isArguments = baseIsArguments(
+    (function() {
+      return arguments
+    })()
+  )
+    ? baseIsArguments
+    : function(value) {
+        return (
+          isObjectLike(value) &&
+          hasOwnProperty$2.call(value, 'callee') &&
+          !propertyIsEnumerable.call(value, 'callee')
+        )
+      }
+
+  /**
+   * Checks if `value` is classified as an `Array` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+   * @example
+   *
+   * _.isArray([1, 2, 3]);
+   * // => true
+   *
+   * _.isArray(document.body.children);
+   * // => false
+   *
+   * _.isArray('abc');
+   * // => false
+   *
+   * _.isArray(_.noop);
+   * // => false
+   */
+  var isArray = Array.isArray
+
+  /** Built-in value references. */
+  var spreadableSymbol = Symbol$1 ? Symbol$1.isConcatSpreadable : undefined
+
+  /**
+   * Checks if `value` is a flattenable `arguments` object or array.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+   */
+  function isFlattenable(value) {
+    return (
+      isArray(value) ||
+      isArguments(value) ||
+      !!(spreadableSymbol && value && value[spreadableSymbol])
+    )
+  }
+
+  /**
+   * The base implementation of `_.flatten` with support for restricting flattening.
+   *
+   * @private
+   * @param {Array} array The array to flatten.
+   * @param {number} depth The maximum recursion depth.
+   * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+   * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+   * @param {Array} [result=[]] The initial result value.
+   * @returns {Array} Returns the new flattened array.
+   */
+  function baseFlatten(array, depth, predicate, isStrict, result) {
+    var index = -1,
+      length = array.length
+
+    predicate || (predicate = isFlattenable)
+    result || (result = [])
+
+    while (++index < length) {
+      var value = array[index]
+      if (depth > 0 && predicate(value)) {
+        if (depth > 1) {
+          // Recursively flatten arrays (susceptible to call stack limits).
+          baseFlatten(value, depth - 1, predicate, isStrict, result)
+        } else {
+          arrayPush(result, value)
+        }
+      } else if (!isStrict) {
+        result[result.length] = value
+      }
+    }
+    return result
+  }
+
+  /**
+   * Flattens `array` a single level deep.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Array
+   * @param {Array} array The array to flatten.
+   * @returns {Array} Returns the new flattened array.
+   * @example
+   *
+   * _.flatten([1, [2, [3, [4]], 5]]);
+   * // => [1, 2, [3, [4]], 5]
+   */
+  function flatten(array) {
+    var length = array == null ? 0 : array.length
+    return length ? baseFlatten(array, 1) : []
   }
 
   var MILI = 'milliseconds',
@@ -2543,107 +2894,6 @@
     return value === other || (value !== value && other !== other)
   }
 
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal =
-    typeof global == 'object' && global && global.Object === Object && global
-
-  /** Detect free variable `self`. */
-  var freeSelf =
-    typeof self == 'object' && self && self.Object === Object && self
-
-  /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || Function('return this')()
-
-  /** Built-in value references. */
-  var Symbol$1 = root.Symbol
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty$1 = objectProto.hasOwnProperty
-
-  /**
-   * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var nativeObjectToString = objectProto.toString
-
-  /** Built-in value references. */
-  var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined
-
-  /**
-   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
-   *
-   * @private
-   * @param {*} value The value to query.
-   * @returns {string} Returns the raw `toStringTag`.
-   */
-  function getRawTag(value) {
-    var isOwn = hasOwnProperty$1.call(value, symToStringTag),
-      tag = value[symToStringTag]
-
-    try {
-      value[symToStringTag] = undefined
-      var unmasked = true
-    } catch (e) {}
-
-    var result = nativeObjectToString.call(value)
-    if (unmasked) {
-      if (isOwn) {
-        value[symToStringTag] = tag
-      } else {
-        delete value[symToStringTag]
-      }
-    }
-    return result
-  }
-
-  /** Used for built-in method references. */
-  var objectProto$1 = Object.prototype
-
-  /**
-   * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var nativeObjectToString$1 = objectProto$1.toString
-
-  /**
-   * Converts `value` to a string using `Object.prototype.toString`.
-   *
-   * @private
-   * @param {*} value The value to convert.
-   * @returns {string} Returns the converted string.
-   */
-  function objectToString(value) {
-    return nativeObjectToString$1.call(value)
-  }
-
-  /** `Object#toString` result references. */
-  var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]'
-
-  /** Built-in value references. */
-  var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined
-
-  /**
-   * The base implementation of `getTag` without fallbacks for buggy environments.
-   *
-   * @private
-   * @param {*} value The value to query.
-   * @returns {string} Returns the `toStringTag`.
-   */
-  function baseGetTag(value) {
-    if (value == null) {
-      return value === undefined ? undefinedTag : nullTag
-    }
-    return symToStringTag$1 && symToStringTag$1 in Object(value)
-      ? getRawTag(value)
-      : objectToString(value)
-  }
-
   /**
    * Checks if `value` is the
    * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -2856,34 +3106,6 @@
     return string
       ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
       : string
-  }
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike(value) {
-    return value != null && typeof value == 'object'
   }
 
   /** `Object#toString` result references. */
@@ -8226,19 +8448,19 @@
 
   /** Used for built-in method references. */
   var funcProto$1 = Function.prototype,
-    objectProto$2 = Object.prototype
+    objectProto$3 = Object.prototype
 
   /** Used to resolve the decompiled source of functions. */
   var funcToString$1 = funcProto$1.toString
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$2 = objectProto$2.hasOwnProperty
+  var hasOwnProperty$3 = objectProto$3.hasOwnProperty
 
   /** Used to detect if a method is native. */
   var reIsNative = RegExp(
     '^' +
       funcToString$1
-        .call(hasOwnProperty$2)
+        .call(hasOwnProperty$3)
         .replace(reRegExpChar, '\\$&')
         .replace(
           /hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,
@@ -8326,10 +8548,10 @@
   var HASH_UNDEFINED = '__lodash_hash_undefined__'
 
   /** Used for built-in method references. */
-  var objectProto$3 = Object.prototype
+  var objectProto$4 = Object.prototype
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$3 = objectProto$3.hasOwnProperty
+  var hasOwnProperty$4 = objectProto$4.hasOwnProperty
 
   /**
    * Gets the hash value for `key`.
@@ -8346,14 +8568,14 @@
       var result = data[key]
       return result === HASH_UNDEFINED ? undefined : result
     }
-    return hasOwnProperty$3.call(data, key) ? data[key] : undefined
+    return hasOwnProperty$4.call(data, key) ? data[key] : undefined
   }
 
   /** Used for built-in method references. */
-  var objectProto$4 = Object.prototype
+  var objectProto$5 = Object.prototype
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$4 = objectProto$4.hasOwnProperty
+  var hasOwnProperty$5 = objectProto$5.hasOwnProperty
 
   /**
    * Checks if a hash value for `key` exists.
@@ -8368,7 +8590,7 @@
     var data = this.__data__
     return nativeCreate
       ? data[key] !== undefined
-      : hasOwnProperty$4.call(data, key)
+      : hasOwnProperty$5.call(data, key)
   }
 
   /** Used to stand-in for `undefined` hash values. */
@@ -8931,50 +9153,6 @@
   }
 
   /**
-   * Appends the elements of `values` to `array`.
-   *
-   * @private
-   * @param {Array} array The array to modify.
-   * @param {Array} values The values to append.
-   * @returns {Array} Returns `array`.
-   */
-  function arrayPush(array, values) {
-    var index = -1,
-      length = values.length,
-      offset = array.length
-
-    while (++index < length) {
-      array[offset + index] = values[index]
-    }
-    return array
-  }
-
-  /**
-   * Checks if `value` is classified as an `Array` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
-   * @example
-   *
-   * _.isArray([1, 2, 3]);
-   * // => true
-   *
-   * _.isArray(document.body.children);
-   * // => false
-   *
-   * _.isArray('abc');
-   * // => false
-   *
-   * _.isArray(_.noop);
-   * // => false
-   */
-  var isArray = Array.isArray
-
-  /**
    * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
    * `keysFunc` and `symbolsFunc` to get the enumerable property names and
    * symbols of `object`.
@@ -9037,10 +9215,10 @@
   }
 
   /** Used for built-in method references. */
-  var objectProto$5 = Object.prototype
+  var objectProto$6 = Object.prototype
 
   /** Built-in value references. */
-  var propertyIsEnumerable = objectProto$5.propertyIsEnumerable
+  var propertyIsEnumerable$1 = objectProto$6.propertyIsEnumerable
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
   var nativeGetSymbols = Object.getOwnPropertySymbols
@@ -9060,7 +9238,7 @@
         }
         object = Object(object)
         return arrayFilter(nativeGetSymbols(object), function(symbol) {
-          return propertyIsEnumerable.call(object, symbol)
+          return propertyIsEnumerable$1.call(object, symbol)
         })
       }
 
@@ -9082,61 +9260,6 @@
     }
     return result
   }
-
-  /** `Object#toString` result references. */
-  var argsTag = '[object Arguments]'
-
-  /**
-   * The base implementation of `_.isArguments`.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
-   */
-  function baseIsArguments(value) {
-    return isObjectLike(value) && baseGetTag(value) == argsTag
-  }
-
-  /** Used for built-in method references. */
-  var objectProto$6 = Object.prototype
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty$5 = objectProto$6.hasOwnProperty
-
-  /** Built-in value references. */
-  var propertyIsEnumerable$1 = objectProto$6.propertyIsEnumerable
-
-  /**
-   * Checks if `value` is likely an `arguments` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
-   *  else `false`.
-   * @example
-   *
-   * _.isArguments(function() { return arguments; }());
-   * // => true
-   *
-   * _.isArguments([1, 2, 3]);
-   * // => false
-   */
-  var isArguments = baseIsArguments(
-    (function() {
-      return arguments
-    })()
-  )
-    ? baseIsArguments
-    : function(value) {
-        return (
-          isObjectLike(value) &&
-          hasOwnProperty$5.call(value, 'callee') &&
-          !propertyIsEnumerable$1.call(value, 'callee')
-        )
-      }
 
   /**
    * This method returns `false`.
@@ -10691,8 +10814,8 @@
   var EventEndingRow = /*#__PURE__*/ (function(_React$Component) {
     _inheritsLoose(EventEndingRow, _React$Component)
 
-    function EventEndingRow() {
-      return _React$Component.apply(this, arguments) || this
+    function EventEndingRow(props) {
+      return _React$Component.call(this, props) || this
     }
 
     var _proto = EventEndingRow.prototype
@@ -10769,34 +10892,121 @@
     }
 
     _proto.renderShowMore = function renderShowMore(segments, slot) {
-      var _this = this
+      var _this = this,
+        _newIsMoreShow$,
+        _newIsMoreShow$2,
+        _newIsMoreShow$3,
+        _segments
 
-      var localizer = this.props.localizer
-      var count = eventsInSlot(segments, slot) // console.log('9999',events,accessors.title(events));
-
-      return count
-        ? /*#__PURE__*/ React__default.createElement(
-            'a',
+      var _this$props2 = this.props,
+        localizer = _this$props2.localizer,
+        lang = _this$props2.lang,
+        range = _this$props2.range,
+        newWeeks = _this$props2.newWeeks
+      var count = eventsInSlot(segments, slot)
+      var newDate = range[slot - 1]
+      var currentMonth = newDate.getMonth() + 1
+      var currentDate = newDate.getDate()
+      segments =
+        segments.filter(function(el) {
+          return (
+            new Date(el.event.start).getDate() <= currentDate &&
+            new Date(el.event.end).getDate() >= currentDate
+          )
+        }) || []
+      var index = 0
+      var newIsMoreShow = newWeeks.filter(function(el, i) {
+        if (el.key === '' + currentMonth + currentDate) {
+          index = i
+          return el
+        }
+      })
+      return (
+        count &&
+        /*#__PURE__*/ React__default.createElement(
+          'div',
+          {
+            className: 'rbc-event-wrap',
+            id: 'ref' + currentMonth + currentDate,
+          },
+          /*#__PURE__*/ React__default.createElement(
+            'div',
             {
               key: 'sm_' + slot,
-              href: '#',
               className: 'rbc-event-content rbc-show-more',
               onClick: function onClick(e) {
-                return _this.showMore(slot, e, segments)
+                return _this.showMore(slot, e, index)
               },
             },
-            localizer.messages.showMore(count)
-          )
-        : false
+            localizer.messages[lang].showMore(count)
+          ),
+          ((_newIsMoreShow$ = newIsMoreShow[0]) == null
+            ? void 0
+            : _newIsMoreShow$.isMore) &&
+            /*#__PURE__*/ React__default.createElement(
+              'div',
+              {
+                className: clsx(
+                  'rbc-event-more',
+                  ((_newIsMoreShow$2 = newIsMoreShow[0]) == null
+                    ? void 0
+                    : _newIsMoreShow$2.right) && 'rbc-event-more-right',
+                  ((_newIsMoreShow$3 = newIsMoreShow[0]) == null
+                    ? void 0
+                    : _newIsMoreShow$3.bottom) && 'rbc-event-more-bottom'
+                ),
+              },
+              /*#__PURE__*/ React__default.createElement(
+                'div',
+                {
+                  className: 'more-title',
+                },
+                currentMonth,
+                '\u6708',
+                currentDate,
+                '\u65E5\u6D3B\u52A8'
+              ),
+              (_segments = segments) == null
+                ? void 0
+                : _segments.map(function(item, i) {
+                    var newItem = item.event
+                    return /*#__PURE__*/ React__default.createElement(
+                      'div',
+                      {
+                        className: 'more-li',
+                        key: i,
+                      },
+                      /*#__PURE__*/ React__default.createElement(
+                        'a',
+                        {
+                          href: newItem.url,
+                          className: 'more-li-title',
+                        },
+                        newItem.title
+                      ),
+                      /*#__PURE__*/ React__default.createElement(
+                        'div',
+                        {
+                          className: 'more-text',
+                        },
+                        '\u62A5\u540D\u65F6\u95F4\uFF1A',
+                        newItem.start,
+                        ' \u81F3 ',
+                        newItem.end
+                      )
+                    )
+                  })
+            )
+        )
+      )
     }
 
-    _proto.showMore = function showMore(slot, e) {
+    _proto.showMore = function showMore(slot, e, index) {
       /*todo点击more*/
       e.preventDefault()
-      e.stopPropagation() // let {segments} = this.props
-      // segments = segments.filter(el => el.left === slot)
-      // console.log('111',slot, segments);
-      // this.props.onShowMore(slot, e.target)
+      e.stopPropagation()
+      e.persist()
+      this.props.clickMore(slot, e, index)
     }
 
     return EventEndingRow
@@ -10807,6 +11017,9 @@
       segments: propTypes.array,
       slots: propTypes.number,
       onShowMore: propTypes.func,
+      clickMore: propTypes.func,
+      lang: propTypes.string,
+      newWeeks: propTypes.array,
     },
     EventRowMixin.propTypes
   )
@@ -10971,7 +11184,6 @@
         this
 
       _this.handleSelectSlot = function(slot) {
-        // console.log('111', slot)
         var _this$props = _this.props,
           range = _this$props.range,
           onSelectSlot = _this$props.onSelectSlot
@@ -11120,7 +11332,10 @@
         longPressThreshold = _this$props5.longPressThreshold,
         isAllDay = _this$props5.isAllDay,
         resizable = _this$props5.resizable,
-        showAllEvents = _this$props5.showAllEvents
+        showAllEvents = _this$props5.showAllEvents,
+        lang = _this$props5.lang,
+        newWeeks = _this$props5.newWeeks,
+        clickMore = _this$props5.clickMore
       if (renderForMeasure) return this.renderDummy()
       var metrics = this.slotMetrics(this.props)
       var levels = metrics.levels,
@@ -11210,7 +11425,12 @@
                   _extends(
                     {
                       segments: extra,
+                      lang: lang,
+                      range: range,
+                      newWeeks: newWeeks,
                       onShowMore: this.handleShowMore,
+                      clickMore: clickMore,
+                      newMoreShow: newWeeks,
                     },
                     eventRowProps
                   )
@@ -11228,6 +11448,7 @@
     date: propTypes.instanceOf(Date),
     events: propTypes.array.isRequired,
     range: propTypes.array.isRequired,
+    lang: propTypes.string,
     rtl: propTypes.bool,
     resizable: propTypes.bool,
     resourceId: propTypes.any,
@@ -11254,6 +11475,8 @@
     localizer: propTypes.object.isRequired,
     minRows: propTypes.number.isRequired,
     maxRows: propTypes.number.isRequired,
+    newWeeks: propTypes.array,
+    clickMore: propTypes.func,
   }
   DateContentRow.defaultProps = {
     minRows: 0,
@@ -11332,6 +11555,61 @@
         return ReactDOM.findDOMNode(_assertThisInitialized(_this))
       }
 
+      _this.clickMore = function(slot, e, index) {
+        var newMoreShow = _this.state.newWeeks
+        newMoreShow = newMoreShow.map(function(el, i) {
+          el.isMore = false
+          el.right = false
+          el.bottom = false
+
+          if (i === index) {
+            el.isMore = true
+          }
+
+          return el
+        })
+
+        _this.setState(
+          {
+            newWeeks: newMoreShow,
+            newWeeksIndex: index,
+          },
+          function() {
+            var moreClassName = document.getElementsByClassName(
+              'rbc-event-more'
+            )[0]
+            var moreHeight = moreClassName.offsetHeight
+            var moreWidth = moreClassName.offsetWidth
+            var scrollX =
+              document.documentElement.scrollLeft || document.body.scrollLeft
+            var scrollY =
+              document.documentElement.scrollTop || document.body.scrollTop
+            var width = window.innerWidth + scrollX
+            var height = window.innerHeight + scrollY
+            var x = e.pageX
+            var y = e.pageY
+            var isRight = x >= width - moreWidth
+            var isBottom = y >= height - moreHeight
+            var newPositionMore = _this.state.newWeeks
+            newPositionMore = newPositionMore.map(function(el, i) {
+              el.right = false
+              el.bottom = false
+
+              if (i === index) {
+                el.right = isRight
+                el.bottom = isBottom
+              }
+
+              return el
+            })
+
+            _this.setState({
+              newWeeks: newPositionMore,
+            })
+          }
+        )
+      }
+
       _this.renderWeek = function(week, weekIdx) {
         var _this$props = _this.props,
           events = _this$props.events,
@@ -11344,10 +11622,13 @@
           longPressThreshold = _this$props.longPressThreshold,
           accessors = _this$props.accessors,
           getters = _this$props.getters,
-          showAllEvents = _this$props.showAllEvents
+          showAllEvents = _this$props.showAllEvents,
+          lang = _this$props.lang,
+          label = _this$props.label
         var _this$state = _this.state,
           needLimitMeasure = _this$state.needLimitMeasure,
-          rowLimit = _this$state.rowLimit
+          rowLimit = _this$state.rowLimit,
+          newWeeks = _this$state.newWeeks
         events = eventsForWeek(
           events,
           week[0],
@@ -11384,6 +11665,10 @@
           rtl: _this.props.rtl,
           resizable: _this.props.resizable,
           showAllEvents: showAllEvents,
+          lang: lang,
+          label: label,
+          newWeeks: newWeeks,
+          clickMore: _this.clickMore,
         })
       }
 
@@ -11525,6 +11810,8 @@
       _this.state = {
         rowLimit: 5,
         needLimitMeasure: true,
+        newWeeks: [],
+        newWeeksIndex: 0,
       }
       return _this
     }
@@ -11541,8 +11828,18 @@
     }
 
     _proto.componentDidMount = function componentDidMount() {
+      var _this2 = this
+
       // let running
-      if (this.state.needLimitMeasure) this.measureRowLimit(this.props) // window.addEventListener(/*todo改变宽度日程显示全部*/
+      if (this.state.needLimitMeasure) this.measureRowLimit(this.props) // document.addEventListener('click', this.hideClickMore);
+
+      document.addEventListener(
+        'click',
+        function(e) {
+          return _this2.hideClickMore(e)
+        },
+        false
+      ) // window.addEventListener(/*todo改变宽度日程显示全部*/
       //   'resize',
       //   (this._resizeListener = () => {
       //     if (!running) {
@@ -11554,6 +11851,30 @@
       //   }),
       //   false
       // )
+
+      var _this$props4 = this.props,
+        date = _this$props4.date,
+        localizer = _this$props4.localizer,
+        month = visibleDays(date, localizer),
+        weeks = chunk(month, 7)
+      var newWeeks = weeks.map(function(el) {
+        return el.map(function(sel) {
+          sel = '' + (sel.getMonth() + 1) + sel.getDate()
+          return sel
+        })
+      })
+      newWeeks = flatten(newWeeks).map(function(el) {
+        el = {
+          key: el,
+          isMore: false,
+          right: false,
+          bottom: false,
+        }
+        return el
+      })
+      this.setState({
+        newWeeks: newWeeks,
+      })
     }
 
     _proto.componentDidUpdate = function componentDidUpdate() {
@@ -11565,10 +11886,10 @@
     }
 
     _proto.render = function render() {
-      var _this$props4 = this.props,
-        date = _this$props4.date,
-        localizer = _this$props4.localizer,
-        className = _this$props4.className,
+      var _this$props5 = this.props,
+        date = _this$props5.date,
+        localizer = _this$props5.localizer,
+        className = _this$props5.className,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -11592,13 +11913,31 @@
       )
     }
 
+    _proto.hideClickMore = function hideClickMore(e) {
+      var _this$state2 = this.state,
+        newWeeks = _this$state2.newWeeks,
+        newWeeksIndex = _this$state2.newWeeksIndex
+      var newMoreShow = newWeeks
+      var node = e.target.parentNode
+
+      if (node.id !== 'ref' + newMoreShow[newWeeksIndex].key) {
+        newMoreShow[this.state.newWeeksIndex].isMore = false
+        this.setState({
+          newWeeks: newMoreShow,
+        })
+      }
+    }
+
     _proto.renderHeaders = function renderHeaders(row) {
-      var _this$props5 = this.props,
-        localizer = _this$props5.localizer,
-        components = _this$props5.components
+      var _this$props6 = this.props,
+        localizer = _this$props6.localizer,
+        components = _this$props6.components,
+        lang = _this$props6.lang
       var first = row[0]
       var last = row[row.length - 1]
       var HeaderComponent = components.header || Header
+      lang = lang ? lang : 'en'
+      var label = localizer.messages[lang].weeks
       return range(first, last, 'day').map(function(day, idx) {
         return /*#__PURE__*/ React__default.createElement(
           'div',
@@ -11609,23 +11948,23 @@
           /*#__PURE__*/ React__default.createElement(HeaderComponent, {
             date: day,
             localizer: localizer,
-            label: localizer.format(day, 'weekdayFormat'),
+            label: label[idx], //localizer.format(day, 'weekdayFormat')
           })
         )
       })
     }
 
     _proto.renderOverlay = function renderOverlay() {
-      var _this2 = this
+      var _this3 = this
 
       var overlay = (this.state && this.state.overlay) || {}
-      var _this$props6 = this.props,
-        accessors = _this$props6.accessors,
-        localizer = _this$props6.localizer,
-        components = _this$props6.components,
-        getters = _this$props6.getters,
-        selected = _this$props6.selected,
-        popupOffset = _this$props6.popupOffset
+      var _this$props7 = this.props,
+        accessors = _this$props7.accessors,
+        localizer = _this$props7.localizer,
+        components = _this$props7.components,
+        getters = _this$props7.getters,
+        selected = _this$props7.selected,
+        popupOffset = _this$props7.popupOffset
       return /*#__PURE__*/ React__default.createElement(
         Overlay,
         {
@@ -11633,7 +11972,7 @@
           placement: 'bottom',
           show: !!overlay.position,
           onHide: function onHide() {
-            return _this2.setState({
+            return _this3.setState({
               overlay: null,
             })
           },
@@ -11653,14 +11992,14 @@
               components: components,
               localizer: localizer,
               position: overlay.position,
-              show: _this2.overlayDisplay,
+              show: _this3.overlayDisplay,
               events: overlay.events,
               slotStart: overlay.date,
               slotEnd: overlay.end,
-              onSelect: _this2.handleSelectEvent,
-              onDoubleClick: _this2.handleDoubleClickEvent,
-              onKeyPress: _this2.handleKeyPressEvent,
-              handleDragStart: _this2.props.handleDragStart,
+              onSelect: _this3.handleSelectEvent,
+              onDoubleClick: _this3.handleDoubleClickEvent,
+              onKeyPress: _this3.handleKeyPressEvent,
+              handleDragStart: _this3.props.handleDragStart,
             })
           )
         }
@@ -11717,6 +12056,7 @@
     components: propTypes.object.isRequired,
     getters: propTypes.object.isRequired,
     localizer: propTypes.object.isRequired,
+    lang: propTypes.string,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
     longPressThreshold: propTypes.number,
@@ -11732,6 +12072,7 @@
     getDrilldownView: propTypes.func.isRequired,
     popup: propTypes.bool,
     handleDragStart: propTypes.func,
+    label: propTypes.string,
     popupOffset: propTypes.oneOfType([
       propTypes.number,
       propTypes.shape({
@@ -11976,58 +12317,6 @@
     if (protoProps) _defineProperties(Constructor.prototype, protoProps)
     if (staticProps) _defineProperties(Constructor, staticProps)
     return Constructor
-  }
-
-  /** Built-in value references. */
-  var spreadableSymbol = Symbol$1 ? Symbol$1.isConcatSpreadable : undefined
-
-  /**
-   * Checks if `value` is a flattenable `arguments` object or array.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
-   */
-  function isFlattenable(value) {
-    return (
-      isArray(value) ||
-      isArguments(value) ||
-      !!(spreadableSymbol && value && value[spreadableSymbol])
-    )
-  }
-
-  /**
-   * The base implementation of `_.flatten` with support for restricting flattening.
-   *
-   * @private
-   * @param {Array} array The array to flatten.
-   * @param {number} depth The maximum recursion depth.
-   * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
-   * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
-   * @param {Array} [result=[]] The initial result value.
-   * @returns {Array} Returns the new flattened array.
-   */
-  function baseFlatten(array, depth, predicate, isStrict, result) {
-    var index = -1,
-      length = array.length
-
-    predicate || (predicate = isFlattenable)
-    result || (result = [])
-
-    while (++index < length) {
-      var value = array[index]
-      if (depth > 0 && predicate(value)) {
-        if (depth > 1) {
-          // Recursively flatten arrays (susceptible to call stack limits).
-          baseFlatten(value, depth - 1, predicate, isStrict, result)
-        } else {
-          arrayPush(result, value)
-        }
-      } else if (!isStrict) {
-        result[result.length] = value
-      }
-    }
-    return result
   }
 
   /**
@@ -15053,6 +15342,196 @@
     return date
   }
 
+  /**
+   * Creates an array with all falsey values removed. The values `false`, `null`,
+   * `0`, `""`, `undefined`, and `NaN` are falsey.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Array
+   * @param {Array} array The array to compact.
+   * @returns {Array} Returns the new array of filtered values.
+   * @example
+   *
+   * _.compact([0, 1, false, 2, '', 3]);
+   * // => [1, 2, 3]
+   */
+  function compact(array) {
+    var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = []
+
+    while (++index < length) {
+      var value = array[index]
+      if (value) {
+        result[resIndex++] = value
+      }
+    }
+    return result
+  }
+
+  /** Used to match words composed of alphanumeric characters. */
+  var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g
+
+  /**
+   * Splits an ASCII `string` into an array of its words.
+   *
+   * @private
+   * @param {string} The string to inspect.
+   * @returns {Array} Returns the words of `string`.
+   */
+  function asciiWords(string) {
+    return string.match(reAsciiWord) || []
+  }
+
+  /** Used to detect strings that need a more robust regexp to match words. */
+  var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/
+
+  /**
+   * Checks if `string` contains a word composed of Unicode symbols.
+   *
+   * @private
+   * @param {string} string The string to inspect.
+   * @returns {boolean} Returns `true` if a word is found, else `false`.
+   */
+  function hasUnicodeWord(string) {
+    return reHasUnicodeWord.test(string)
+  }
+
+  /** Used to compose unicode character classes. */
+  var rsAstralRange = '\\ud800-\\udfff',
+    rsComboMarksRange = '\\u0300-\\u036f',
+    reComboHalfMarksRange = '\\ufe20-\\ufe2f',
+    rsComboSymbolsRange = '\\u20d0-\\u20ff',
+    rsComboRange =
+      rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange,
+    rsDingbatRange = '\\u2700-\\u27bf',
+    rsLowerRange = 'a-z\\xdf-\\xf6\\xf8-\\xff',
+    rsMathOpRange = '\\xac\\xb1\\xd7\\xf7',
+    rsNonCharRange = '\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf',
+    rsPunctuationRange = '\\u2000-\\u206f',
+    rsSpaceRange =
+      ' \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000',
+    rsUpperRange = 'A-Z\\xc0-\\xd6\\xd8-\\xde',
+    rsVarRange = '\\ufe0e\\ufe0f',
+    rsBreakRange =
+      rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange
+
+  /** Used to compose unicode capture groups. */
+  var rsApos = "['\u2019]",
+    rsBreak = '[' + rsBreakRange + ']',
+    rsCombo = '[' + rsComboRange + ']',
+    rsDigits = '\\d+',
+    rsDingbat = '[' + rsDingbatRange + ']',
+    rsLower = '[' + rsLowerRange + ']',
+    rsMisc =
+      '[^' +
+      rsAstralRange +
+      rsBreakRange +
+      rsDigits +
+      rsDingbatRange +
+      rsLowerRange +
+      rsUpperRange +
+      ']',
+    rsFitz = '\\ud83c[\\udffb-\\udfff]',
+    rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
+    rsNonAstral = '[^' + rsAstralRange + ']',
+    rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+    rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+    rsUpper = '[' + rsUpperRange + ']',
+    rsZWJ = '\\u200d'
+
+  /** Used to compose unicode regexes. */
+  var rsMiscLower = '(?:' + rsLower + '|' + rsMisc + ')',
+    rsMiscUpper = '(?:' + rsUpper + '|' + rsMisc + ')',
+    rsOptContrLower = '(?:' + rsApos + '(?:d|ll|m|re|s|t|ve))?',
+    rsOptContrUpper = '(?:' + rsApos + '(?:D|LL|M|RE|S|T|VE))?',
+    reOptMod = rsModifier + '?',
+    rsOptVar = '[' + rsVarRange + ']?',
+    rsOptJoin =
+      '(?:' +
+      rsZWJ +
+      '(?:' +
+      [rsNonAstral, rsRegional, rsSurrPair].join('|') +
+      ')' +
+      rsOptVar +
+      reOptMod +
+      ')*',
+    rsOrdLower = '\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])',
+    rsOrdUpper = '\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])',
+    rsSeq = rsOptVar + reOptMod + rsOptJoin,
+    rsEmoji =
+      '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq
+
+  /** Used to match complex or compound words. */
+  var reUnicodeWord = RegExp(
+    [
+      rsUpper +
+        '?' +
+        rsLower +
+        '+' +
+        rsOptContrLower +
+        '(?=' +
+        [rsBreak, rsUpper, '$'].join('|') +
+        ')',
+      rsMiscUpper +
+        '+' +
+        rsOptContrUpper +
+        '(?=' +
+        [rsBreak, rsUpper + rsMiscLower, '$'].join('|') +
+        ')',
+      rsUpper + '?' + rsMiscLower + '+' + rsOptContrLower,
+      rsUpper + '+' + rsOptContrUpper,
+      rsOrdUpper,
+      rsOrdLower,
+      rsDigits,
+      rsEmoji,
+    ].join('|'),
+    'g'
+  )
+
+  /**
+   * Splits a Unicode `string` into an array of its words.
+   *
+   * @private
+   * @param {string} The string to inspect.
+   * @returns {Array} Returns the words of `string`.
+   */
+  function unicodeWords(string) {
+    return string.match(reUnicodeWord) || []
+  }
+
+  /**
+   * Splits `string` into an array of its words.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category String
+   * @param {string} [string=''] The string to inspect.
+   * @param {RegExp|string} [pattern] The pattern to match words.
+   * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+   * @returns {Array} Returns the words of `string`.
+   * @example
+   *
+   * _.words('fred, barney, & pebbles');
+   * // => ['fred', 'barney', 'pebbles']
+   *
+   * _.words('fred, barney, & pebbles', /[^, ]+/g);
+   * // => ['fred', 'barney', '&', 'pebbles']
+   */
+  function words(string, pattern, guard) {
+    string = toString(string)
+    pattern = guard ? undefined : pattern
+
+    if (pattern === undefined) {
+      return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string)
+    }
+    return string.match(pattern) || []
+  }
+
   var Toolbar = /*#__PURE__*/ (function(_React$Component) {
     _inheritsLoose(Toolbar, _React$Component)
 
@@ -15087,7 +15566,19 @@
     _proto.render = function render() {
       var _this$props = this.props,
         messages = _this$props.localizer.messages,
-        label = _this$props.label
+        label = _this$props.label,
+        lang = _this$props.lang
+      lang = lang ? lang : 'en'
+      var labelArr = words(label)
+      var labelIndex = compact(
+        messages.en.month.map(function(el, i) {
+          if (el === labelArr[1]) {
+            return i
+          }
+        })
+      )
+      var newMonth = messages[lang].month[labelIndex[0] || 0]
+      var newLabel = lang === 'en' ? label : labelArr[0] + '\u5E74' + newMonth
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
@@ -15098,7 +15589,7 @@
           {
             className: 'rbc-toolbar-label',
           },
-          label
+          newLabel
         ),
         /*#__PURE__*/ React__default.createElement(
           'span',
@@ -15116,7 +15607,7 @@
               type: 'button',
               onClick: this.navigate.bind(null, navigate.TODAY),
             },
-            messages.today
+            messages[lang].today
           ),
           /*#__PURE__*/ React__default.createElement('button', {
             type: 'button',
@@ -15153,6 +15644,7 @@
     localizer: propTypes.object,
     onNavigate: propTypes.func.isRequired,
     onView: propTypes.func.isRequired,
+    lang: propTypes.string,
   }
 
   /**
@@ -16064,25 +16556,6 @@
   }
 
   /**
-   * Flattens `array` a single level deep.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Array
-   * @param {Array} array The array to flatten.
-   * @returns {Array} Returns the new flattened array.
-   * @example
-   *
-   * _.flatten([1, [2, [3, [4]], 5]]);
-   * // => [1, 2, [3, [4]], 5]
-   */
-  function flatten(array) {
-    var length = array == null ? 0 : array.length
-    return length ? baseFlatten(array, 1) : []
-  }
-
-  /**
    * A specialized version of `baseRest` which flattens the rest array.
    *
    * @private
@@ -16340,6 +16813,7 @@
       'formats',
       'messages',
       'culture',
+      'lang',
     ]
 
   function viewNames$1(_views) {
@@ -16659,6 +17133,7 @@
         _1 = _this$props4.formats,
         _2 = _this$props4.messages,
         _3 = _this$props4.culture,
+        lang = _this$props4.lang,
         props = _objectWithoutPropertiesLoose(_this$props4, _excluded2$1)
 
       current = current || getNow()
@@ -16689,6 +17164,7 @@
             onView: this.handleViewChange,
             onNavigate: this.handleNavigate,
             localizer: localizer,
+            lang: lang,
           }),
         /*#__PURE__*/ React__default.createElement(
           View,
@@ -16712,6 +17188,8 @@
             onSelectSlot: this.handleSelectSlot,
             onShowMore: onShowMore,
             doShowMoreDrillDown: doShowMoreDrillDown,
+            lang: lang,
+            label: label,
           })
         )
       )
@@ -17163,6 +17641,7 @@
      * Determines whether the toolbar is displayed
      */
     toolbar: propTypes.bool,
+    lang: propTypes.string,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.

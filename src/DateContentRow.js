@@ -21,7 +21,6 @@ class DateContentRow extends React.Component {
   }
 
   handleSelectSlot = slot => {
-    // console.log('111', slot)
     const { range, onSelectSlot } = this.props
 
     onSelectSlot(range.slice(slot.start, slot.end + 1), slot)
@@ -36,6 +35,7 @@ class DateContentRow extends React.Component {
     if (row) cell = row.children[slot - 1]
 
     let events = metrics.getEventsForSlot(slot)
+
     onShowMore(events, range[slot - 1], cell, slot, target)
   }
 
@@ -129,6 +129,9 @@ class DateContentRow extends React.Component {
       isAllDay,
       resizable,
       showAllEvents,
+      lang,
+      newWeeks,
+      clickMore,
     } = this.props
 
     if (renderForMeasure) return this.renderDummy()
@@ -192,7 +195,12 @@ class DateContentRow extends React.Component {
               {!!extra.length && (
                 <EventEndingRow
                   segments={extra}
+                  lang={lang}
+                  range={range}
+                  newWeeks={newWeeks}
                   onShowMore={this.handleShowMore}
+                  clickMore={clickMore}
+                  newMoreShow={newWeeks}
                   {...eventRowProps}
                 />
               )}
@@ -209,6 +217,7 @@ DateContentRow.propTypes = {
   events: PropTypes.array.isRequired,
   range: PropTypes.array.isRequired,
 
+  lang: PropTypes.string,
   rtl: PropTypes.bool,
   resizable: PropTypes.bool,
   resourceId: PropTypes.any,
@@ -240,6 +249,9 @@ DateContentRow.propTypes = {
 
   minRows: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
+
+  newWeeks: PropTypes.array,
+  clickMore: PropTypes.func,
 }
 
 DateContentRow.defaultProps = {

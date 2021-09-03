@@ -12,7 +12,7 @@ const ColoredDateCellWrapper = ({ children }) =>
     },
   })
 
-let Basic = ({ localizer }) => (
+let Basic = ({ localizer, lang }) => (
   <Calendar
     events={events}
     views={allViews}
@@ -24,6 +24,7 @@ let Basic = ({ localizer }) => (
       timeSlotWrapper: ColoredDateCellWrapper,
     }}
     localizer={localizer}
+    lang={lang}
   />
 )
 

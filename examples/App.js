@@ -16,41 +16,11 @@ import './prism.scss'
 import Card from './Card'
 import ExampleControlSlot from './ExampleControlSlot'
 import Basic from './demos/basic'
-import BackgroundEvents from './demos/backgroundEvents'
-import Selectable from './demos/selectable'
-import CreateEventWithNoOverlap from './demos/createEventWithNoOverlap'
-import Cultures from './demos/cultures'
-import Popup from './demos/popup'
-import Rendering from './demos/rendering'
-import CustomView from './demos/customView'
-import Resource from './demos/resource'
-import DndResource from './demos/dndresource'
-import Timeslots from './demos/timeslots'
-import Dnd from './demos/dnd'
-import DndOutsideSource from './demos/dndOutsideSource'
-import Dropdown from 'react-bootstrap/lib/Dropdown'
-import MenuItem from 'react-bootstrap/lib/MenuItem'
 
 const globalizeLocalizer = localizer(globalize)
 
 let demoRoot =
   'https://github.com/intljusticemission/react-big-calendar/tree/master/examples/demos'
-
-const EXAMPLES = {
-  basic: 'Basic Calendar',
-  selectable: 'Create events',
-  createEventWithNoOverlap: 'Create events with no-overlap algorithm',
-  cultures: 'Localization',
-  popup: 'Show more via a popup',
-  timeslots: 'Custom Time Grids',
-  rendering: 'Customized Component Rendering',
-  customView: 'Custom Calendar Views',
-  backgroundEvents: 'Background Events',
-  resource: 'Resource Scheduling',
-  dnd: 'Addon: Drag and drop',
-  dndresource: 'Resource Drag and drop',
-  dndOutsideSource: 'Addon: Drag and drop (from outside calendar)',
-}
 
 const DEFAULT_EXAMPLE = 'basic'
 
@@ -60,6 +30,7 @@ class Example extends React.Component {
 
     this.state = {
       selected: DEFAULT_EXAMPLE,
+      lang: 'cn',
     }
   }
 
@@ -72,23 +43,15 @@ class Example extends React.Component {
     this.select(hash || DEFAULT_EXAMPLE)
   }
 
+  langChange() {
+    this.setState({
+      lang: this.state.lang === 'en' ? 'cn' : 'en',
+    })
+  }
+
   render() {
     let selected = this.state.selected
-    let Current = {
-      basic: Basic,
-      backgroundEvents: BackgroundEvents,
-      selectable: Selectable,
-      cultures: Cultures,
-      popup: Popup,
-      rendering: Rendering,
-      customView: CustomView,
-      resource: Resource,
-      timeslots: Timeslots,
-      dnd: Dnd,
-      dndresource: DndResource,
-      dndOutsideSource: DndOutsideSource,
-      createEventWithNoOverlap: CreateEventWithNoOverlap,
-    }[selected]
+    let Current = Basic
 
     return (
       <div className="app">
@@ -131,32 +94,21 @@ class Example extends React.Component {
                   </strong>
                 </a>
               </div>
-              <Dropdown
-                pullRight
-                id="examples-dropdown"
-                className="examples--dropdown"
+              <div
+                className="changeLang"
+                onClick={() => {
+                  this.langChange()
+                }}
               >
-                <Dropdown.Toggle bsStyle="link" className="dropdown--toggle ">
-                  {EXAMPLES[selected]}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {Object.entries(EXAMPLES).map(([key, title]) => (
-                    <MenuItem
-                      active={this.state.selected === key}
-                      key={key}
-                      href={`#${key}`}
-                      onClick={() => this.select(key)}
-                    >
-                      {title}
-                    </MenuItem>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
+                中英文切换/Chinese English switching:{' '}
+                <span>{this.state.lang === 'en' ? 'English' : '中文'}</span>
+              </div>
+              <div>Basic Calendar</div>
             </Layout>
             <ExampleControlSlot.Outlet />
           </Card>
           <div className="example">
-            <Current localizer={globalizeLocalizer} />
+            <Current localizer={globalizeLocalizer} lang={this.state.lang} />
           </div>
         </div>
         <div className="docs">
