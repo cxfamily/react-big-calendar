@@ -44,6 +44,7 @@ class EventCell extends React.Component {
         className={clsx('rbc-event-content', {
           'rbc-event-content-train': event.type === '2',
         })}
+        target="_blank"
         title={tooltip || undefined}
       >
         {/*todo日历li*/}

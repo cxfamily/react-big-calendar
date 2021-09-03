@@ -3598,6 +3598,7 @@
           className: clsx('rbc-event-content', {
             'rbc-event-content-train': event.type === '2',
           }),
+          target: '_blank',
           title: tooltip || undefined,
         },
         title
@@ -10927,7 +10928,7 @@
           'div',
           {
             className: 'rbc-event-wrap',
-            id: 'ref' + currentMonth + currentDate,
+            'data-id': 'ref' + currentMonth + currentDate,
           },
           /*#__PURE__*/ React__default.createElement(
             'div',
@@ -10937,6 +10938,7 @@
               onClick: function onClick(e) {
                 return _this.showMore(slot, e, index)
               },
+              'data-id': 'ref' + currentMonth + currentDate,
             },
             localizer.messages[lang].showMore(count)
           ),
@@ -10955,11 +10957,13 @@
                     ? void 0
                     : _newIsMoreShow$3.bottom) && 'rbc-event-more-bottom'
                 ),
+                'data-id': 'ref' + currentMonth + currentDate,
               },
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
                   className: 'more-title',
+                  'data-id': 'ref' + currentMonth + currentDate,
                 },
                 currentMonth,
                 '\u6708',
@@ -10975,12 +10979,15 @@
                       {
                         className: 'more-li',
                         key: i,
+                        'data-id': 'ref' + currentMonth + currentDate,
                       },
                       /*#__PURE__*/ React__default.createElement(
                         'a',
                         {
                           href: newItem.url,
+                          target: '_blank',
                           className: 'more-li-title',
+                          'data-id': 'ref' + currentMonth + currentDate,
                         },
                         newItem.title
                       ),
@@ -10988,6 +10995,7 @@
                         'div',
                         {
                           className: 'more-text',
+                          'data-id': 'ref' + currentMonth + currentDate,
                         },
                         '\u62A5\u540D\u65F6\u95F4\uFF1A',
                         newItem.start,
@@ -11831,8 +11839,7 @@
       var _this2 = this
 
       // let running
-      if (this.state.needLimitMeasure) this.measureRowLimit(this.props) // document.addEventListener('click', this.hideClickMore);
-
+      if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
       document.addEventListener(
         'click',
         function(e) {
@@ -11918,9 +11925,9 @@
         newWeeks = _this$state2.newWeeks,
         newWeeksIndex = _this$state2.newWeeksIndex
       var newMoreShow = newWeeks
-      var node = e.target.parentNode
+      var node = e.target.getAttribute('data-id')
 
-      if (node.id !== 'ref' + newMoreShow[newWeeksIndex].key) {
+      if (node !== 'ref' + newMoreShow[newWeeksIndex].key) {
         newMoreShow[this.state.newWeeksIndex].isMore = false
         this.setState({
           newWeeks: newMoreShow,

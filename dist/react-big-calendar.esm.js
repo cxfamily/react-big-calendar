@@ -1067,6 +1067,7 @@
                 className: G('rbc-event-content', {
                   'rbc-event-content-train': '2' === o.type,
                 }),
+                target: '_blank',
                 title: g || void 0,
               },
               m
@@ -4565,7 +4566,7 @@
             p &&
             r.createElement(
               'div',
-              { className: 'rbc-event-wrap', id: 'ref' + v + m },
+              { className: 'rbc-event-wrap', 'data-id': 'ref' + v + m },
               r.createElement(
                 'div',
                 {
@@ -4574,6 +4575,7 @@
                   onClick: function(e) {
                     return s.showMore(t, e, g)
                   },
+                  'data-id': 'ref' + v + m,
                 },
                 l.messages[u].showMore(p)
               ),
@@ -4588,10 +4590,11 @@
                       (null == (a = y[0]) ? void 0 : a.bottom) &&
                         'rbc-event-more-bottom'
                     ),
+                    'data-id': 'ref' + v + m,
                   },
                   r.createElement(
                     'div',
-                    { className: 'more-title' },
+                    { className: 'more-title', 'data-id': 'ref' + v + m },
                     v,
                     '月',
                     m,
@@ -4603,15 +4606,27 @@
                         var n = e.event
                         return r.createElement(
                           'div',
-                          { className: 'more-li', key: t },
+                          {
+                            className: 'more-li',
+                            key: t,
+                            'data-id': 'ref' + v + m,
+                          },
                           r.createElement(
                             'a',
-                            { href: n.url, className: 'more-li-title' },
+                            {
+                              href: n.url,
+                              target: '_blank',
+                              className: 'more-li-title',
+                              'data-id': 'ref' + v + m,
+                            },
                             n.title
                           ),
                           r.createElement(
                             'div',
-                            { className: 'more-text' },
+                            {
+                              className: 'more-text',
+                              'data-id': 'ref' + v + m,
+                            },
                             '报名时间：',
                             n.start,
                             ' 至 ',
@@ -5229,7 +5244,7 @@
             n = t.newWeeks,
             r = t.newWeeksIndex,
             o = n
-          e.target.parentNode.id !== 'ref' + o[r].key &&
+          e.target.getAttribute('data-id') !== 'ref' + o[r].key &&
             ((o[this.state.newWeeksIndex].isMore = !1),
             this.setState({ newWeeks: o }))
         }),

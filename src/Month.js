@@ -49,7 +49,6 @@ class MonthView extends React.Component {
 
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
 
-    // document.addEventListener('click', this.hideClickMore);
     document.addEventListener('click', e => this.hideClickMore(e), false)
 
     // window.addEventListener(/*todo改变宽度日程显示全部*/
@@ -119,9 +118,8 @@ class MonthView extends React.Component {
   hideClickMore(e) {
     let { newWeeks, newWeeksIndex } = this.state
     let newMoreShow = newWeeks
-    let node = e.target.parentNode
-
-    if (node.id !== `ref${newMoreShow[newWeeksIndex].key}`) {
+    let node = e.target.getAttribute('data-id')
+    if (node !== `ref${newMoreShow[newWeeksIndex].key}`) {
       newMoreShow[this.state.newWeeksIndex].isMore = false
       this.setState({
         newWeeks: newMoreShow,

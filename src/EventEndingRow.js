@@ -98,11 +98,15 @@ class EventEndingRow extends React.Component {
     })
     return (
       count && (
-        <div className="rbc-event-wrap" id={`ref${currentMonth}${currentDate}`}>
+        <div
+          className="rbc-event-wrap"
+          data-id={`ref${currentMonth}${currentDate}`}
+        >
           <div
             key={'sm_' + slot}
             className="rbc-event-content rbc-show-more"
             onClick={e => this.showMore(slot, e, index)}
+            data-id={`ref${currentMonth}${currentDate}`}
           >
             {localizer.messages[lang].showMore(count)}
           </div>
@@ -113,18 +117,34 @@ class EventEndingRow extends React.Component {
                 newIsMoreShow[0]?.right && 'rbc-event-more-right',
                 newIsMoreShow[0]?.bottom && 'rbc-event-more-bottom'
               )}
+              data-id={`ref${currentMonth}${currentDate}`}
             >
-              <div className="more-title">
+              <div
+                className="more-title"
+                data-id={`ref${currentMonth}${currentDate}`}
+              >
                 {currentMonth}月{currentDate}日活动
               </div>
               {segments?.map((item, i) => {
                 let newItem = item.event
                 return (
-                  <div className="more-li" key={i}>
-                    <a href={newItem.url} className="more-li-title">
+                  <div
+                    className="more-li"
+                    key={i}
+                    data-id={`ref${currentMonth}${currentDate}`}
+                  >
+                    <a
+                      href={newItem.url}
+                      target="_blank"
+                      className="more-li-title"
+                      data-id={`ref${currentMonth}${currentDate}`}
+                    >
                       {newItem.title}
                     </a>
-                    <div className="more-text">
+                    <div
+                      className="more-text"
+                      data-id={`ref${currentMonth}${currentDate}`}
+                    >
                       报名时间：{newItem.start} 至 {newItem.end}
                     </div>
                   </div>
