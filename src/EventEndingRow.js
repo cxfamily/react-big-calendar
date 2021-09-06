@@ -135,6 +135,7 @@ class EventEndingRow extends React.Component {
                   >
                     <a
                       href={newItem.url}
+                      title={newItem.title}
                       target="_blank"
                       className="more-li-title"
                       data-id={`ref${currentMonth}${currentDate}`}

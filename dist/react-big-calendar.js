@@ -10985,6 +10985,7 @@
                         'a',
                         {
                           href: newItem.url,
+                          title: newItem.title,
                           target: '_blank',
                           className: 'more-li-title',
                           'data-id': 'ref' + currentMonth + currentDate,
@@ -11518,10 +11519,16 @@
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
-        className: 'current-text',
+        className: 'current-text-wrap',
         role: 'cell',
       },
-      label
+      /*#__PURE__*/ React__default.createElement(
+        'span',
+        {
+          className: 'current-text',
+        },
+        label
+      )
     )
   }
 

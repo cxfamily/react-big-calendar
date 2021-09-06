@@ -4615,6 +4615,7 @@
                             'a',
                             {
                               href: n.url,
+                              title: n.title,
                               target: '_blank',
                               className: 'more-li-title',
                               'data-id': 'ref' + v + m,
@@ -4974,7 +4975,11 @@
   var ps = function(e) {
     var t = e.label
     return e.drilldownView
-      ? r.createElement('div', { className: 'current-text', role: 'cell' }, t)
+      ? r.createElement(
+          'div',
+          { className: 'current-text-wrap', role: 'cell' },
+          r.createElement('span', { className: 'current-text' }, t)
+        )
       : r.createElement('span', null, t)
   }
   ps.propTypes = {}
