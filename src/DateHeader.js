@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const DateHeader = ({ label, drilldownView /*onDrillDown*/ }) => {
-  if (!drilldownView) {
-    return <span>{label}</span>
-  }
+const DateHeader = ({ label, onDrillDown }) => {
+  label = label.replace(/^0/, '')
 
   return (
-    <div className="current-text-wrap" role="cell">
+    <div className="current-text-wrap" role="cell" onClick={onDrillDown}>
       {/*todo日历日期点击*/}
-      {/*<a href="#" onClick={onDrillDown} role="cell">*/}
       <span className="current-text">{label}</span>
     </div>
   )

@@ -86,6 +86,8 @@ class EventEndingRow extends React.Component {
     segments =
       segments.filter(
         el =>
+          new Date(el.event.start).getFullYear() === newDate.getFullYear() &&
+          new Date(el.event.start).getMonth() === newDate.getMonth() &&
           new Date(el.event.start).getDate() <= currentDate &&
           new Date(el.event.end).getDate() >= currentDate
       ) || []

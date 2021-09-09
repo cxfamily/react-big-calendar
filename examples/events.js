@@ -101,6 +101,12 @@ export default [
   },
   {
     id: 1,
+    title: 'STARTS',
+    start: '2015-4-9',
+    end: '2015-4-10',
+  },
+  {
+    id: 1,
     title: 'Long Event',
     start: '2015-4-7',
     end: '2015-4-10',
@@ -255,7 +261,7 @@ export default [
   {
     id: 14,
     title: 'Today',
-    start: '',
-    end: '',
+    start: '2021-9-7',
+    end: '2021-9-7',
   },
 ]

@@ -25,7 +25,12 @@ class Toolbar extends React.Component {
     return (
       <div className="rbc-toolbar">
         {/*todo日历头部*/}
-        <span className="rbc-toolbar-label">{newLabel}</span>
+        <div className="rbc-toolbar-label">
+          {newLabel}{' '}
+          <span className="rbc-toolbar-label-tip">
+            {messages[lang].hasActivity}
+          </span>
+        </div>
         <span className="rbc-btn-group">
           <button
             type="button"

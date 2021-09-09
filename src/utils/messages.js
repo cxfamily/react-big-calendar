@@ -46,6 +46,7 @@ let mes = {
       'November',
       'December',
     ],
+    hasActivity: 'The representative has activities on that day',
   },
   cn: {
     today: '今天',
@@ -65,6 +66,7 @@ let mes = {
       '11月',
       '12月',
     ],
+    hasActivity: '代表当日有活动',
   },
 }
 

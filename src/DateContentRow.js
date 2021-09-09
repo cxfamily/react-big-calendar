@@ -183,7 +183,7 @@ class DateContentRow extends React.Component {
           role="row"
         >
           {renderHeader && (
-            <div className="rbc-row " ref={this.createHeadingRef}>
+            <div className="rbc-row 123" ref={this.createHeadingRef}>
               {range.map(this.renderHeadingCell)}
             </div>
           )}

@@ -2173,6 +2173,7 @@
         'November',
         'December',
       ],
+      hasActivity: 'The representative has activities on that day',
     },
     cn: {
       today: '今天',
@@ -2194,6 +2195,7 @@
         '11月',
         '12月',
       ],
+      hasActivity: '代表当日有活动',
     },
   }
   function messages(msgs) {
@@ -10911,6 +10913,8 @@
       segments =
         segments.filter(function(el) {
           return (
+            new Date(el.event.start).getFullYear() === newDate.getFullYear() &&
+            new Date(el.event.start).getMonth() === newDate.getMonth() &&
             new Date(el.event.start).getDate() <= currentDate &&
             new Date(el.event.end).getDate() >= currentDate
           )
@@ -11400,7 +11404,7 @@
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className: 'rbc-row ',
+                className: 'rbc-row 123',
                 ref: this.createHeadingRef,
               },
               range.map(this.renderHeadingCell)
@@ -11510,17 +11514,14 @@
 
   var DateHeader = function DateHeader(_ref) {
     var label = _ref.label,
-      drilldownView = _ref.drilldownView
-
-    if (!drilldownView) {
-      return /*#__PURE__*/ React__default.createElement('span', null, label)
-    }
-
+      onDrillDown = _ref.onDrillDown
+    label = label.replace(/^0/, '')
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
         className: 'current-text-wrap',
         role: 'cell',
+        onClick: onDrillDown,
       },
       /*#__PURE__*/ React__default.createElement(
         'span',
@@ -11688,6 +11689,8 @@
       }
 
       _this.readerDateHeading = function(_ref) {
+        var _newActiveEle$
+
         var date = _ref.date,
           className = _ref.className,
           props = _objectWithoutPropertiesLoose(_ref, _excluded$1)
@@ -11695,20 +11698,61 @@
         var _this$props2 = _this.props,
           currentDate = _this$props2.date,
           getDrilldownView = _this$props2.getDrilldownView,
-          localizer = _this$props2.localizer
+          localizer = _this$props2.localizer,
+          events = _this$props2.events
+        var clickActiveEle = _this.state.clickActiveEle
         var isOffRange = month(date) !== month(currentDate)
         var isCurrent = eq(date, currentDate, 'day')
         var drilldownView = getDrilldownView(date)
         var label = localizer.format(date, 'dateFormat')
         var DateHeaderComponent =
           _this.props.components.dateHeader || DateHeader
+
+        var start = function start(el) {
+          return new Date(el.start)
+        }
+
+        var end = function end(el) {
+          return new Date(el.end)
+        }
+
+        var currectData =
+          events.filter(function(el) {
+            return (
+              start(el).getFullYear() === date.getFullYear() &&
+              start(el).getMonth() === date.getMonth() &&
+              start(el).getDate() <= label &&
+              end(el).getDate() >= label &&
+              (start(el).getDate() === end(el).getDate() ||
+                (start(el).getDate() !== end(el).getDate() &&
+                  Date.parse(el.end) >
+                    Date.parse(
+                      date.getFullYear() +
+                        '-' +
+                        (date.getMonth() + 1) +
+                        '-' +
+                        date.getDate()
+                    )))
+            )
+          }) || []
+        var dateId = '' + (date.getMonth() + 1) + date.getDate()
+        var newActiveEle = clickActiveEle.filter(function(el) {
+          if (el.key === dateId) {
+            return el
+          }
+        })
         return /*#__PURE__*/ React__default.createElement(
           'div',
           _extends({}, props, {
             className: clsx(
               className,
               isOffRange && 'rbc-off-range',
-              isCurrent && 'rbc-current'
+              isCurrent && 'rbc-current',
+              (currectData == null ? void 0 : currectData.length) > 0 &&
+                'rbc-data',
+              ((_newActiveEle$ = newActiveEle[0]) == null
+                ? void 0
+                : _newActiveEle$.value) && 'rbc-active'
             ),
             role: 'cell',
           }),
@@ -11718,7 +11762,7 @@
             drilldownView: drilldownView,
             isOffRange: isOffRange,
             onDrillDown: function onDrillDown(e) {
-              return _this.handleHeadingClick(date, drilldownView, e)
+              return _this.handleHeadingClick(date, currectData, e, dateId)
             },
           })
         )
@@ -11732,12 +11776,35 @@
         })
       }
 
-      _this.handleHeadingClick = function(date, view, e) {
+      _this.handleHeadingClick = function(date, currectData, e, dateId) {
         e.preventDefault()
+        var clickActiveEle = _this.state.clickActiveEle
+        var newClickActiveEle = clickActiveEle
+        newClickActiveEle = newClickActiveEle.map(function(el) {
+          el.value = false
 
-        _this.clearSelection()
+          if (el.key === dateId) {
+            el.value = true
+          }
 
-        notify(_this.props.onDrillDown, [date, view])
+          return el
+        })
+        var newDate =
+          date.getFullYear() +
+          '\u5E74' +
+          date.getMonth() +
+          '\u6708' +
+          date.getDate() +
+          '\u65E5\u6D3B\u52A8'
+
+        _this.setState({
+          clickActiveEle: newClickActiveEle,
+          clickActiveDate: {
+            list: currectData,
+            date: newDate,
+          },
+        }) // this.clearSelection()
+        // notify(this.props.onDrillDown, [date, view])
       }
 
       _this.handleSelectEvent = function() {
@@ -11827,6 +11894,12 @@
         needLimitMeasure: true,
         newWeeks: [],
         newWeeksIndex: 0,
+        clickActiveEle: [],
+        //点击当前日期元素
+        clickActiveDate: {
+          list: [],
+          date: null,
+        }, //点击当前日期日程(list:当前选中日程列表，date:当前选中时间)
       }
       return _this
     }
@@ -11839,6 +11912,40 @@
       var date = _ref2.date
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
+      })
+    }
+
+    _proto.updateData = function updateData() {
+      var _this$props4 = this.props,
+        date = _this$props4.date,
+        localizer = _this$props4.localizer,
+        month = visibleDays(date, localizer),
+        weeks = chunk(month, 7)
+      var newWeeks = weeks.map(function(el) {
+        return el.map(function(sel) {
+          sel = '' + (sel.getMonth() + 1) + sel.getDate()
+          return sel
+        })
+      })
+      var clickActiveEle = flatten(newWeeks).map(function(el) {
+        el = {
+          key: el,
+          value: false,
+        }
+        return el
+      })
+      newWeeks = flatten(newWeeks).map(function(el) {
+        el = {
+          key: el,
+          isMore: false,
+          right: false,
+          bottom: false,
+        }
+        return el
+      })
+      this.setState({
+        newWeeks: newWeeks,
+        clickActiveEle: clickActiveEle,
       })
     }
 
@@ -11866,40 +11973,22 @@
       //   false
       // )
 
-      var _this$props4 = this.props,
-        date = _this$props4.date,
-        localizer = _this$props4.localizer,
-        month = visibleDays(date, localizer),
-        weeks = chunk(month, 7)
-      var newWeeks = weeks.map(function(el) {
-        return el.map(function(sel) {
-          sel = '' + (sel.getMonth() + 1) + sel.getDate()
-          return sel
-        })
-      })
-      newWeeks = flatten(newWeeks).map(function(el) {
-        el = {
-          key: el,
-          isMore: false,
-          right: false,
-          bottom: false,
-        }
-        return el
-      })
-      this.setState({
-        newWeeks: newWeeks,
-      })
+      this.updateData()
     }
 
     _proto.componentDidUpdate = function componentDidUpdate() {
-      if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
-    }
-
-    _proto.componentWillUnmount = function componentWillUnmount() {
-      window.removeEventListener('resize', this._resizeListener, false)
-    }
+      if (this.state.needLimitMeasure) {
+        this.measureRowLimit(this.props)
+        this.updateData()
+      }
+    } // componentWillUnmount() {
+    //   window.removeEventListener('resize', this._resizeListener, false)
+    // }
 
     _proto.render = function render() {
+      var _clickActiveDate$list, _clickActiveDate$list2
+
+      var clickActiveDate = this.state.clickActiveDate
       var _this$props5 = this.props,
         date = _this$props5.date,
         localizer = _this$props5.localizer,
@@ -11908,22 +11997,81 @@
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
       return /*#__PURE__*/ React__default.createElement(
-        'div',
-        {
-          className: clsx('rbc-month-view', className),
-          role: 'table',
-          'aria-label': 'Month View',
-        },
+        React__default.Fragment,
+        null,
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: 'rbc-row rbc-month-header',
-            role: 'row',
+            className: clsx('rbc-month-view', className),
+            role: 'table',
+            'aria-label': 'Month View',
           },
-          this.renderHeaders(weeks[0])
+          /*#__PURE__*/ React__default.createElement(
+            'div',
+            {
+              className: 'rbc-row rbc-month-header',
+              role: 'row',
+            },
+            this.renderHeaders(weeks[0])
+          ),
+          weeks.map(this.renderWeek),
+          this.props.popup && this.renderOverlay()
         ),
-        weeks.map(this.renderWeek),
-        this.props.popup && this.renderOverlay()
+        clickActiveDate.date &&
+          /*#__PURE__*/ React__default.createElement(
+            'div',
+            {
+              className: 'wap-render-list',
+            },
+            /*#__PURE__*/ React__default.createElement(
+              'div',
+              {
+                className: 'active-title',
+              },
+              clickActiveDate.date
+            ),
+            ((_clickActiveDate$list = clickActiveDate.list) == null
+              ? void 0
+              : _clickActiveDate$list.length) > 0
+              ? (_clickActiveDate$list2 = clickActiveDate.list) == null
+                ? void 0
+                : _clickActiveDate$list2.map(function(item, i) {
+                    return /*#__PURE__*/ React__default.createElement(
+                      'div',
+                      {
+                        className: 'active-li',
+                        key: i,
+                      },
+                      /*#__PURE__*/ React__default.createElement(
+                        'a',
+                        {
+                          href: item.url,
+                          title: item.title,
+                          target: '_blank',
+                          className: 'active-li-title',
+                        },
+                        item.title
+                      ),
+                      /*#__PURE__*/ React__default.createElement(
+                        'div',
+                        {
+                          className: 'active-text',
+                        },
+                        '\u62A5\u540D\u65F6\u95F4\uFF1A',
+                        item.start,
+                        ' \u81F3 ',
+                        item.end
+                      )
+                    )
+                  })
+              : /*#__PURE__*/ React__default.createElement(
+                  'div',
+                  {
+                    className: 'active-li-none',
+                  },
+                  '\u6682\u65E0\u6D3B\u52A8'
+                )
+          )
       )
     }
 
@@ -15599,11 +15747,19 @@
           className: 'rbc-toolbar',
         },
         /*#__PURE__*/ React__default.createElement(
-          'span',
+          'div',
           {
             className: 'rbc-toolbar-label',
           },
-          newLabel
+          newLabel,
+          ' ',
+          /*#__PURE__*/ React__default.createElement(
+            'span',
+            {
+              className: 'rbc-toolbar-label-tip',
+            },
+            messages[lang].hasActivity
+          )
         ),
         /*#__PURE__*/ React__default.createElement(
           'span',

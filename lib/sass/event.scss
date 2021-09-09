@@ -28,6 +28,9 @@
   border-radius: $event-border-radius;
   color: $event-color;
   cursor: pointer;
+  &:hover {
+    color: #e64545;
+  }
 }
 .rbc-event-content-train {
   color: #FF8040;

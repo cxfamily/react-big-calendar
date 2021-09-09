@@ -103,6 +103,9 @@
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
+        &:hover {
+          color: #e64545;
+        }
       }
       .more-text {
         font-size: 12px;
