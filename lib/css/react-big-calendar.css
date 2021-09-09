@@ -948,7 +948,7 @@ button.rbc-input::-moz-focus-inner {
   .rbc-calendar .rbc-toolbar button {
     font-size: 12px;
     height: 25px;
-    width: 54px;
+    width: 50px;
     border-radius: 2px;
   }
   .rbc-calendar .rbc-toolbar .arrow {
@@ -973,6 +973,25 @@ button.rbc-input::-moz-focus-inner {
     width: 3px;
     height: 3px;
     margin: 12px 0 0 -1.5px;
+  }
+  .wap-render-list {
+    padding: 15px;
+  }
+  .wap-render-list .active-title {
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+  .wap-render-list .active-li {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+  .wap-render-list .active-li .active-li-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  .wap-render-list .active-li .active-text {
+    font-size: 12px;
   }
 }
 

@@ -300,7 +300,7 @@
         button {
           font-size: 12px;
           height: 25px;
-          width: 54px;
+          width: 50px;
           border-radius: 2px;
         }
         .arrow {
@@ -327,6 +327,25 @@
           width: 3px;
           height: 3px;
           margin: 12px 0 0 -1.5px;
+        }
+      }
+    }
+    .wap-render-list {
+      padding: 15px;
+      .active-title {
+        font-size: 14px;
+        padding-bottom: 10px;
+      }
+      .active-li {
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        .active-li-title {
+          font-size: 14px;
+          margin-bottom: 5px;
+        }
+        .active-text {
+          font-size: 12px;
         }
       }
     }
