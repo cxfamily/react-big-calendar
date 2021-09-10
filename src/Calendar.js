@@ -593,6 +593,7 @@ class Calendar extends React.Component {
      * **Note: it's generally better to handle this globally via your i18n library.**
      */
     culture: PropTypes.string,
+    changeCalendar: PropTypes.func,
 
     /**
      * Localizer specific formats, tell the Calendar how to format and display dates.
@@ -1035,9 +1036,9 @@ class Calendar extends React.Component {
       date: newDate || date || today,
       today,
     })
-
     onNavigate(date, view, action)
     this.handleRangeChange(date, ViewComponent)
+    this.props.changeCalendar(date, action)
   }
 
   handleViewChange = view => {

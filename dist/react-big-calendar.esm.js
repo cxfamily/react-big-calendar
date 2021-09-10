@@ -4248,7 +4248,9 @@
         null != e &&
         !Ut(e)
       ) ||
-      mi.test(e) || !hi.test(e) || (null != t && e in Object(t))
+      mi.test(e) ||
+      !hi.test(e) ||
+      (null != t && e in Object(t))
     )
   }
   var yi = 'Expected a function'
@@ -8026,12 +8028,11 @@
             u = s(r, nu),
             f = t.getView(),
             d = c()
-          l(
-            (a = wc(f, i({}, u, { action: e, date: n || a || d, today: d }))),
-            o,
-            e
-          ),
-            t.handleRangeChange(a, f)
+          ;(a = wc(f, i({}, u, { action: e, date: n || a || d, today: d }))),
+            console.log('111', a, o, e),
+            l(a, o, e),
+            t.handleRangeChange(a, f),
+            t.props.changeCalendar(a, e)
         }),
         (t.handleViewChange = function(e) {
           e !== t.props.view &&

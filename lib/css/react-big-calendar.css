@@ -993,6 +993,9 @@ button.rbc-input::-moz-focus-inner {
   .wap-render-list .active-li .active-text {
     font-size: 12px;
   }
+  .wap-render-list .active-li-none {
+    font-size: 14px;
+  }
 }
 
 @media screen and (max-width: 460px) {
