@@ -114,6 +114,24 @@ button.rbc-input::-moz-focus-inner {
   display: none;
 }
 
+.rbc-month-view-loading {
+  position: relative;
+}
+.rbc-month-view-loading:before {
+  content: 'Loading';
+  display: block;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  text-align: center;
+  padding-top: 20px;
+}
+
 .rbc-toolbar {
   display: flex;
   flex-wrap: wrap;

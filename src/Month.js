@@ -92,7 +92,6 @@ class MonthView extends React.Component {
     //   }),
     //   false
     // )
-
     this.updateData()
   }
 
@@ -100,6 +99,12 @@ class MonthView extends React.Component {
     if (this.state.needLimitMeasure) {
       this.measureRowLimit(this.props)
       this.updateData()
+      this.setState({
+        clickActiveDate: {
+          list: [],
+          date: null,
+        },
+      })
     }
   }
 
@@ -113,7 +118,7 @@ class MonthView extends React.Component {
 
   render() {
     let { clickActiveDate } = this.state
-    let { date, localizer, className } = this.props,
+    let { date, localizer, className, loading } = this.props,
       month = dates.visibleDays(date, localizer),
       weeks = chunk(month, 7)
 
@@ -122,7 +127,11 @@ class MonthView extends React.Component {
     return (
       <>
         <div
-          className={clsx('rbc-month-view', className)}
+          className={clsx(
+            'rbc-month-view',
+            className,
+            loading && 'rbc-month-view-loading'
+          )}
           role="table"
           aria-label="Month View"
         >
@@ -550,6 +559,7 @@ MonthView.propTypes = {
   onDrillDown: PropTypes.func,
   getDrilldownView: PropTypes.func.isRequired,
 
+  loading: PropTypes.bool,
   popup: PropTypes.bool,
   handleDragStart: PropTypes.func,
   label: PropTypes.string,

@@ -11981,6 +11981,12 @@
       if (this.state.needLimitMeasure) {
         this.measureRowLimit(this.props)
         this.updateData()
+        this.setState({
+          clickActiveDate: {
+            list: [],
+            date: null,
+          },
+        })
       }
     } // componentWillUnmount() {
     //   window.removeEventListener('resize', this._resizeListener, false)
@@ -11994,6 +12000,7 @@
         date = _this$props5.date,
         localizer = _this$props5.localizer,
         className = _this$props5.className,
+        loading = _this$props5.loading,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -12003,7 +12010,11 @@
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: clsx('rbc-month-view', className),
+            className: clsx(
+              'rbc-month-view',
+              className,
+              loading && 'rbc-month-view-loading'
+            ),
             role: 'table',
             'aria-label': 'Month View',
           },
@@ -17113,7 +17124,6 @@
             today: today,
           })
         )
-        console.log('111', date, view, action)
         onNavigate(date, view, action)
 
         _this.handleRangeChange(date, ViewComponent)
@@ -17949,6 +17959,7 @@
      * **Note: it's generally better to handle this globally via your i18n library.**
      */
     culture: propTypes.string,
+    changeCalendar: propTypes.func,
 
     /**
      * Localizer specific formats, tell the Calendar how to format and display dates.
