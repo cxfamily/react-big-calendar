@@ -25,7 +25,7 @@ import transform from 'lodash/transform'
 import mapValues from 'lodash/mapValues'
 import { wrapAccessor } from './utils/accessors'
 
-import reactStyle from '../lib/sass/styles.scss'
+import '../lib/sass/styles.scss'
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -961,12 +961,7 @@ class Calendar extends React.Component {
     return (
       <div
         {...elementProps}
-        className={clsx(
-          className,
-          reactStyle['rbc-calendar'],
-          'rbc-calendar',
-          props.rtl && 'rbc-rtl'
-        )}
+        className={clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl')}
         style={style}
       >
         {toolbar && (
