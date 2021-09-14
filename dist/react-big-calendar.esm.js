@@ -4635,7 +4635,8 @@
                             n.campaignTimeType,
                             '：',
                             n.campaignStartTime,
-                            ' 至 ',
+                            ' 至',
+                            ' ',
                             n.campaignEndTime
                           )
                         )
@@ -4931,7 +4932,7 @@
             h &&
               r.createElement(
                 'div',
-                { className: 'rbc-row 123', ref: this.createHeadingRef },
+                { className: 'rbc-row', ref: this.createHeadingRef },
                 o.map(this.renderHeadingCell)
               ),
             r.createElement(
