@@ -11005,7 +11005,8 @@
                         newItem.campaignTimeType,
                         '\uFF1A',
                         newItem.campaignStartTime,
-                        ' \u81F3 ',
+                        ' \u81F3',
+                        ' ',
                         newItem.campaignEndTime
                       )
                     )
@@ -11405,7 +11406,7 @@
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className: 'rbc-row 123',
+                className: 'rbc-row',
                 ref: this.createHeadingRef,
               },
               range.map(this.renderHeadingCell)
