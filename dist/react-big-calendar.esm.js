@@ -4632,10 +4632,11 @@
                               className: 'more-text',
                               'data-id': 'ref' + h + m,
                             },
-                            '报名时间：',
-                            n.start,
+                            n.campaignTimeType,
+                            '：',
+                            n.campaignStartTime,
                             ' 至 ',
-                            n.end
+                            n.campaignEndTime
                           )
                         )
                       })
@@ -5185,7 +5186,7 @@
             var i =
               e.getFullYear() +
               '年' +
-              e.getMonth() +
+              (e.getMonth() + 1) +
               '月' +
               e.getDate() +
               '日活动'

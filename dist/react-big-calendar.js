@@ -3047,9 +3047,7 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 &&
-      value % 1 == 0 &&
-      value < length
+      value > -1 && value % 1 == 0 && value < length
     )
   }
 
@@ -6365,12 +6363,14 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
+
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
+
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -9686,8 +9686,7 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object &&
-        'constructor' in other &&
+        'constructor' in object && 'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -11003,10 +11002,11 @@
                           className: 'more-text',
                           'data-id': 'ref' + currentMonth + currentDate,
                         },
-                        '\u62A5\u540D\u65F6\u95F4\uFF1A',
-                        newItem.start,
+                        newItem.campaignTimeType,
+                        '\uFF1A',
+                        newItem.campaignStartTime,
                         ' \u81F3 ',
-                        newItem.end
+                        newItem.campaignEndTime
                       )
                     )
                   })
@@ -11793,7 +11793,7 @@
         var newDate =
           date.getFullYear() +
           '\u5E74' +
-          date.getMonth() +
+          (date.getMonth() + 1) +
           '\u6708' +
           date.getDate() +
           '\u65E5\u6D3B\u52A8'
@@ -12244,6 +12244,7 @@
     doShowMoreDrillDown: propTypes.bool,
     onDrillDown: propTypes.func,
     getDrilldownView: propTypes.func.isRequired,
+    loading: propTypes.bool,
     popup: propTypes.bool,
     handleDragStart: propTypes.func,
     label: propTypes.string,

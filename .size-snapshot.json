@@ -1,8 +1,8 @@
 {
   "./dist/react-big-calendar.js": {
-    "bundled": 515878,
-    "minified": 160070,
-    "gzipped": 50462
+    "bundled": 515939,
+    "minified": 160128,
+    "gzipped": 50488
   },
   "./dist/react-big-calendar.min.js": {
     "bundled": 430017,
@@ -24,8 +24,8 @@
     }
   },
   "./dist/react-big-calendar.esm.js": {
-    "bundled": 446494,
-    "minified": 138612,
-    "gzipped": 44835
+    "bundled": 446526,
+    "minified": 138655,
+    "gzipped": 44856
   }
 }

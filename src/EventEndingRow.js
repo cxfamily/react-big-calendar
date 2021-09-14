@@ -148,7 +148,8 @@ class EventEndingRow extends React.Component {
                       className="more-text"
                       data-id={`ref${currentMonth}${currentDate}`}
                     >
-                      报名时间：{newItem.start} 至 {newItem.end}
+                      {newItem.campaignTimeType}：{newItem.campaignStartTime} 至{' '}
+                      {newItem.campaignEndTime}
                     </div>
                   </div>
                 )

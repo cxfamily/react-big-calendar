@@ -442,7 +442,8 @@ class MonthView extends React.Component {
       }
       return el
     })
-    let newDate = `${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日活动`
+    let newDate = `${date.getFullYear()}年${date.getMonth() +
+      1}月${date.getDate()}日活动`
     this.setState({
       clickActiveEle: newClickActiveEle,
       clickActiveDate: { list: currectData, date: newDate },
