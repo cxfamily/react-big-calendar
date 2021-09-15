@@ -134,6 +134,7 @@ class MonthView extends React.Component {
           )}
           role="table"
           aria-label="Month View"
+          data-class="rbc-month-view"
         >
           <div
             className={clsx(
@@ -141,6 +142,7 @@ class MonthView extends React.Component {
               reactStyle['rbc-month-header']
             )}
             role="row"
+            data-class="rbc-row"
           >
             {this.renderHeaders(weeks[0])}
           </div>
@@ -149,23 +151,34 @@ class MonthView extends React.Component {
         </div>
 
         {clickActiveDate.date && (
-          <div className={reactStyle['wap-render-list']}>
+          <div
+            className={reactStyle['wap-render-list']}
+            data-class="wap-render-list"
+          >
             <div className={reactStyle['active-title']}>
               {clickActiveDate.date}
             </div>
             {clickActiveDate.list?.length > 0 ? (
               clickActiveDate.list?.map((item, i) => {
                 return (
-                  <div className={reactStyle['active-li']} key={i}>
+                  <div
+                    className={reactStyle['active-li']}
+                    key={i}
+                    data-class="active-li"
+                  >
                     <a
                       href={item.url}
                       title={item.title}
                       target="_blank"
                       className={reactStyle['active-li-title']}
+                      data-class="active-li-title"
                     >
                       {item.title}
                     </a>
-                    <div className={reactStyle['active-text']}>
+                    <div
+                      className={reactStyle['active-text']}
+                      data-class="active-text"
+                    >
                       {item.campaignTimeType}：{item.campaignStartTime} 至{' '}
                       {item.campaignEndTime}
                     </div>
@@ -173,7 +186,12 @@ class MonthView extends React.Component {
                 )
               })
             ) : (
-              <div className={reactStyle['active-li-none']}>暂无活动</div>
+              <div
+                className={reactStyle['active-li-none']}
+                data-class="active-li-none"
+              >
+                暂无活动
+              </div>
             )}
           </div>
         )}
@@ -384,7 +402,11 @@ class MonthView extends React.Component {
     lang = lang ? lang : 'en'
     var label = localizer.messages[lang].weeks
     return dates.range(first, last, 'day').map((day, idx) => (
-      <div key={'header_' + idx} className={reactStyle['rbc-header']}>
+      <div
+        key={'header_' + idx}
+        className={reactStyle['rbc-header']}
+        data-class="rbc-header"
+      >
         <HeaderComponent
           date={day}
           localizer={localizer}

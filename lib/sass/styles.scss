@@ -12,6 +12,9 @@
   align-items: stretch;
   color: #222;
   font-size: 12px;
+  min-height: 978px;
+  background: #fff;
+  padding:30px;
 }
 
 .rbc-calendar *,
@@ -301,8 +304,16 @@
   }
 }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 767px) {
     .rbc-calendar {
+      min-height: 300px;
+      padding: 30px 0 0;
+    }
+  }
+  @media screen and (max-width: 600px) {
+
+    .rbc-calendar {
+      padding: 15px 0 0;
       .rbc-toolbar {
         padding: 0 15px;
         .rbc-toolbar-label {

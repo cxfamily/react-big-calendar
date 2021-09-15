@@ -4264,9 +4264,7 @@
         null != e &&
         !Ut(e)
       ) ||
-      mi.test(e) ||
-      !hi.test(e) ||
-      (null != t && e in Object(t))
+      mi.test(e) || !hi.test(e) || (null != t && e in Object(t))
     )
   }
   var yi = 'Expected a function'
@@ -4590,7 +4588,11 @@
             v &&
             r.createElement(
               'div',
-              { className: p['rbc-event-wrap'], 'data-id': 'ref' + m + g },
+              {
+                className: p['rbc-event-wrap'],
+                'data-id': 'ref' + m + g,
+                'data-class': 'rbc-event-wrap',
+              },
               r.createElement(
                 'div',
                 {
@@ -4600,6 +4602,7 @@
                     return s.showMore(t, e, y)
                   },
                   'data-id': 'ref' + m + g,
+                  'data-class': 'rbc-event-content',
                 },
                 l.messages[u].showMore(v)
               ),
@@ -4615,10 +4618,15 @@
                         p['rbc-event-more-bottom']
                     ),
                     'data-id': 'ref' + m + g,
+                    'data-class': 'rbc-event-more',
                   },
                   r.createElement(
                     'div',
-                    { className: p['more-title'], 'data-id': 'ref' + m + g },
+                    {
+                      className: p['more-title'],
+                      'data-id': 'ref' + m + g,
+                      'data-class': 'more-title',
+                    },
                     m,
                     '月',
                     g,
@@ -4634,6 +4642,7 @@
                             className: p['more-li'],
                             key: t,
                             'data-id': 'ref' + m + g,
+                            'data-class': 'more-li',
                           },
                           r.createElement(
                             'a',
@@ -4651,6 +4660,7 @@
                             {
                               className: p['more-text'],
                               'data-id': 'ref' + m + g,
+                              'data-class': 'more-text',
                             },
                             n.campaignTimeType,
                             '：',
@@ -4779,11 +4789,16 @@
                   s['rbc-row-content'],
                   i && s['rbc-row-content-scrollable']
                 ),
+                'data-class': 'rbc-row-content',
               },
               a &&
                 r.createElement(
                   'div',
-                  { className: s['rbc-row'], ref: t.createHeadingRef },
+                  {
+                    className: s['rbc-row'],
+                    ref: t.createHeadingRef,
+                    'data-class': 'rbc-row',
+                  },
                   o.map(t.renderHeadingCell)
                 ),
               r.createElement(
@@ -5348,12 +5363,14 @@
                   ),
                   role: 'table',
                   'aria-label': 'Month View',
+                  'data-class': 'rbc-month-view',
                 },
                 r.createElement(
                   'div',
                   {
                     className: G(l['rbc-row'], l['rbc-month-header']),
                     role: 'row',
+                    'data-class': 'rbc-row',
                   },
                   this.renderHeaders(u[0])
                 ),
@@ -5363,7 +5380,10 @@
               n.date &&
                 r.createElement(
                   'div',
-                  { className: l['wap-render-list'] },
+                  {
+                    className: l['wap-render-list'],
+                    'data-class': 'wap-render-list',
+                  },
                   r.createElement(
                     'div',
                     { className: l['active-title'] },
@@ -5375,7 +5395,11 @@
                       : t.map(function(e, t) {
                           return r.createElement(
                             'div',
-                            { className: l['active-li'], key: t },
+                            {
+                              className: l['active-li'],
+                              key: t,
+                              'data-class': 'active-li',
+                            },
                             r.createElement(
                               'a',
                               {
@@ -5383,23 +5407,31 @@
                                 title: e.title,
                                 target: '_blank',
                                 className: l['active-li-title'],
+                                'data-class': 'active-li-title',
                               },
                               e.title
                             ),
                             r.createElement(
                               'div',
-                              { className: l['active-text'] },
+                              {
+                                className: l['active-text'],
+                                'data-class': 'active-text',
+                              },
                               e.campaignTimeType,
                               '：',
                               e.campaignStartTime,
-                              ' 至 ',
+                              ' 至',
+                              ' ',
                               e.campaignEndTime
                             )
                           )
                         })
                     : r.createElement(
                         'div',
-                        { className: l['active-li-none'] },
+                        {
+                          className: l['active-li-none'],
+                          'data-class': 'active-li-none',
+                        },
                         '暂无活动'
                       )
                 )
@@ -5429,7 +5461,11 @@
           return bt(s, c, 'day').map(function(e, t) {
             return r.createElement(
               'div',
-              { key: 'header_' + t, className: i['rbc-header'] },
+              {
+                key: 'header_' + t,
+                className: i['rbc-header'],
+                'data-class': 'rbc-header',
+              },
               r.createElement(l, { date: e, localizer: n, label: u[t] })
             )
           })
@@ -7612,10 +7648,13 @@
           l = 'en' === o ? n : i[0] + '年' + c
         return r.createElement(
           'div',
-          { className: a['rbc-toolbar'] },
+          { className: a['rbc-toolbar'], 'data-class': 'rbc-toolbar' },
           r.createElement(
             'div',
-            { className: a['rbc-toolbar-label'] },
+            {
+              className: a['rbc-toolbar-label'],
+              'data-class': 'rbc-toolbar-label',
+            },
             l,
             ' ',
             r.createElement(
@@ -7626,7 +7665,7 @@
           ),
           r.createElement(
             'span',
-            { className: a['rbc-btn-group'] },
+            { className: a['rbc-btn-group'], 'data-class': 'rbc-btn-group' },
             r.createElement('button', {
               type: 'button',
               onClick: this.navigate.bind(null, Z.PREVIOUS),
@@ -8248,6 +8287,7 @@
           i({}, f, {
             className: G(u, b['rbc-calendar'], w.rtl && b['rbc-rtl']),
             style: l,
+            'data-class': 'rbc-calendar',
           }),
           n &&
             r.createElement(k, {

@@ -90,9 +90,14 @@ class DateContentRow extends React.Component {
             reactStyle['rbc-row-content'],
             showAllEvents && reactStyle['rbc-row-content-scrollable']
           )}
+          data-class="rbc-row-content"
         >
           {renderHeader && (
-            <div className={reactStyle['rbc-row']} ref={this.createHeadingRef}>
+            <div
+              className={reactStyle['rbc-row']}
+              ref={this.createHeadingRef}
+              data-class="rbc-row"
+            >
               {range.map(this.renderHeadingCell)}
             </div>
           )}

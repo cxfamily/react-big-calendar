@@ -55,36 +55,36 @@ class Example extends React.Component {
     let Current = Basic
 
     return (
-      <div className={styleDemo['app']}>
-        <div className={styleDemo['jumbotron']}>
-          <div className={styleDemo['container']}>
+      <div className={styleDemo.app}>
+        <div className={styleDemo.jumbotron}>
+          <div className={styleDemo.container}>
             <h1>
               Big Calendar{' '}
-              <i className={clsx(styleDemo['fa'], styleDemo['fa-calendar'])} />
+              <i className={clsx(styleDemo.fa, styleDemo['fa-calendar'])} />
             </h1>
             <p>such enterprise, very business.</p>
             <p>
               <a href="#intro">
-                <i className={clsx(styleDemo['fa'], styleDemo['fa-play'])} />{' '}
+                <i className={clsx(styleDemo.fa, styleDemo['fa-play'])} />{' '}
                 Getting started
               </a>
               {' | '}
               <a href="#api">
-                <i className={clsx(styleDemo['fa'], styleDemo['fa-book'])} />{' '}
-                API documentation
+                <i className={clsx(styleDemo.fa, styleDemo['fa-book'])} /> API
+                documentation
               </a>
               {' | '}
               <a
                 target="_blank"
                 href="https://github.com/intljusticemission/react-big-calendar"
               >
-                <i className={clsx(styleDemo['fa'], styleDemo['fa-github'])} />{' '}
+                <i className={clsx(styleDemo.fa, styleDemo['fa-github'])} />{' '}
                 github
               </a>
             </p>
           </div>
         </div>
-        <div className={styleDemo['examples']}>
+        <div className={styleDemo.examples}>
           <Card className={styleDemo['examples--header']}>
             <Layout
               align="center"
@@ -94,15 +94,13 @@ class Example extends React.Component {
               <div className={styleDemo['examples--view-source']}>
                 <a target="_blank" href={demoRoot + '/' + selected + '.js'}>
                   <strong>
-                    <i
-                      className={clsx(styleDemo['fa'], styleDemo['fa-code'])}
-                    />
+                    <i className={clsx(styleDemo.fa, styleDemo['fa-code'])} />
                     {' View example source code'}
                   </strong>
                 </a>
               </div>
               <div
-                className={styleDemo['changeLang']}
+                className={styleDemo.changeLang}
                 onClick={() => {
                   this.langChange()
                 }}
@@ -114,7 +112,7 @@ class Example extends React.Component {
             </Layout>
             <ExampleControlSlot.Outlet />
           </Card>
-          <div className={styleDemo['example']}>
+          <div className={styleDemo.example}>
             <Current
               localizer={globalizeLocalizer}
               lang={this.state.lang}
@@ -122,11 +120,11 @@ class Example extends React.Component {
             />
           </div>
         </div>
-        <div className={styleDemo['docs']}>
-          <div className={clsx(styleDemo['contain'], styleDemo['section'])}>
+        <div className={styleDemo.docs}>
+          <div className={clsx(styleDemo.contain, styleDemo.section)}>
             <Intro />
           </div>
-          <Api className={clsx(styleDemo['contain'], styleDemo['section'])} />
+          <Api className={clsx(styleDemo.contain, styleDemo.section)} />
         </div>
       </div>
     )

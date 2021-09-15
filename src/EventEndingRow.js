@@ -106,6 +106,7 @@ class EventEndingRow extends React.Component {
         <div
           className={reactStyle['rbc-event-wrap']}
           data-id={`ref${currentMonth}${currentDate}`}
+          data-class="rbc-event-wrap"
         >
           <div
             key={'sm_' + slot}
@@ -115,6 +116,7 @@ class EventEndingRow extends React.Component {
             )}
             onClick={e => this.showMore(slot, e, index)}
             data-id={`ref${currentMonth}${currentDate}`}
+            data-class="rbc-event-content"
           >
             {localizer.messages[lang].showMore(count)}
           </div>
@@ -126,10 +128,12 @@ class EventEndingRow extends React.Component {
                 newIsMoreShow[0]?.bottom && reactStyle['rbc-event-more-bottom']
               )}
               data-id={`ref${currentMonth}${currentDate}`}
+              data-class="rbc-event-more"
             >
               <div
                 className={reactStyle['more-title']}
                 data-id={`ref${currentMonth}${currentDate}`}
+                data-class="more-title"
               >
                 {currentMonth}月{currentDate}日活动
               </div>
@@ -140,6 +144,7 @@ class EventEndingRow extends React.Component {
                     className={reactStyle['more-li']}
                     key={i}
                     data-id={`ref${currentMonth}${currentDate}`}
+                    data-class="more-li"
                   >
                     <a
                       href={newItem.url}
@@ -153,6 +158,7 @@ class EventEndingRow extends React.Component {
                     <div
                       className={reactStyle['more-text']}
                       data-id={`ref${currentMonth}${currentDate}`}
+                      data-class="more-text"
                     >
                       {newItem.campaignTimeType}：{newItem.campaignStartTime} 至{' '}
                       {newItem.campaignEndTime}

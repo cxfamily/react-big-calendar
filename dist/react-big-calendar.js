@@ -3047,9 +3047,7 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 &&
-      value % 1 == 0 &&
-      value < length
+      value > -1 && value % 1 == 0 && value < length
     )
   }
 
@@ -6410,12 +6408,14 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
+
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
+
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -9739,8 +9739,7 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object &&
-        'constructor' in other &&
+        'constructor' in object && 'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -10990,6 +10989,7 @@
           {
             className: reactStyle['rbc-event-wrap'],
             'data-id': 'ref' + currentMonth + currentDate,
+            'data-class': 'rbc-event-wrap',
           },
           /*#__PURE__*/ React__default.createElement(
             'div',
@@ -11003,6 +11003,7 @@
                 return _this.showMore(slot, e, index)
               },
               'data-id': 'ref' + currentMonth + currentDate,
+              'data-class': 'rbc-event-content',
             },
             localizer.messages[lang].showMore(count)
           ),
@@ -11024,12 +11025,14 @@
                     reactStyle['rbc-event-more-bottom']
                 ),
                 'data-id': 'ref' + currentMonth + currentDate,
+                'data-class': 'rbc-event-more',
               },
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
                   className: reactStyle['more-title'],
                   'data-id': 'ref' + currentMonth + currentDate,
+                  'data-class': 'more-title',
                 },
                 currentMonth,
                 '\u6708',
@@ -11046,6 +11049,7 @@
                         className: reactStyle['more-li'],
                         key: i,
                         'data-id': 'ref' + currentMonth + currentDate,
+                        'data-class': 'more-li',
                       },
                       /*#__PURE__*/ React__default.createElement(
                         'a',
@@ -11063,6 +11067,7 @@
                         {
                           className: reactStyle['more-text'],
                           'data-id': 'ref' + currentMonth + currentDate,
+                          'data-class': 'more-text',
                         },
                         newItem.campaignTimeType,
                         '\uFF1A',
@@ -11337,6 +11342,7 @@
                 reactStyle['rbc-row-content'],
                 showAllEvents && reactStyle['rbc-row-content-scrollable']
               ),
+              'data-class': 'rbc-row-content',
             },
             renderHeader &&
               /*#__PURE__*/ React__default.createElement(
@@ -11344,6 +11350,7 @@
                 {
                   className: reactStyle['rbc-row'],
                   ref: _this.createHeadingRef,
+                  'data-class': 'rbc-row',
                 },
                 range.map(_this.renderHeadingCell)
               ),
@@ -12102,6 +12109,7 @@
             ),
             role: 'table',
             'aria-label': 'Month View',
+            'data-class': 'rbc-month-view',
           },
           /*#__PURE__*/ React__default.createElement(
             'div',
@@ -12111,6 +12119,7 @@
                 reactStyle['rbc-month-header']
               ),
               role: 'row',
+              'data-class': 'rbc-row',
             },
             this.renderHeaders(weeks[0])
           ),
@@ -12122,6 +12131,7 @@
             'div',
             {
               className: reactStyle['wap-render-list'],
+              'data-class': 'wap-render-list',
             },
             /*#__PURE__*/ React__default.createElement(
               'div',
@@ -12141,6 +12151,7 @@
                       {
                         className: reactStyle['active-li'],
                         key: i,
+                        'data-class': 'active-li',
                       },
                       /*#__PURE__*/ React__default.createElement(
                         'a',
@@ -12149,6 +12160,7 @@
                           title: item.title,
                           target: '_blank',
                           className: reactStyle['active-li-title'],
+                          'data-class': 'active-li-title',
                         },
                         item.title
                       ),
@@ -12156,11 +12168,13 @@
                         'div',
                         {
                           className: reactStyle['active-text'],
+                          'data-class': 'active-text',
                         },
                         item.campaignTimeType,
                         '\uFF1A',
                         item.campaignStartTime,
-                        ' \u81F3 ',
+                        ' \u81F3',
+                        ' ',
                         item.campaignEndTime
                       )
                     )
@@ -12169,6 +12183,7 @@
                   'div',
                   {
                     className: reactStyle['active-li-none'],
+                    'data-class': 'active-li-none',
                   },
                   '\u6682\u65E0\u6D3B\u52A8'
                 )
@@ -12208,6 +12223,7 @@
           {
             key: 'header_' + idx,
             className: reactStyle['rbc-header'],
+            'data-class': 'rbc-header',
           },
           /*#__PURE__*/ React__default.createElement(HeaderComponent, {
             date: day,
@@ -15854,11 +15870,13 @@
         'div',
         {
           className: reactStyle['rbc-toolbar'],
+          'data-class': 'rbc-toolbar',
         },
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
             className: reactStyle['rbc-toolbar-label'],
+            'data-class': 'rbc-toolbar-label',
           },
           newLabel,
           ' ',
@@ -15874,11 +15892,12 @@
           'span',
           {
             className: reactStyle['rbc-btn-group'],
+            'data-class': 'rbc-btn-group',
           },
           /*#__PURE__*/ React__default.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
-            className: clsx(reactStyle['arrow'], reactStyle['arrow-left']),
+            className: clsx(reactStyle.arrow, reactStyle['arrow-left']),
           }),
           /*#__PURE__*/ React__default.createElement(
             'button',
@@ -15891,7 +15910,7 @@
           /*#__PURE__*/ React__default.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.NEXT),
-            className: clsx(reactStyle['arrow'], reactStyle['arrow-right']),
+            className: clsx(reactStyle.arrow, reactStyle['arrow-right']),
           })
         )
       )
@@ -17442,6 +17461,7 @@
             props.rtl && reactStyle['rbc-rtl']
           ),
           style: style,
+          'data-class': 'rbc-calendar',
         }),
         toolbar &&
           /*#__PURE__*/ React__default.createElement(CalToolbar, {

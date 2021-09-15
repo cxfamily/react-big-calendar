@@ -967,6 +967,7 @@ class Calendar extends React.Component {
           props.rtl && reactStyle['rbc-rtl']
         )}
         style={style}
+        data-class="rbc-calendar"
       >
         {toolbar && (
           <CalToolbar
