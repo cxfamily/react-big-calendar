@@ -18,7 +18,9 @@ class EventEndingRow extends React.Component {
     let {
       segments,
       slotMetrics: { slots },
+      reactStyle,
     } = this.props
+
     let rowSegments = eventLevels(segments).levels[0]
 
     let current = 1,
@@ -57,14 +59,15 @@ class EventEndingRow extends React.Component {
             slots,
             1,
             key,
-            this.renderShowMore(segments, current)
+            this.renderShowMore(segments, current),
+            reactStyle
           )
         )
         lastEnd = current = current + 1
       }
     }
 
-    return <div className="rbc-row">{row}</div>
+    return <div className={reactStyle['rbc-row']}>{row}</div>
   }
 
   canRenderSlotEvent(slot, span) {
@@ -78,7 +81,7 @@ class EventEndingRow extends React.Component {
   }
 
   renderShowMore(segments, slot) {
-    let { localizer, lang, range, newWeeks } = this.props
+    let { localizer, lang, range, newWeeks, reactStyle } = this.props
     let count = eventsInSlot(segments, slot)
     let newDate = range[slot - 1]
     let currentMonth = newDate.getMonth() + 1
@@ -101,12 +104,15 @@ class EventEndingRow extends React.Component {
     return (
       count && (
         <div
-          className="rbc-event-wrap"
+          className={reactStyle['rbc-event-wrap']}
           data-id={`ref${currentMonth}${currentDate}`}
         >
           <div
             key={'sm_' + slot}
-            className="rbc-event-content rbc-show-more"
+            className={clsx(
+              reactStyle['rbc-event-content'],
+              reactStyle['rbc-show-more']
+            )}
             onClick={e => this.showMore(slot, e, index)}
             data-id={`ref${currentMonth}${currentDate}`}
           >
@@ -115,14 +121,14 @@ class EventEndingRow extends React.Component {
           {newIsMoreShow[0]?.isMore && (
             <div
               className={clsx(
-                'rbc-event-more',
-                newIsMoreShow[0]?.right && 'rbc-event-more-right',
-                newIsMoreShow[0]?.bottom && 'rbc-event-more-bottom'
+                reactStyle['rbc-event-more'],
+                newIsMoreShow[0]?.right && reactStyle['rbc-event-more-right'],
+                newIsMoreShow[0]?.bottom && reactStyle['rbc-event-more-bottom']
               )}
               data-id={`ref${currentMonth}${currentDate}`}
             >
               <div
-                className="more-title"
+                className={reactStyle['more-title']}
                 data-id={`ref${currentMonth}${currentDate}`}
               >
                 {currentMonth}月{currentDate}日活动
@@ -131,7 +137,7 @@ class EventEndingRow extends React.Component {
                 let newItem = item.event
                 return (
                   <div
-                    className="more-li"
+                    className={reactStyle['more-li']}
                     key={i}
                     data-id={`ref${currentMonth}${currentDate}`}
                   >
@@ -139,13 +145,13 @@ class EventEndingRow extends React.Component {
                       href={newItem.url}
                       title={newItem.title}
                       target="_blank"
-                      className="more-li-title"
+                      className={reactStyle['more-li-title']}
                       data-id={`ref${currentMonth}${currentDate}`}
                     >
                       {newItem.title}
                     </a>
                     <div
-                      className="more-text"
+                      className={reactStyle['more-text']}
                       data-id={`ref${currentMonth}${currentDate}`}
                     >
                       {newItem.campaignTimeType}：{newItem.campaignStartTime} 至{' '}
@@ -178,6 +184,7 @@ EventEndingRow.propTypes = {
   clickMore: PropTypes.func,
   lang: PropTypes.string,
   newWeeks: PropTypes.array,
+  reactStyle: PropTypes.object,
   ...EventRowMixin.propTypes,
 }
 

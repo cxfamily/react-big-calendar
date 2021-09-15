@@ -64,36 +64,42 @@ class DateContentRow extends React.Component {
   }
 
   renderHeadingCell = (date, index) => {
-    let { renderHeader, getNow } = this.props
+    let { renderHeader, getNow, reactStyle } = this.props
     return renderHeader({
       date,
       key: `header_${index}`,
       className: clsx(
-        'rbc-date-cell',
-        dates.eq(date, getNow(), 'day') && 'rbc-now'
+        reactStyle['rbc-date-cell'],
+        dates.eq(date, getNow(), 'day') && reactStyle['rbc-now']
       ),
     })
   }
 
   renderDummy = () => {
-    let { className, range, renderHeader, showAllEvents } = this.props
+    let {
+      className,
+      range,
+      renderHeader,
+      showAllEvents,
+      reactStyle,
+    } = this.props
     return (
       <div className={className}>
         <div
           className={clsx(
-            'rbc-row-content',
-            showAllEvents && 'rbc-row-content-scrollable'
+            reactStyle['rbc-row-content'],
+            showAllEvents && reactStyle['rbc-row-content-scrollable']
           )}
         >
           {renderHeader && (
-            <div className="rbc-row" ref={this.createHeadingRef}>
+            <div className={reactStyle['rbc-row']} ref={this.createHeadingRef}>
               {range.map(this.renderHeadingCell)}
             </div>
           )}
-          <div className="rbc-row" ref={this.createEventRef}>
-            <div className="rbc-row-segment">
-              <div className="rbc-event">
-                <div className="rbc-event-content">&nbsp;</div>
+          <div className={reactStyle['rbc-row']} ref={this.createEventRef}>
+            <div className={reactStyle['rbc-row-segment']}>
+              <div className={reactStyle['rbc-event']}>
+                <div className={reactStyle['rbc-event-content']}>&nbsp;</div>
               </div>
             </div>
           </div>
@@ -132,6 +138,7 @@ class DateContentRow extends React.Component {
       lang,
       newWeeks,
       clickMore,
+      reactStyle,
     } = this.props
 
     if (renderForMeasure) return this.renderDummy()
@@ -156,6 +163,7 @@ class DateContentRow extends React.Component {
       resourceId,
       slotMetrics: metrics,
       resizable,
+      reactStyle,
     }
     return (
       <div className={className} role="rowgroup">
@@ -173,24 +181,30 @@ class DateContentRow extends React.Component {
           components={components}
           longPressThreshold={longPressThreshold}
           resourceId={resourceId}
+          reactStyle={reactStyle}
         />
 
         <div
           className={clsx(
-            'rbc-row-content',
-            showAllEvents && 'rbc-row-content-scrollable'
+            reactStyle['rbc-row-content'],
+            showAllEvents && reactStyle['rbc-row-content-scrollable']
           )}
           role="row"
         >
           {renderHeader && (
-            <div className="rbc-row" ref={this.createHeadingRef}>
+            <div className={reactStyle['rbc-row']} ref={this.createHeadingRef}>
               {range.map(this.renderHeadingCell)}
             </div>
           )}
           <ScrollableWeekComponent>
             <WeekWrapper isAllDay={isAllDay} {...eventRowProps}>
               {levels.map((segs, idx) => (
-                <EventRow key={idx} segments={segs} {...eventRowProps} />
+                <EventRow
+                  key={idx}
+                  segments={segs}
+                  {...eventRowProps}
+                  reactStyle={reactStyle}
+                />
               ))}
               {!!extra.length && (
                 <EventEndingRow
@@ -201,6 +215,7 @@ class DateContentRow extends React.Component {
                   onShowMore={this.handleShowMore}
                   clickMore={clickMore}
                   newMoreShow={newWeeks}
+                  reactStyle={reactStyle}
                   {...eventRowProps}
                 />
               )}
@@ -252,6 +267,7 @@ DateContentRow.propTypes = {
 
   newWeeks: PropTypes.array,
   clickMore: PropTypes.func,
+  reactStyle: PropTypes.object,
 }
 
 DateContentRow.defaultProps = {

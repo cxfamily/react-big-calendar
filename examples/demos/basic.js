@@ -39,7 +39,7 @@ export default class Basic extends React.Component {
   }
 
   render() {
-    let { localizer, lang } = this.props
+    let { localizer, lang, reactStyle } = this.props
     return (
       <Calendar
         events={this.state.events}
@@ -53,6 +53,7 @@ export default class Basic extends React.Component {
         // }}
         localizer={localizer}
         lang={lang}
+        reactStyle={reactStyle}
         changeCalendar={(date, action) => this.changeCalendar(date, action)}
       />
     )

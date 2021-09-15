@@ -60,14 +60,14 @@
     w = f ? Symbol.for('react.concurrent_mode') : 60111,
     E = f ? Symbol.for('react.forward_ref') : 60112,
     _ = f ? Symbol.for('react.suspense') : 60113,
-    D = f ? Symbol.for('react.suspense_list') : 60120,
-    S = f ? Symbol.for('react.memo') : 60115,
+    S = f ? Symbol.for('react.suspense_list') : 60120,
+    D = f ? Symbol.for('react.memo') : 60115,
     M = f ? Symbol.for('react.lazy') : 60116,
     O = f ? Symbol.for('react.block') : 60121,
     x = f ? Symbol.for('react.fundamental') : 60117,
     k = f ? Symbol.for('react.responder') : 60118,
-    j = f ? Symbol.for('react.scope') : 60119
-  function T(e) {
+    T = f ? Symbol.for('react.scope') : 60119
+  function j(e) {
     if ('object' == typeof e && null !== e) {
       var t = e.$$typeof
       switch (t) {
@@ -85,7 +85,7 @@
                 case y:
                 case E:
                 case M:
-                case S:
+                case D:
                 case g:
                   return e
                 default:
@@ -98,7 +98,7 @@
     }
   }
   function A(e) {
-    return T(e) === w
+    return j(e) === w
   }
   var N = {
       AsyncMode: b,
@@ -109,47 +109,47 @@
       ForwardRef: E,
       Fragment: v,
       Lazy: M,
-      Memo: S,
+      Memo: D,
       Portal: p,
       Profiler: m,
       StrictMode: h,
       Suspense: _,
       isAsyncMode: function(e) {
-        return A(e) || T(e) === b
+        return A(e) || j(e) === b
       },
       isConcurrentMode: A,
       isContextConsumer: function(e) {
-        return T(e) === y
+        return j(e) === y
       },
       isContextProvider: function(e) {
-        return T(e) === g
+        return j(e) === g
       },
       isElement: function(e) {
         return 'object' == typeof e && null !== e && e.$$typeof === d
       },
       isForwardRef: function(e) {
-        return T(e) === E
+        return j(e) === E
       },
       isFragment: function(e) {
-        return T(e) === v
+        return j(e) === v
       },
       isLazy: function(e) {
-        return T(e) === M
+        return j(e) === M
       },
       isMemo: function(e) {
-        return T(e) === S
+        return j(e) === D
       },
       isPortal: function(e) {
-        return T(e) === p
+        return j(e) === p
       },
       isProfiler: function(e) {
-        return T(e) === m
+        return j(e) === m
       },
       isStrictMode: function(e) {
-        return T(e) === h
+        return j(e) === h
       },
       isSuspense: function(e) {
-        return T(e) === _
+        return j(e) === _
       },
       isValidElementType: function(e) {
         return (
@@ -160,21 +160,21 @@
           e === m ||
           e === h ||
           e === _ ||
-          e === D ||
+          e === S ||
           ('object' == typeof e &&
             null !== e &&
             (e.$$typeof === M ||
-              e.$$typeof === S ||
+              e.$$typeof === D ||
               e.$$typeof === g ||
               e.$$typeof === y ||
               e.$$typeof === E ||
               e.$$typeof === x ||
               e.$$typeof === k ||
-              e.$$typeof === j ||
+              e.$$typeof === T ||
               e.$$typeof === O))
         )
       },
-      typeOf: T,
+      typeOf: j,
     },
     P = u(function(e, t) {}),
     R =
@@ -535,30 +535,30 @@
     return null != e && 'object' == typeof e
   }
   var _e = '[object Arguments]'
-  function De(e) {
+  function Se(e) {
     return Ee(e) && we(e) == _e
   }
-  var Se = Object.prototype,
-    Me = Se.hasOwnProperty,
-    Oe = Se.propertyIsEnumerable,
-    xe = De(
+  var De = Object.prototype,
+    Me = De.hasOwnProperty,
+    Oe = De.propertyIsEnumerable,
+    xe = Se(
       (function() {
         return arguments
       })()
     )
-      ? De
+      ? Se
       : function(e) {
           return Ee(e) && Me.call(e, 'callee') && !Oe.call(e, 'callee')
         },
     ke = Array.isArray,
-    je = fe ? fe.isConcatSpreadable : void 0
-  function Te(e) {
-    return ke(e) || xe(e) || !!(je && e && e[je])
+    Te = fe ? fe.isConcatSpreadable : void 0
+  function je(e) {
+    return ke(e) || xe(e) || !!(Te && e && e[Te])
   }
   function Ae(e, t, n, r, o) {
     var a = -1,
       i = e.length
-    for (n || (n = Te), o || (o = []); ++a < i; ) {
+    for (n || (n = je), o || (o = []); ++a < i; ) {
       var s = e[a]
       t > 0 && n(s)
         ? t > 1
@@ -791,7 +791,7 @@
       ? Math.round(Math.abs(+Xe(e, n) / vt[n] - +Xe(t, n) / vt[n]))
       : Math.abs(+e - +t)
   }
-  function Dt(e, t, n) {
+  function St(e, t, n) {
     var r = -1,
       o = e.length
     t < 0 && (t = -t > o ? 0 : o + t),
@@ -801,7 +801,7 @@
     for (var a = Array(o); ++r < o; ) a[r] = e[r + t]
     return a
   }
-  function St(e, t) {
+  function Dt(e, t) {
     return e === t || (e != e && t != t)
   }
   function Mt(e) {
@@ -811,18 +811,18 @@
   var Ot = '[object AsyncFunction]',
     xt = '[object Function]',
     kt = '[object GeneratorFunction]',
-    jt = '[object Proxy]'
-  function Tt(e) {
+    Tt = '[object Proxy]'
+  function jt(e) {
     if (!Mt(e)) return !1
     var t = we(e)
-    return t == xt || t == kt || t == Ot || t == jt
+    return t == xt || t == kt || t == Ot || t == Tt
   }
   var At = 9007199254740991
   function Nt(e) {
     return 'number' == typeof e && e > -1 && e % 1 == 0 && e <= At
   }
   function Pt(e) {
-    return null != e && Nt(e.length) && !Tt(e)
+    return null != e && Nt(e.length) && !jt(e)
   }
   var Rt = 9007199254740991,
     Ct = /^(?:0|[1-9]\d*)$/
@@ -841,7 +841,7 @@
     var r = typeof t
     return (
       !!('number' == r ? Pt(n) && Ft(t, n.length) : 'string' == r && t in n) &&
-      St(n[t], e)
+      Dt(n[t], e)
     )
   }
   var Wt = /\s/
@@ -908,7 +908,7 @@
     var r = null == e ? 0 : e.length
     if (!r || t < 1) return []
     for (var o = 0, a = 0, i = Array(Jt(r / t)); o < r; )
-      i[a++] = Dt(e, o, (o += t))
+      i[a++] = St(e, o, (o += t))
     return i
   }
   function tn(e) {
@@ -1033,6 +1033,7 @@
       'getters',
       'children',
       'components',
+      'reactStyle',
     ],
     bn = (function(e) {
       function t() {
@@ -1053,41 +1054,46 @@
             d = e.getters,
             p = e.children,
             v = e.components.eventWrapper,
-            h = s(e, yn)
-          delete h.resizable
-          var m = f.title(o),
-            g = f.tooltip(o),
-            y = f.end(o),
-            b = f.start(o),
-            w = f.allDay(o),
-            E = c || w || _t(b, yt(y, 'day'), 'day') > 1,
-            _ = d.eventProp(o, b, y, a),
+            h = e.reactStyle,
+            m = s(e, yn)
+          delete m.resizable
+          var g = f.title(o),
+            y = f.tooltip(o),
+            b = f.end(o),
+            w = f.start(o),
+            E = f.allDay(o),
+            _ = c || E || _t(w, yt(b, 'day'), 'day') > 1,
+            S = d.eventProp(o, w, b, a),
             D = r.createElement(
               'a',
               {
                 href: o.url ? o.url : '#',
-                className: G('rbc-event-content', {
-                  'rbc-event-content-train': '2' === o.type,
-                }),
+                className: G(
+                  h['rbc-event-content'],
+                  '2' === o.type && h['rbc-event-content-train']
+                ),
                 target: '_blank',
-                title: g || void 0,
+                title: y || void 0,
               },
-              m
+              g
             )
           return r.createElement(
             v,
             i({}, this.props, { type: 'date' }),
             r.createElement(
               'div',
-              i({}, h, {
+              i({}, m, {
                 tabIndex: 0,
-                style: i({}, _.style, t),
-                className: G('rbc-event', n, _.className, {
-                  'rbc-selected': a,
-                  'rbc-event-allday': E,
-                  'rbc-event-continues-prior': l,
-                  'rbc-event-continues-after': u,
-                }),
+                style: i({}, S.style, t),
+                className: G(
+                  h['rbc-event'],
+                  n,
+                  S.className,
+                  a && h['rbc-selected'],
+                  _ && h['rbc-event-allday'],
+                  l && h['rbc-event-continues-prior'],
+                  u && h['rbc-event-continues-after']
+                ),
               }),
               'function' == typeof p ? p(D) : D
             )
@@ -1109,7 +1115,7 @@
       : Math.floor((t - e.left) / o)
   }
   bn.propTypes = {}
-  var Dn = (function(e) {
+  var Sn = (function(e) {
     function t() {
       return e.apply(this, arguments) || this
     }
@@ -1151,22 +1157,23 @@
           p = t.slotEnd,
           v = t.localizer,
           h = t.popperRef,
-          m = this.props.position.width,
-          g = {
+          m = t.reactStyle,
+          g = this.props.position.width,
+          y = {
             top: -((this.state || {}).topOffset || 0),
             left: -((this.state || {}).leftOffset || 0),
-            minWidth: m + m / 2,
+            minWidth: g + g / 2,
           }
         return r.createElement(
           'div',
           {
-            style: i({}, this.props.style, g),
-            className: 'rbc-overlay',
+            style: i({}, this.props.style, y),
+            className: m['rbc-overlay'],
             ref: h,
           },
           r.createElement(
             'div',
-            { className: 'rbc-overlay-header' },
+            { className: m['rbc-overlay-header'] },
             v.format(d, 'dayHeaderFormat')
           ),
           n.map(function(t, n) {
@@ -1190,6 +1197,7 @@
               onDragEnd: function() {
                 return e.props.show()
               },
+              reactStyle: m,
             })
           })
         )
@@ -1197,9 +1205,9 @@
       t
     )
   })(r.Component)
-  Dn.propTypes = {}
-  var Sn = r.forwardRef(function(e, t) {
-    return r.createElement(Dn, i({ popperRef: t }, e))
+  Sn.propTypes = {}
+  var Dn = r.forwardRef(function(e, t) {
+    return r.createElement(Sn, i({ popperRef: t }, e))
   })
   function Mn() {
     return t.useState(null)
@@ -1226,11 +1234,11 @@
     )
   }
   var kn = 'top',
-    jn = 'bottom',
-    Tn = 'right',
+    Tn = 'bottom',
+    jn = 'right',
     An = 'left',
     Nn = 'auto',
-    Pn = [kn, jn, Tn, An],
+    Pn = [kn, Tn, jn, An],
     Rn = 'start',
     Cn = 'end',
     Fn = 'clippingParents',
@@ -1283,22 +1291,21 @@
     var n = e.getBoundingClientRect(),
       r = 1,
       o = 1
-    return (
-      Kn(e) &&
-        t &&
-        ((r = n.width / e.offsetWidth || 1),
-        (o = n.height / e.offsetHeight || 1)),
-      {
-        width: Xn(n.width / r),
-        height: Xn(n.height / o),
-        top: Xn(n.top / o),
-        right: Xn(n.right / r),
-        bottom: Xn(n.bottom / o),
-        left: Xn(n.left / r),
-        x: Xn(n.left / r),
-        y: Xn(n.top / o),
-      }
-    )
+    if (Kn(e) && t) {
+      var a = e.offsetHeight,
+        i = e.offsetWidth
+      i > 0 && (r = n.width / i || 1), a > 0 && (o = n.height / a || 1)
+    }
+    return {
+      width: Xn(n.width / r),
+      height: Xn(n.height / o),
+      top: Xn(n.top / o),
+      right: Xn(n.right / r),
+      bottom: Xn(n.bottom / o),
+      left: Xn(n.left / r),
+      x: Xn(n.left / r),
+      y: Xn(n.top / o),
+    }
   }
   function Gn(e) {
     var t = qn(e),
@@ -1408,92 +1415,99 @@
         : fr(e, Pn)
     )
   }
-  var pr = { top: 'auto', right: 'auto', bottom: 'auto', left: 'auto' }
-  function vr(e) {
+  function pr(e) {
+    return e.split('-')[1]
+  }
+  var vr = { top: 'auto', right: 'auto', bottom: 'auto', left: 'auto' }
+  function hr(e) {
     var t,
       n = e.popper,
       r = e.popperRect,
       o = e.placement,
-      a = e.offsets,
-      i = e.position,
-      s = e.gpuAcceleration,
-      c = e.adaptive,
-      l = e.roundOffsets,
-      u =
-        !0 === l
+      a = e.variation,
+      i = e.offsets,
+      s = e.position,
+      c = e.gpuAcceleration,
+      l = e.adaptive,
+      u = e.roundOffsets,
+      f =
+        !0 === u
           ? (function(e) {
               var t = e.x,
                 n = e.y,
                 r = window.devicePixelRatio || 1
               return { x: cr(cr(t * r) / r) || 0, y: cr(cr(n * r) / r) || 0 }
-            })(a)
-          : 'function' == typeof l
-          ? l(a)
-          : a,
-      f = u.x,
-      d = void 0 === f ? 0 : f,
-      p = u.y,
-      v = void 0 === p ? 0 : p,
-      h = a.hasOwnProperty('x'),
-      m = a.hasOwnProperty('y'),
-      g = An,
-      y = kn,
-      b = window
-    if (c) {
-      var w = or(n),
-        E = 'clientHeight',
-        _ = 'clientWidth'
-      w === Bn(n) &&
-        'static' !== Qn((w = tr(n))).position &&
-        ((E = 'scrollHeight'), (_ = 'scrollWidth')),
-        (w = w),
-        o === kn && ((y = jn), (v -= w[E] - r.height), (v *= s ? 1 : -1)),
-        o === An && ((g = Tn), (d -= w[_] - r.width), (d *= s ? 1 : -1))
+            })(i)
+          : 'function' == typeof u
+          ? u(i)
+          : i,
+      d = f.x,
+      p = void 0 === d ? 0 : d,
+      v = f.y,
+      h = void 0 === v ? 0 : v,
+      m = i.hasOwnProperty('x'),
+      g = i.hasOwnProperty('y'),
+      y = An,
+      b = kn,
+      w = window
+    if (l) {
+      var E = or(n),
+        _ = 'clientHeight',
+        S = 'clientWidth'
+      E === Bn(n) &&
+        'static' !== Qn((E = tr(n))).position &&
+        'absolute' === s &&
+        ((_ = 'scrollHeight'), (S = 'scrollWidth')),
+        (E = E),
+        (o !== kn && ((o !== An && o !== jn) || a !== Cn)) ||
+          ((b = Tn), (h -= E[_] - r.height), (h *= c ? 1 : -1)),
+        (o !== An && ((o !== kn && o !== Tn) || a !== Cn)) ||
+          ((y = jn), (p -= E[S] - r.width), (p *= c ? 1 : -1))
     }
     var D,
-      S = Object.assign({ position: i }, c && pr)
-    return s
+      M = Object.assign({ position: s }, l && vr)
+    return c
       ? Object.assign(
           {},
-          S,
-          (((D = {})[y] = m ? '0' : ''),
-          (D[g] = h ? '0' : ''),
+          M,
+          (((D = {})[b] = g ? '0' : ''),
+          (D[y] = m ? '0' : ''),
           (D.transform =
-            (b.devicePixelRatio || 1) < 2
-              ? 'translate(' + d + 'px, ' + v + 'px)'
-              : 'translate3d(' + d + 'px, ' + v + 'px, 0)'),
+            (w.devicePixelRatio || 1) <= 1
+              ? 'translate(' + p + 'px, ' + h + 'px)'
+              : 'translate3d(' + p + 'px, ' + h + 'px, 0)'),
           D)
         )
       : Object.assign(
           {},
-          S,
-          (((t = {})[y] = m ? v + 'px' : ''),
-          (t[g] = h ? d + 'px' : ''),
+          M,
+          (((t = {})[b] = g ? h + 'px' : ''),
+          (t[y] = m ? p + 'px' : ''),
           (t.transform = ''),
           t)
         )
   }
-  var hr = { passive: !0 }
-  var mr = { left: 'right', right: 'left', bottom: 'top', top: 'bottom' }
-  function gr(e) {
+  var mr = { passive: !0 }
+  var gr = { left: 'right', right: 'left', bottom: 'top', top: 'bottom' }
+  function yr(e) {
     return e.replace(/left|right|bottom|top/g, function(e) {
-      return mr[e]
+      return gr[e]
     })
   }
-  var yr = { start: 'end', end: 'start' }
-  function br(e) {
-    return e.replace(/start|end/g, function(e) {
-      return yr[e]
-    })
-  }
+  var br = { start: 'end', end: 'start' }
   function wr(e) {
+    return e.replace(/start|end/g, function(e) {
+      return br[e]
+    })
+  }
+  function Er(e) {
     var t = Bn(e)
     return { scrollLeft: t.pageXOffset, scrollTop: t.pageYOffset }
   }
-  function Er(e) {
-    return qn(tr(e)).left + wr(e).scrollLeft
-  }
   function _r(e) {
+    return qn(tr(e)).left + Er(e).scrollLeft
+  }
+  function Sr(e) {
     var t = Qn(e),
       n = t.overflow,
       r = t.overflowX,
@@ -1506,17 +1520,17 @@
     var r = (function e(t) {
         return ['html', 'body', '#document'].indexOf(Jn(t)) >= 0
           ? t.ownerDocument.body
-          : Kn(t) && _r(t)
+          : Kn(t) && Sr(t)
           ? t
           : e(nr(t))
       })(e),
       o = r === (null == (n = e.ownerDocument) ? void 0 : n.body),
       a = Bn(r),
-      i = o ? [a].concat(a.visualViewport || [], _r(r) ? r : []) : r,
+      i = o ? [a].concat(a.visualViewport || [], Sr(r) ? r : []) : r,
       s = t.concat(i)
     return o ? s : s.concat(Dr(nr(i)))
   }
-  function Sr(e) {
+  function Mr(e) {
     return Object.assign({}, e, {
       left: e.x,
       top: e.y,
@@ -1524,9 +1538,9 @@
       bottom: e.y + e.height,
     })
   }
-  function Mr(e, t) {
+  function Or(e, t) {
     return t === Ln
-      ? Sr(
+      ? Mr(
           (function(e) {
             var t = Bn(e),
               n = tr(e),
@@ -1541,7 +1555,7 @@
                 (a = r.height),
                 /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
                   ((i = r.offsetLeft), (s = r.offsetTop))),
-              { width: o, height: a, x: i + Er(e), y: s }
+              { width: o, height: a, x: i + _r(e), y: s }
             )
           })(e)
         )
@@ -1560,11 +1574,11 @@
             t
           )
         })(t)
-      : Sr(
+      : Mr(
           (function(e) {
             var t,
               n = tr(e),
-              r = wr(e),
+              r = Er(e),
               o = null == (t = e.ownerDocument) ? void 0 : t.body,
               a = ir(
                 n.scrollWidth,
@@ -1578,7 +1592,7 @@
                 o ? o.scrollHeight : 0,
                 o ? o.clientHeight : 0
               ),
-              s = -r.scrollLeft + Er(e),
+              s = -r.scrollLeft + _r(e),
               c = -r.scrollTop
             return (
               'rtl' === Qn(o || n).direction &&
@@ -1588,7 +1602,7 @@
           })(tr(e))
         )
   }
-  function Or(e, t, n) {
+  function xr(e, t, n) {
     var r =
         'clippingParents' === t
           ? (function(e) {
@@ -1607,7 +1621,7 @@
       o = [].concat(r, [n]),
       a = o[0],
       i = o.reduce(function(t, n) {
-        var r = Mr(e, n)
+        var r = Or(e, n)
         return (
           (t.top = ir(r.top, t.top)),
           (t.right = sr(r.right, t.right)),
@@ -1615,7 +1629,7 @@
           (t.left = ir(r.left, t.left)),
           t
         )
-      }, Mr(e, a))
+      }, Or(e, a))
     return (
       (i.width = i.right - i.left),
       (i.height = i.bottom - i.top),
@@ -1624,26 +1638,23 @@
       i
     )
   }
-  function xr(e) {
-    return e.split('-')[1]
-  }
   function kr(e) {
     var t,
       n = e.reference,
       r = e.element,
       o = e.placement,
       a = o ? Vn(o) : null,
-      i = o ? xr(o) : null,
+      i = o ? pr(o) : null,
       s = n.x + n.width / 2 - r.width / 2,
       c = n.y + n.height / 2 - r.height / 2
     switch (a) {
       case kn:
         t = { x: s, y: n.y - r.height }
         break
-      case jn:
+      case Tn:
         t = { x: s, y: n.y + n.height }
         break
-      case Tn:
+      case jn:
         t = { x: n.x + n.width, y: c }
         break
       case An:
@@ -1665,7 +1676,7 @@
     }
     return t
   }
-  function jr(e, t) {
+  function Tr(e, t) {
     void 0 === t && (t = {})
     var n = t,
       r = n.placement,
@@ -1682,32 +1693,31 @@
       v = void 0 === p ? 0 : p,
       h = ur('number' != typeof v ? v : fr(v, Pn)),
       m = u === Wn ? zn : Wn,
-      g = e.elements.reference,
-      y = e.rects.popper,
-      b = e.elements[d ? m : u],
-      w = Or(Yn(b) ? b : b.contextElement || tr(e.elements.popper), i, c),
-      E = qn(g),
-      _ = kr({ reference: E, element: y, strategy: 'absolute', placement: o }),
-      D = Sr(Object.assign({}, y, _)),
-      S = u === Wn ? D : E,
-      M = {
-        top: w.top - S.top + h.top,
-        bottom: S.bottom - w.bottom + h.bottom,
-        left: w.left - S.left + h.left,
-        right: S.right - w.right + h.right,
+      g = e.rects.popper,
+      y = e.elements[d ? m : u],
+      b = xr(Yn(y) ? y : y.contextElement || tr(e.elements.popper), i, c),
+      w = qn(e.elements.reference),
+      E = kr({ reference: w, element: g, strategy: 'absolute', placement: o }),
+      _ = Mr(Object.assign({}, g, E)),
+      S = u === Wn ? _ : w,
+      D = {
+        top: b.top - S.top + h.top,
+        bottom: S.bottom - b.bottom + h.bottom,
+        left: b.left - S.left + h.left,
+        right: S.right - b.right + h.right,
       },
-      O = e.modifiersData.offset
-    if (u === Wn && O) {
-      var x = O[o]
-      Object.keys(M).forEach(function(e) {
-        var t = [Tn, jn].indexOf(e) >= 0 ? 1 : -1,
-          n = [kn, jn].indexOf(e) >= 0 ? 'y' : 'x'
-        M[e] += x[n] * t
+      M = e.modifiersData.offset
+    if (u === Wn && M) {
+      var O = M[o]
+      Object.keys(D).forEach(function(e) {
+        var t = [jn, Tn].indexOf(e) >= 0 ? 1 : -1,
+          n = [kn, Tn].indexOf(e) >= 0 ? 'y' : 'x'
+        D[e] += O[n] * t
       })
     }
-    return M
+    return D
   }
-  function Tr(e, t) {
+  function jr(e, t) {
     void 0 === t && (t = {})
     var n = t,
       r = n.placement,
@@ -1717,12 +1727,12 @@
       s = n.flipVariations,
       c = n.allowedAutoPlacements,
       l = void 0 === c ? Hn : c,
-      u = xr(r),
+      u = pr(r),
       f = u
         ? s
           ? In
           : In.filter(function(e) {
-              return xr(e) === u
+              return pr(e) === u
             })
         : Pn,
       d = f.filter(function(e) {
@@ -1731,7 +1741,7 @@
     0 === d.length && (d = f)
     var p = d.reduce(function(t, n) {
       return (
-        (t[n] = jr(e, {
+        (t[n] = Tr(e, {
           placement: n,
           boundary: o,
           rootBoundary: a,
@@ -1756,7 +1766,7 @@
     )
   }
   function Nr(e) {
-    return [kn, Tn, jn, An].some(function(t) {
+    return [kn, jn, Tn, An].some(function(t) {
       return e[t] >= 0
     })
   }
@@ -1779,14 +1789,14 @@
       u = { x: 0, y: 0 }
     return (
       (a || (!a && !n)) &&
-        (('body' !== Jn(t) || _r(s)) &&
+        (('body' !== Jn(t) || Sr(s)) &&
           (l =
             (r = t) !== Bn(r) && Kn(r)
               ? { scrollLeft: (o = r).scrollLeft, scrollTop: o.scrollTop }
-              : wr(r)),
+              : Er(r)),
         Kn(t)
           ? (((u = qn(t, !0)).x += t.clientLeft), (u.y += t.clientTop))
-          : s && (u.x = Er(s))),
+          : s && (u.x = _r(s))),
       {
         x: c.left + l.scrollLeft - u.x,
         y: c.top + l.scrollTop - u.y,
@@ -1854,8 +1864,9 @@
         u = {
           state: s,
           setOptions: function(n) {
+            var o = 'function' == typeof n ? n(s.options) : n
             f(),
-              (s.options = Object.assign({}, a, s.options, n)),
+              (s.options = Object.assign({}, a, s.options, o)),
               (s.scrollParents = {
                 reference: Yn(e)
                   ? Dr(e)
@@ -1864,9 +1875,9 @@
                   : [],
                 popper: Dr(t),
               })
-            var o,
-              i,
-              l = (function(e) {
+            var i,
+              l,
+              d = (function(e) {
                 var t = Rr(e)
                 return Un.reduce(function(e, n) {
                   return e.concat(
@@ -1876,8 +1887,8 @@
                   )
                 }, [])
               })(
-                ((o = [].concat(r, s.options.modifiers)),
-                (i = o.reduce(function(e, t) {
+                ((i = [].concat(r, s.options.modifiers)),
+                (l = i.reduce(function(e, t) {
                   var n = e[t.name]
                   return (
                     (e[t.name] = n
@@ -1889,12 +1900,12 @@
                     e
                   )
                 }, {})),
-                Object.keys(i).map(function(e) {
-                  return i[e]
+                Object.keys(l).map(function(e) {
+                  return l[e]
                 }))
               )
             return (
-              (s.orderedModifiers = l.filter(function(e) {
+              (s.orderedModifiers = d.filter(function(e) {
                 return e.enabled
               })),
               s.orderedModifiers.forEach(function(e) {
@@ -1987,8 +1998,8 @@
             r = t.rects.reference,
             o = t.rects.popper,
             a = t.modifiersData.preventOverflow,
-            i = jr(t, { elementContext: 'reference' }),
-            s = jr(t, { altBoundary: !0 }),
+            i = Tr(t, { elementContext: 'reference' }),
+            s = Tr(t, { altBoundary: !0 }),
             c = Ar(i, r),
             l = Ar(s, o, a),
             u = Nr(c),
@@ -2036,6 +2047,7 @@
             c = void 0 === s || s,
             l = {
               placement: Vn(t.placement),
+              variation: pr(t.placement),
               popper: t.elements.popper,
               popperRect: t.rects.popper,
               gpuAcceleration: o,
@@ -2044,7 +2056,7 @@
             (t.styles.popper = Object.assign(
               {},
               t.styles.popper,
-              vr(
+              hr(
                 Object.assign({}, l, {
                   offsets: t.modifiersData.popperOffsets,
                   position: t.options.strategy,
@@ -2057,7 +2069,7 @@
               (t.styles.arrow = Object.assign(
                 {},
                 t.styles.arrow,
-                vr(
+                hr(
                   Object.assign({}, l, {
                     offsets: t.modifiersData.arrow,
                     position: 'absolute',
@@ -2090,15 +2102,15 @@
           return (
             a &&
               l.forEach(function(e) {
-                e.addEventListener('scroll', n.update, hr)
+                e.addEventListener('scroll', n.update, mr)
               }),
-            s && c.addEventListener('resize', n.update, hr),
+            s && c.addEventListener('resize', n.update, mr),
             function() {
               a &&
                 l.forEach(function(e) {
-                  e.removeEventListener('scroll', n.update, hr)
+                  e.removeEventListener('scroll', n.update, mr)
                 }),
-                s && c.removeEventListener('resize', n.update, hr)
+                s && c.removeEventListener('resize', n.update, mr)
             }
           )
         },
@@ -2129,7 +2141,7 @@
                   return (
                     (i = i || 0),
                     (s = (s || 0) * o),
-                    [An, Tn].indexOf(r) >= 0 ? { x: s, y: i } : { x: i, y: s }
+                    [An, jn].indexOf(r) >= 0 ? { x: s, y: i } : { x: i, y: s }
                   )
                 })(n, t.rects, a)),
                 e
@@ -2173,14 +2185,14 @@
                   (g !== m && v
                     ? (function(e) {
                         if (Vn(e) === Nn) return []
-                        var t = gr(e)
-                        return [br(e), t, br(t)]
+                        var t = yr(e)
+                        return [wr(e), t, wr(t)]
                       })(m)
-                    : [gr(m)]),
+                    : [yr(m)]),
                 b = [m].concat(y).reduce(function(e, n) {
                   return e.concat(
                     Vn(n) === Nn
-                      ? Tr(t, {
+                      ? jr(t, {
                           placement: n,
                           boundary: u,
                           rootBoundary: f,
@@ -2194,27 +2206,27 @@
                 w = t.rects.reference,
                 E = t.rects.popper,
                 _ = new Map(),
-                D = !0,
-                S = b[0],
+                S = !0,
+                D = b[0],
                 M = 0;
               M < b.length;
               M++
             ) {
               var O = b[M],
                 x = Vn(O),
-                k = xr(O) === Rn,
-                j = [kn, jn].indexOf(x) >= 0,
-                T = j ? 'width' : 'height',
-                A = jr(t, {
+                k = pr(O) === Rn,
+                T = [kn, Tn].indexOf(x) >= 0,
+                j = T ? 'width' : 'height',
+                A = Tr(t, {
                   placement: O,
                   boundary: u,
                   rootBoundary: f,
                   altBoundary: d,
                   padding: l,
                 }),
-                N = j ? (k ? Tn : An) : k ? jn : kn
-              w[T] > E[T] && (N = gr(N))
-              var P = gr(N),
+                N = T ? (k ? jn : An) : k ? Tn : kn
+              w[j] > E[j] && (N = yr(N))
+              var P = yr(N),
                 R = []
               if (
                 (a && R.push(A[x] <= 0),
@@ -2223,12 +2235,12 @@
                   return e
                 }))
               ) {
-                ;(S = O), (D = !1)
+                ;(D = O), (S = !1)
                 break
               }
               _.set(O, R)
             }
-            if (D)
+            if (S)
               for (
                 var C = function(e) {
                     var t = b.find(function(t) {
@@ -2238,15 +2250,15 @@
                           return e
                         })
                     })
-                    if (t) return (S = t), 'break'
+                    if (t) return (D = t), 'break'
                   },
                   F = v ? 3 : 1;
                 F > 0 && 'break' !== C(F);
                 F--
               );
-            t.placement !== S &&
+            t.placement !== D &&
               ((t.modifiersData[r]._skip = !0),
-              (t.placement = S),
+              (t.placement = D),
               (t.reset = !0))
           }
         },
@@ -2273,20 +2285,20 @@
             p = void 0 === d || d,
             v = n.tetherOffset,
             h = void 0 === v ? 0 : v,
-            m = jr(t, {
+            m = Tr(t, {
               boundary: c,
               rootBoundary: l,
               padding: f,
               altBoundary: u,
             }),
             g = Vn(t.placement),
-            y = xr(t.placement),
+            y = pr(t.placement),
             b = !y,
             w = ar(g),
             E = 'x' === w ? 'y' : 'x',
             _ = t.modifiersData.popperOffsets,
-            D = t.rects.reference,
-            S = t.rects.popper,
+            S = t.rects.reference,
+            D = t.rects.popper,
             M =
               'function' == typeof h
                 ? h(Object.assign({}, t.rects, { placement: t.placement }))
@@ -2295,14 +2307,14 @@
           if (_) {
             if (a || s) {
               var x = 'y' === w ? kn : An,
-                k = 'y' === w ? jn : Tn,
-                j = 'y' === w ? 'height' : 'width',
-                T = _[w],
+                k = 'y' === w ? Tn : jn,
+                T = 'y' === w ? 'height' : 'width',
+                j = _[w],
                 A = _[w] + m[x],
                 N = _[w] - m[k],
-                P = p ? -S[j] / 2 : 0,
-                R = y === Rn ? D[j] : S[j],
-                C = y === Rn ? -S[j] : -D[j],
+                P = p ? -D[T] / 2 : 0,
+                R = y === Rn ? S[T] : D[T],
+                C = y === Rn ? -D[T] : -S[T],
                 F = t.elements.arrow,
                 L = p && F ? Gn(F) : { width: 0, height: 0 },
                 W = t.modifiersData['arrow#persistent']
@@ -2310,9 +2322,9 @@
                   : { top: 0, right: 0, bottom: 0, left: 0 },
                 z = W[x],
                 I = W[k],
-                H = lr(0, D[j], L[j]),
-                U = b ? D[j] / 2 - P - H - z - M : R - H - z - M,
-                V = b ? -D[j] / 2 + P + H + I + M : C + H + I + M,
+                H = lr(0, S[T], L[T]),
+                U = b ? S[T] / 2 - P - H - z - M : R - H - z - M,
+                V = b ? -S[T] / 2 + P + H + I + M : C + H + I + M,
                 B = t.elements.arrow && or(t.elements.arrow),
                 Y = B ? ('y' === w ? B.clientTop || 0 : B.clientLeft || 0) : 0,
                 K = t.modifiersData.offset
@@ -2321,12 +2333,12 @@
                 $ = _[w] + U - K - Y,
                 X = _[w] + V - K
               if (a) {
-                var q = lr(p ? sr(A, $) : A, T, p ? ir(N, X) : N)
-                ;(_[w] = q), (O[w] = q - T)
+                var q = lr(p ? sr(A, $) : A, j, p ? ir(N, X) : N)
+                ;(_[w] = q), (O[w] = q - j)
               }
               if (s) {
                 var G = 'x' === w ? kn : An,
-                  Z = 'x' === w ? jn : Tn,
+                  Z = 'x' === w ? Tn : jn,
                   J = _[E],
                   Q = J + m[G],
                   ee = J - m[Z],
@@ -2352,12 +2364,12 @@
             i = n.modifiersData.popperOffsets,
             s = Vn(n.placement),
             c = ar(s),
-            l = [An, Tn].indexOf(s) >= 0 ? 'height' : 'width'
+            l = [An, jn].indexOf(s) >= 0 ? 'height' : 'width'
           if (a && i) {
             var u = dr(o.padding, n),
               f = Gn(a),
               d = 'y' === c ? kn : An,
-              p = 'y' === c ? jn : Tn,
+              p = 'y' === c ? Tn : jn,
               v =
                 n.rects.reference[l] +
                 n.rects.reference[c] -
@@ -2375,9 +2387,9 @@
               w = g - f[l] - u[p],
               E = g / 2 - f[l] / 2 + y,
               _ = lr(b, E, w),
-              D = c
+              S = c
             n.modifiersData[r] =
-              (((t = {})[D] = _), (t.centerOffset = _ - E), t)
+              (((t = {})[S] = _), (t.centerOffset = _ - E), t)
           }
         },
         effect: function(e) {
@@ -2663,10 +2675,10 @@
       w = y[1],
       E = xn(g, n),
       _ = eo(e.container),
-      D = eo(e.target),
-      S = t.useState(!e.show),
-      M = S[0],
-      O = S[1],
+      S = eo(e.target),
+      D = t.useState(!e.show),
+      M = D[0],
+      O = D[1],
       x = (function(e, n, r) {
         var o = void 0 === r ? {} : r,
           a = o.enabled,
@@ -2769,7 +2781,7 @@
           w
         )
       })(
-        D,
+        S,
         m,
         to({
           placement: l,
@@ -2782,8 +2794,8 @@
         })
       ),
       k = x.styles,
-      j = x.attributes,
-      T = s(x, ['styles', 'attributes'])
+      T = x.attributes,
+      j = s(x, ['styles', 'attributes'])
     e.show ? M && O(!1) : e.transition || M || O(!0)
     var A,
       N,
@@ -2866,10 +2878,10 @@
     )
       return null
     var B = e.children(
-      i({}, T, {
+      i({}, j, {
         show: !!e.show,
-        props: i({}, j.popper, { style: k.popper, ref: E }),
-        arrowProps: i({}, j.arrow, { style: k.arrow, ref: w }),
+        props: i({}, T.popper, { style: k.popper, ref: E }),
+        arrowProps: i({}, T.arrow, { style: k.arrow, ref: w }),
       })
     )
     if (v) {
@@ -3378,30 +3390,31 @@
           o = e.getters,
           a = e.date,
           i = e.components.dateCellWrapper,
-          s = this.state,
-          c = s.selecting,
-          l = s.startIdx,
-          u = s.endIdx,
-          f = n()
+          s = e.reactStyle,
+          c = this.state,
+          l = c.selecting,
+          u = c.startIdx,
+          f = c.endIdx,
+          d = n()
         return r.createElement(
           'div',
-          { className: 'rbc-row-bg' },
+          { className: s['rbc-row-bg'] },
           t.map(function(e, n) {
-            var s = c && n >= l && n <= u,
-              d = o.dayProp(e),
-              p = d.className,
-              v = d.style
+            var c = l && n >= u && n <= f,
+              p = o.dayProp(e),
+              v = p.className,
+              h = p.style
             return r.createElement(
               i,
               { key: n, value: e, range: t },
               r.createElement('div', {
-                style: v,
+                style: h,
                 className: G(
-                  'rbc-day-bg',
-                  p,
-                  s && 'rbc-selected-cell',
-                  Ge(e, f, 'day') && 'rbc-today',
-                  a && ut(a) !== ut(e) && 'rbc-off-range-bg'
+                  s['rbc-day-bg'],
+                  v,
+                  c && s['rbc-selected-cell'],
+                  Ge(e, d, 'day') && s['rbc-today'],
+                  a && ut(a) !== ut(e) && s['rbc-off-range-bg']
                 ),
               })
             )
@@ -3543,8 +3556,9 @@
         u = e.slotMetrics,
         f = e.components,
         d = e.resizable,
-        p = u.continuesPrior(t),
-        v = u.continuesAfter(t)
+        p = e.reactStyle,
+        v = u.continuesPrior(t),
+        h = u.continuesAfter(t)
       return r.createElement(bn, {
         event: t,
         getters: a,
@@ -3554,21 +3568,22 @@
         onSelect: i,
         onDoubleClick: s,
         onKeyPress: c,
-        continuesPrior: p,
-        continuesAfter: v,
+        continuesPrior: v,
+        continuesAfter: h,
         selected: wn(t, n),
         resizable: d,
+        reactStyle: p,
       })
     },
-    bo = function(e, t, n, o) {
+    bo = function(e, t, n, o, a) {
       void 0 === o && (o = ' ')
-      var a = (Math.abs(t) / e) * 100 + '%'
+      var i = (Math.abs(t) / e) * 100 + '%'
       return r.createElement(
         'div',
         {
           key: n,
-          className: 'rbc-row-segment',
-          style: { WebkitFlexBasis: a, flexBasis: a, maxWidth: a },
+          className: a ? a['rbc-row-segment'] : '',
+          style: { WebkitFlexBasis: i, flexBasis: i, maxWidth: i },
         },
         o
       )
@@ -3585,22 +3600,23 @@
             n = t.segments,
             o = t.slotMetrics.slots,
             a = t.className,
-            i = 1
+            i = t.reactStyle,
+            s = 1
           return r.createElement(
             'div',
-            { className: G(a, 'rbc-row') },
+            { className: G(a, i['rbc-row']) },
             n.reduce(function(t, n, r) {
               var a = n.event,
-                s = n.left,
-                c = n.right,
-                l = n.span,
-                u = '_lvl_' + r,
-                f = s - i,
-                d = yo(e.props, a)
+                c = n.left,
+                l = n.right,
+                u = n.span,
+                f = '_lvl_' + r,
+                d = c - s,
+                p = yo(e.props, a)
               return (
-                f && t.push(bo(o, f, u + '_gap')),
-                t.push(bo(o, l, u, d)),
-                (i = c + 1),
+                d && t.push(bo(o, d, f + '_gap')),
+                t.push(bo(o, u, f, p, i)),
+                (s = l + 1),
                 t
               )
             }, [])
@@ -3610,12 +3626,12 @@
       )
     })(r.Component)
   function Eo(e, t) {
-    for (var n = e.length; n--; ) if (St(e[n][0], t)) return n
+    for (var n = e.length; n--; ) if (Dt(e[n][0], t)) return n
     return -1
   }
   ;(wo.propTypes = {}), (wo.defaultProps = i({}, go))
   var _o = Array.prototype.splice
-  function Do(e) {
+  function So(e) {
     var t = -1,
       n = null == e ? 0 : e.length
     for (this.clear(); ++t < n; ) {
@@ -3623,10 +3639,10 @@
       this.set(r[0], r[1])
     }
   }
-  ;(Do.prototype.clear = function() {
+  ;(So.prototype.clear = function() {
     ;(this.__data__ = []), (this.size = 0)
   }),
-    (Do.prototype.delete = function(e) {
+    (So.prototype.delete = function(e) {
       var t = this.__data__,
         n = Eo(t, e)
       return !(
@@ -3634,23 +3650,23 @@
         (n == t.length - 1 ? t.pop() : _o.call(t, n, 1), --this.size, 0)
       )
     }),
-    (Do.prototype.get = function(e) {
+    (So.prototype.get = function(e) {
       var t = this.__data__,
         n = Eo(t, e)
       return n < 0 ? void 0 : t[n][1]
     }),
-    (Do.prototype.has = function(e) {
+    (So.prototype.has = function(e) {
       return Eo(this.__data__, e) > -1
     }),
-    (Do.prototype.set = function(e, t) {
+    (So.prototype.set = function(e, t) {
       var n = this.__data__,
         r = Eo(n, e)
       return r < 0 ? (++this.size, n.push([e, t])) : (n[r][1] = t), this
     })
-  var So,
+  var Do,
     Mo = ue['__core-js_shared__'],
-    Oo = (So = /[^.]+$/.exec((Mo && Mo.keys && Mo.keys.IE_PROTO) || ''))
-      ? 'Symbol(src)_1.' + So
+    Oo = (Do = /[^.]+$/.exec((Mo && Mo.keys && Mo.keys.IE_PROTO) || ''))
+      ? 'Symbol(src)_1.' + Do
       : ''
   var xo = Function.prototype.toString
   function ko(e) {
@@ -3664,10 +3680,10 @@
     }
     return ''
   }
-  var jo = /^\[object .+?Constructor\]$/,
-    To = Function.prototype,
+  var To = /^\[object .+?Constructor\]$/,
+    jo = Function.prototype,
     Ao = Object.prototype,
-    No = To.toString,
+    No = jo.toString,
     Po = Ao.hasOwnProperty,
     Ro = RegExp(
       '^' +
@@ -3681,7 +3697,7 @@
     )
   function Co(e) {
     return (
-      !(!Mt(e) || ((t = e), Oo && Oo in t)) && (Tt(e) ? Ro : jo).test(ko(e))
+      !(!Mt(e) || ((t = e), Oo && Oo in t)) && (jt(e) ? Ro : To).test(ko(e))
     )
     var t
   }
@@ -3757,7 +3773,7 @@
       ;(this.size = 0),
         (this.__data__ = {
           hash: new Vo(),
-          map: new (Lo || Do)(),
+          map: new (Lo || So)(),
           string: new Vo(),
         })
     }),
@@ -3778,11 +3794,11 @@
     })
   var Ko = 200
   function $o(e) {
-    var t = (this.__data__ = new Do(e))
+    var t = (this.__data__ = new So(e))
     this.size = t.size
   }
   ;($o.prototype.clear = function() {
-    ;(this.__data__ = new Do()), (this.size = 0)
+    ;(this.__data__ = new So()), (this.size = 0)
   }),
     ($o.prototype.delete = function(e) {
       var t = this.__data__,
@@ -3797,7 +3813,7 @@
     }),
     ($o.prototype.set = function(e, t) {
       var n = this.__data__
-      if (n instanceof Do) {
+      if (n instanceof So) {
         var r = n.__data__
         if (!Lo || r.length < Ko - 1)
           return r.push([e, t]), (this.size = ++n.size), this
@@ -3927,10 +3943,10 @@
               }))
         }
       : ba
-  var Da = 'object' == typeof e && e && !e.nodeType && e,
-    Sa =
-      Da && 'object' == typeof module && module && !module.nodeType && module,
-    Ma = Sa && Sa.exports === Da ? ue.Buffer : void 0,
+  var Sa = 'object' == typeof e && e && !e.nodeType && e,
+    Da =
+      Sa && 'object' == typeof module && module && !module.nodeType && module,
+    Ma = Da && Da.exports === Sa ? ue.Buffer : void 0,
     Oa =
       (Ma ? Ma.isBuffer : void 0) ||
       function() {
@@ -3960,13 +3976,13 @@
     ] = xa['[object Set]'] = xa['[object String]'] = xa[
       '[object WeakMap]'
     ] = !1)
-  var ja = 'object' == typeof e && e && !e.nodeType && e,
-    Ta =
-      ja && 'object' == typeof module && module && !module.nodeType && module,
-    Aa = Ta && Ta.exports === ja && ce.process,
+  var Ta = 'object' == typeof e && e && !e.nodeType && e,
+    ja =
+      Ta && 'object' == typeof module && module && !module.nodeType && module,
+    Aa = ja && ja.exports === Ta && ce.process,
     Na = (function() {
       try {
-        var e = Ta && Ta.require && Ta.require('util').types
+        var e = ja && ja.require && ja.require('util').types
         return e || (Aa && Aa.binding && Aa.binding('util'))
       } catch (e) {}
     })(),
@@ -4101,7 +4117,7 @@
                 case aa:
                 case ia:
                 case la:
-                  return St(+e, +t)
+                  return Dt(+e, +t)
                 case sa:
                   return e.name == t.name && e.message == t.message
                 case ua:
@@ -4248,7 +4264,9 @@
         null != e &&
         !Ut(e)
       ) ||
-      mi.test(e) || !hi.test(e) || (null != t && e in Object(t))
+      mi.test(e) ||
+      !hi.test(e) ||
+      (null != t && e in Object(t))
     )
   }
   var yi = 'Expected a function'
@@ -4269,24 +4287,24 @@
   var wi = 500
   var Ei,
     _i,
-    Di,
-    Si = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
+    Si,
+    Di = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
     Mi = /\\(\\)?/g,
     Oi =
       ((Ei = function(e) {
         var t = []
         return (
           46 === e.charCodeAt(0) && t.push(''),
-          e.replace(Si, function(e, n, r, o) {
+          e.replace(Di, function(e, n, r, o) {
             t.push(r ? o.replace(Mi, '$1') : n || e)
           }),
           t
         )
       }),
       (_i = bi(Ei, function(e) {
-        return Di.size === wi && Di.clear(), e
+        return Si.size === wi && Si.clear(), e
       })),
-      (Di = _i.cache),
+      (Si = _i.cache),
       _i)
   function xi(e, t) {
     for (var n = -1, r = null == e ? 0 : e.length, o = Array(r); ++n < r; )
@@ -4294,12 +4312,12 @@
     return o
   }
   var ki = 1 / 0,
-    ji = fe ? fe.prototype : void 0,
-    Ti = ji ? ji.toString : void 0
+    Ti = fe ? fe.prototype : void 0,
+    ji = Ti ? Ti.toString : void 0
   function Ai(e) {
     if ('string' == typeof e) return e
     if (ke(e)) return xi(e, Ai) + ''
-    if (Ut(e)) return Ti ? Ti.call(e) : ''
+    if (Ut(e)) return ji ? ji.call(e) : ''
     var t = e + ''
     return '0' == t && 1 / e == -ki ? '-0' : t
   }
@@ -4501,36 +4519,37 @@
             var e = this.props,
               t = e.segments,
               n = e.slotMetrics.slots,
-              o = Xi(t).levels[0],
-              a = 1,
+              o = e.reactStyle,
+              a = Xi(t).levels[0],
               i = 1,
-              s = [];
-            a <= n;
+              s = 1,
+              c = [];
+            i <= n;
 
           ) {
-            var c = '_lvl_' + a,
-              l =
-                o.filter(function(e) {
-                  return ns(e, a)
+            var l = '_lvl_' + i,
+              u =
+                a.filter(function(e) {
+                  return ns(e, i)
                 })[0] || {},
-              u = l.event,
-              f = l.left,
-              d = l.right,
-              p = l.span
-            if (u) {
-              var v = Math.max(0, f - i)
-              if (this.canRenderSlotEvent(f, p)) {
-                var h = yo(this.props, u)
-                v && s.push(bo(n, v, c + '_gap')),
-                  s.push(bo(n, p, c, h)),
-                  (i = a = d + 1)
+              f = u.event,
+              d = u.left,
+              p = u.right,
+              v = u.span
+            if (f) {
+              var h = Math.max(0, d - s)
+              if (this.canRenderSlotEvent(d, v)) {
+                var m = yo(this.props, f)
+                h && c.push(bo(n, h, l + '_gap')),
+                  c.push(bo(n, v, l, m)),
+                  (s = i = p + 1)
               } else
-                v && s.push(bo(n, v, c + '_gap')),
-                  s.push(bo(n, 1, c, this.renderShowMore(t, a))),
-                  (i = a += 1)
-            } else a++
+                h && c.push(bo(n, h, l + '_gap')),
+                  c.push(bo(n, 1, l, this.renderShowMore(t, i), o)),
+                  (s = i += 1)
+            } else i++
           }
-          return r.createElement('div', { className: 'rbc-row' }, s)
+          return r.createElement('div', { className: o['rbc-row'] }, c)
         }),
         (n.canRenderSlotEvent = function(e, t) {
           var n = this.props.segments
@@ -4549,59 +4568,60 @@
             u = c.lang,
             f = c.range,
             d = c.newWeeks,
-            p = rs(e, t),
-            v = f[t - 1],
-            h = v.getMonth() + 1,
-            m = v.getDate()
+            p = c.reactStyle,
+            v = rs(e, t),
+            h = f[t - 1],
+            m = h.getMonth() + 1,
+            g = h.getDate()
           e =
             e.filter(function(e) {
               return (
-                new Date(e.event.start).getFullYear() === v.getFullYear() &&
-                new Date(e.event.start).getMonth() === v.getMonth() &&
-                new Date(e.event.start).getDate() <= m &&
-                new Date(e.event.end).getDate() >= m
+                new Date(e.event.start).getFullYear() === h.getFullYear() &&
+                new Date(e.event.start).getMonth() === h.getMonth() &&
+                new Date(e.event.start).getDate() <= g &&
+                new Date(e.event.end).getDate() >= g
               )
             }) || []
-          var g = 0,
-            y = d.filter(function(e, t) {
-              if (e.key === '' + h + m) return (g = t), e
+          var y = 0,
+            b = d.filter(function(e, t) {
+              if (e.key === '' + m + g) return (y = t), e
             })
           return (
-            p &&
+            v &&
             r.createElement(
               'div',
-              { className: 'rbc-event-wrap', 'data-id': 'ref' + h + m },
+              { className: p['rbc-event-wrap'], 'data-id': 'ref' + m + g },
               r.createElement(
                 'div',
                 {
                   key: 'sm_' + t,
-                  className: 'rbc-event-content rbc-show-more',
+                  className: G(p['rbc-event-content'], p['rbc-show-more']),
                   onClick: function(e) {
-                    return s.showMore(t, e, g)
+                    return s.showMore(t, e, y)
                   },
-                  'data-id': 'ref' + h + m,
+                  'data-id': 'ref' + m + g,
                 },
-                l.messages[u].showMore(p)
+                l.messages[u].showMore(v)
               ),
-              (null == (n = y[0]) ? void 0 : n.isMore) &&
+              (null == (n = b[0]) ? void 0 : n.isMore) &&
                 r.createElement(
                   'div',
                   {
                     className: G(
-                      'rbc-event-more',
-                      (null == (o = y[0]) ? void 0 : o.right) &&
-                        'rbc-event-more-right',
-                      (null == (a = y[0]) ? void 0 : a.bottom) &&
-                        'rbc-event-more-bottom'
+                      p['rbc-event-more'],
+                      (null == (o = b[0]) ? void 0 : o.right) &&
+                        p['rbc-event-more-right'],
+                      (null == (a = b[0]) ? void 0 : a.bottom) &&
+                        p['rbc-event-more-bottom']
                     ),
-                    'data-id': 'ref' + h + m,
+                    'data-id': 'ref' + m + g,
                   },
                   r.createElement(
                     'div',
-                    { className: 'more-title', 'data-id': 'ref' + h + m },
-                    h,
-                    '月',
+                    { className: p['more-title'], 'data-id': 'ref' + m + g },
                     m,
+                    '月',
+                    g,
                     '日活动'
                   ),
                   null == (i = e)
@@ -4611,9 +4631,9 @@
                         return r.createElement(
                           'div',
                           {
-                            className: 'more-li',
+                            className: p['more-li'],
                             key: t,
-                            'data-id': 'ref' + h + m,
+                            'data-id': 'ref' + m + g,
                           },
                           r.createElement(
                             'a',
@@ -4621,16 +4641,16 @@
                               href: n.url,
                               title: n.title,
                               target: '_blank',
-                              className: 'more-li-title',
-                              'data-id': 'ref' + h + m,
+                              className: p['more-li-title'],
+                              'data-id': 'ref' + m + g,
                             },
                             n.title
                           ),
                           r.createElement(
                             'div',
                             {
-                              className: 'more-text',
-                              'data-id': 'ref' + h + m,
+                              className: p['more-text'],
+                              'data-id': 'ref' + m + g,
                             },
                             n.campaignTimeType,
                             '：',
@@ -4656,10 +4676,11 @@
     })(r.Component)
   ;(os.propTypes = {}), (os.defaultProps = i({}, go))
   var as = function(e) {
-      var t = e.children
+      var t = e.children,
+        n = (void 0).props.reactStyle
       return r.createElement(
         'div',
-        { className: 'rbc-row-content-scroll-container' },
+        { className: n['rbc-row-content-scroll-container'] },
         t
       )
     },
@@ -4733,11 +4754,12 @@
         (t.renderHeadingCell = function(e, n) {
           var r = t.props,
             o = r.renderHeader,
-            a = r.getNow
+            a = r.getNow,
+            i = r.reactStyle
           return o({
             date: e,
             key: 'header_' + n,
-            className: G('rbc-date-cell', Ge(e, a(), 'day') && 'rbc-now'),
+            className: G(i['rbc-date-cell'], Ge(e, a(), 'day') && i['rbc-now']),
           })
         }),
         (t.renderDummy = function() {
@@ -4745,7 +4767,8 @@
             n = e.className,
             o = e.range,
             a = e.renderHeader,
-            i = e.showAllEvents
+            i = e.showAllEvents,
+            s = e.reactStyle
           return r.createElement(
             'div',
             { className: n },
@@ -4753,28 +4776,28 @@
               'div',
               {
                 className: G(
-                  'rbc-row-content',
-                  i && 'rbc-row-content-scrollable'
+                  s['rbc-row-content'],
+                  i && s['rbc-row-content-scrollable']
                 ),
               },
               a &&
                 r.createElement(
                   'div',
-                  { className: 'rbc-row', ref: t.createHeadingRef },
+                  { className: s['rbc-row'], ref: t.createHeadingRef },
                   o.map(t.renderHeadingCell)
                 ),
               r.createElement(
                 'div',
-                { className: 'rbc-row', ref: t.createEventRef },
+                { className: s['rbc-row'], ref: t.createEventRef },
                 r.createElement(
                   'div',
-                  { className: 'rbc-row-segment' },
+                  { className: s['rbc-row-segment'] },
                   r.createElement(
                     'div',
-                    { className: 'rbc-event' },
+                    { className: s['rbc-event'] },
                     r.createElement(
                       'div',
-                      { className: 'rbc-event-content' },
+                      { className: s['rbc-event-content'] },
                       ' '
                     )
                   )
@@ -4876,20 +4899,21 @@
           w = e.onDoubleClick,
           E = e.onKeyPress,
           _ = e.resourceId,
-          D = e.longPressThreshold,
-          S = e.isAllDay,
+          S = e.longPressThreshold,
+          D = e.isAllDay,
           M = e.resizable,
           O = e.showAllEvents,
           x = e.lang,
           k = e.newWeeks,
-          j = e.clickMore
+          T = e.clickMore,
+          j = e.reactStyle
         if (u) return this.renderDummy()
-        var T = this.slotMetrics(this.props),
-          A = T.levels,
-          N = T.extra,
-          P = O ? as : a,
-          R = p.weekWrapper,
-          C = {
+        var A = this.slotMetrics(this.props),
+          N = A.levels,
+          P = A.extra,
+          R = O ? as : a,
+          C = p.weekWrapper,
+          F = {
             selected: c,
             accessors: f,
             getters: d,
@@ -4899,8 +4923,9 @@
             onDoubleClick: w,
             onKeyPress: E,
             resourceId: _,
-            slotMetrics: T,
+            slotMetrics: A,
             resizable: M,
+            reactStyle: j,
           }
         return r.createElement(
           'div',
@@ -4917,47 +4942,52 @@
             onSelectEnd: b,
             onSelectSlot: this.handleSelectSlot,
             components: p,
-            longPressThreshold: D,
+            longPressThreshold: S,
             resourceId: _,
+            reactStyle: j,
           }),
           r.createElement(
             'div',
             {
               className: G(
-                'rbc-row-content',
-                O && 'rbc-row-content-scrollable'
+                j['rbc-row-content'],
+                O && j['rbc-row-content-scrollable']
               ),
               role: 'row',
             },
             h &&
               r.createElement(
                 'div',
-                { className: 'rbc-row', ref: this.createHeadingRef },
+                { className: j['rbc-row'], ref: this.createHeadingRef },
                 o.map(this.renderHeadingCell)
               ),
             r.createElement(
-              P,
+              R,
               null,
               r.createElement(
-                R,
-                i({ isAllDay: S }, C),
-                A.map(function(e, t) {
-                  return r.createElement(wo, i({ key: t, segments: e }, C))
+                C,
+                i({ isAllDay: D }, F),
+                N.map(function(e, t) {
+                  return r.createElement(
+                    wo,
+                    i({ key: t, segments: e }, F, { reactStyle: j })
+                  )
                 }),
-                !!N.length &&
+                !!P.length &&
                   r.createElement(
                     os,
                     i(
                       {
-                        segments: N,
+                        segments: P,
                         lang: x,
                         range: o,
                         newWeeks: k,
                         onShowMore: this.handleShowMore,
-                        clickMore: j,
+                        clickMore: T,
                         newMoreShow: k,
+                        reactStyle: j,
                       },
-                      C
+                      F
                     )
                   )
               )
@@ -4980,13 +5010,14 @@
   ds.propTypes = {}
   var ps = function(e) {
     var t = e.label,
-      n = e.onDrillDown
+      n = e.onDrillDown,
+      o = e.reactStyle
     return (
       (t = t.replace(/^0/, '')),
       r.createElement(
         'div',
-        { className: 'current-text-wrap', role: 'cell', onClick: n },
-        r.createElement('span', { className: 'current-text' }, t)
+        { className: o['current-text-wrap'], role: 'cell', onClick: n },
+        r.createElement('span', { className: o['current-text'] }, t)
       )
     )
   }
@@ -5008,8 +5039,9 @@
             return n.findDOMNode(ie(t))
           }),
           (t.clickMore = function(e, n, r) {
-            var o = t.state.newWeeks
-            ;(o = o.map(function(e, t) {
+            var o = t.props.reactStyle,
+              a = t.state.newWeeks
+            ;(a = a.map(function(e, t) {
               return (
                 (e.isMore = !1),
                 (e.right = !1),
@@ -5018,32 +5050,32 @@
                 e
               )
             })),
-              t.setState({ newWeeks: o, newWeeksIndex: r }, function() {
-                var e = document.getElementsByClassName('rbc-event-more')[0],
-                  o = e.offsetHeight,
-                  a = e.offsetWidth,
-                  i =
+              t.setState({ newWeeks: a, newWeeksIndex: r }, function() {
+                var e = document.getElementsByClassName(o['rbc-event-more'])[0],
+                  a = e.offsetHeight,
+                  i = e.offsetWidth,
+                  s =
                     document.documentElement.scrollLeft ||
                     document.body.scrollLeft,
-                  s =
+                  c =
                     document.documentElement.scrollTop ||
                     document.body.scrollTop,
-                  c = window.innerWidth + i,
-                  l = window.innerHeight + s,
-                  u = n.pageX,
-                  f = n.pageY,
-                  d = u >= c - a,
-                  p = f >= l - o,
-                  v = t.state.newWeeks
-                ;(v = v.map(function(e, t) {
+                  l = window.innerWidth + s,
+                  u = window.innerHeight + c,
+                  f = n.pageX,
+                  d = n.pageY,
+                  p = f >= l - i,
+                  v = d >= u - a,
+                  h = t.state.newWeeks
+                ;(h = h.map(function(e, t) {
                   return (
                     (e.right = !1),
                     (e.bottom = !1),
-                    t === r && ((e.right = d), (e.bottom = p)),
+                    t === r && ((e.right = p), (e.bottom = v)),
                     e
                   )
                 })),
-                  t.setState({ newWeeks: v })
+                  t.setState({ newWeeks: h })
               })
           }),
           (t.renderWeek = function(e, n) {
@@ -5061,10 +5093,11 @@
               h = o.showAllEvents,
               m = o.lang,
               g = o.label,
-              y = t.state,
-              b = y.needLimitMeasure,
-              w = y.rowLimit,
-              E = y.newWeeks
+              y = o.reactStyle,
+              b = t.state,
+              w = b.needLimitMeasure,
+              E = b.rowLimit,
+              _ = b.newWeeks
             return (
               (a = hs(a, e[0], e[e.length - 1], p)).sort(function(e, t) {
                 return Zi(e, t, p)
@@ -5073,12 +5106,12 @@
                 key: n,
                 ref: 0 === n ? t.slotRowRef : void 0,
                 container: t.getContainer,
-                className: 'rbc-month-row',
+                className: y['rbc-month-row'],
                 getNow: c,
                 date: u,
                 range: e,
                 events: a,
-                maxRows: h ? 1 / 0 : w,
+                maxRows: h ? 1 / 0 : E,
                 selected: l,
                 selectable: s,
                 components: i,
@@ -5086,7 +5119,7 @@
                 getters: v,
                 localizer: f,
                 renderHeader: t.readerDateHeading,
-                renderForMeasure: b,
+                renderForMeasure: w,
                 onShowMore: t.handleShowMore,
                 onSelect: t.handleSelectEvent,
                 onDoubleClick: t.handleDoubleClickEvent,
@@ -5098,8 +5131,9 @@
                 showAllEvents: h,
                 lang: m,
                 label: g,
-                newWeeks: E,
+                newWeeks: _,
                 clickMore: t.clickMore,
+                reactStyle: y,
               })
             )
           }),
@@ -5113,27 +5147,28 @@
               f = l.getDrilldownView,
               d = l.localizer,
               p = l.events,
-              v = t.state.clickActiveEle,
-              h = ut(o) !== ut(u),
-              m = Ge(o, u, 'day'),
-              g = f(o),
-              y = d.format(o, 'dateFormat'),
-              b = t.props.components.dateHeader || ps,
-              w = function(e) {
+              v = l.reactStyle,
+              h = t.state.clickActiveEle,
+              m = ut(o) !== ut(u),
+              g = Ge(o, u, 'day'),
+              y = f(o),
+              b = d.format(o, 'dateFormat'),
+              w = t.props.components.dateHeader || ps,
+              E = function(e) {
                 return new Date(e.start)
               },
-              E = function(e) {
+              _ = function(e) {
                 return new Date(e.end)
               },
-              _ =
+              S =
                 p.filter(function(e) {
                   return (
-                    w(e).getFullYear() === o.getFullYear() &&
-                    w(e).getMonth() === o.getMonth() &&
-                    w(e).getDate() <= y &&
-                    E(e).getDate() >= y &&
-                    (w(e).getDate() === E(e).getDate() ||
-                      (w(e).getDate() !== E(e).getDate() &&
+                    E(e).getFullYear() === o.getFullYear() &&
+                    E(e).getMonth() === o.getMonth() &&
+                    E(e).getDate() <= b &&
+                    _(e).getDate() >= b &&
+                    (E(e).getDate() === _(e).getDate() ||
+                      (E(e).getDate() !== _(e).getDate() &&
                         Date.parse(e.end) >
                           Date.parse(
                             o.getFullYear() +
@@ -5145,7 +5180,7 @@
                   )
                 }) || [],
               D = '' + (o.getMonth() + 1) + o.getDate(),
-              S = v.filter(function(e) {
+              M = h.filter(function(e) {
                 if (e.key === D) return e
               })
             return r.createElement(
@@ -5153,20 +5188,21 @@
               i({}, c, {
                 className: G(
                   a,
-                  h && 'rbc-off-range',
-                  m && 'rbc-current',
-                  (null == _ ? void 0 : _.length) > 0 && 'rbc-data',
-                  (null == (n = S[0]) ? void 0 : n.value) && 'rbc-active'
+                  m && v['rbc-off-range'],
+                  g && v['rbc-current'],
+                  (null == S ? void 0 : S.length) > 0 && v['rbc-data'],
+                  (null == (n = M[0]) ? void 0 : n.value) && v['rbc-active']
                 ),
                 role: 'cell',
               }),
-              r.createElement(b, {
-                label: y,
+              r.createElement(w, {
+                label: b,
                 date: o,
-                drilldownView: g,
-                isOffRange: h,
+                drilldownView: y,
+                isOffRange: m,
+                reactStyle: v,
                 onDrillDown: function(e) {
-                  return t.handleHeadingClick(o, _, e, D)
+                  return t.handleHeadingClick(o, S, e, D)
                 },
               })
             )
@@ -5295,9 +5331,10 @@
             i = o.localizer,
             s = o.className,
             c = o.loading,
-            l = en(gt(a, i), 7)
+            l = o.reactStyle,
+            u = en(gt(a, i), 7)
           return (
-            (this._weekCount = l.length),
+            (this._weekCount = u.length),
             r.createElement(
               r.Fragment,
               null,
@@ -5305,56 +5342,64 @@
                 'div',
                 {
                   className: G(
-                    'rbc-month-view',
+                    l['rbc-month-view'],
                     s,
-                    c && 'rbc-month-view-loading'
+                    c && l['rbc-month-view-loading']
                   ),
                   role: 'table',
                   'aria-label': 'Month View',
                 },
                 r.createElement(
                   'div',
-                  { className: 'rbc-row rbc-month-header', role: 'row' },
-                  this.renderHeaders(l[0])
+                  {
+                    className: G(l['rbc-row'], l['rbc-month-header']),
+                    role: 'row',
+                  },
+                  this.renderHeaders(u[0])
                 ),
-                l.map(this.renderWeek),
+                u.map(this.renderWeek),
                 this.props.popup && this.renderOverlay()
               ),
               n.date &&
                 r.createElement(
                   'div',
-                  { className: 'wap-render-list' },
-                  r.createElement('div', { className: 'active-title' }, n.date),
+                  { className: l['wap-render-list'] },
+                  r.createElement(
+                    'div',
+                    { className: l['active-title'] },
+                    n.date
+                  ),
                   (null == (e = n.list) ? void 0 : e.length) > 0
                     ? null == (t = n.list)
                       ? void 0
                       : t.map(function(e, t) {
                           return r.createElement(
                             'div',
-                            { className: 'active-li', key: t },
+                            { className: l['active-li'], key: t },
                             r.createElement(
                               'a',
                               {
                                 href: e.url,
                                 title: e.title,
                                 target: '_blank',
-                                className: 'active-li-title',
+                                className: l['active-li-title'],
                               },
                               e.title
                             ),
                             r.createElement(
                               'div',
-                              { className: 'active-text' },
-                              '报名时间：',
-                              e.start,
+                              { className: l['active-text'] },
+                              e.campaignTimeType,
+                              '：',
+                              e.campaignStartTime,
                               ' 至 ',
-                              e.end
+                              e.campaignEndTime
                             )
                           )
                         })
                     : r.createElement(
                         'div',
-                        { className: 'active-li-none' },
+                        { className: l['active-li-none'] },
                         '暂无活动'
                       )
                 )
@@ -5375,16 +5420,17 @@
             n = t.localizer,
             o = t.components,
             a = t.lang,
-            i = e[0],
-            s = e[e.length - 1],
-            c = o.header || ds
+            i = t.reactStyle,
+            s = e[0],
+            c = e[e.length - 1],
+            l = o.header || ds
           a = a || 'en'
-          var l = n.messages[a].weeks
-          return bt(i, s, 'day').map(function(e, t) {
+          var u = n.messages[a].weeks
+          return bt(s, c, 'day').map(function(e, t) {
             return r.createElement(
               'div',
-              { key: 'header_' + t, className: 'rbc-header' },
-              r.createElement(c, { date: e, localizer: n, label: l[t] })
+              { key: 'header_' + t, className: i['rbc-header'] },
+              r.createElement(l, { date: e, localizer: n, label: u[t] })
             )
           })
         }),
@@ -5397,7 +5443,8 @@
             s = n.components,
             c = n.getters,
             l = n.selected,
-            u = n.popupOffset
+            u = n.popupOffset,
+            f = n.reactStyle
           return r.createElement(
             no,
             {
@@ -5412,10 +5459,10 @@
               },
             },
             function(n) {
-              var f = n.props
+              var d = n.props
               return r.createElement(
-                Sn,
-                i({}, f, {
+                Dn,
+                i({}, d, {
                   popupOffset: u,
                   accessors: o,
                   getters: c,
@@ -5431,6 +5478,7 @@
                   onDoubleClick: e.handleDoubleClickEvent,
                   onKeyPress: e.handleKeyPressEvent,
                   handleDragStart: e.props.handleDragStart,
+                  reactStyle: f,
                 })
               )
             }
@@ -5511,10 +5559,10 @@
       'function' == typeof window[ys] && window[ys](e)
     },
     _s = bs,
-    Ds = function(e, t) {
+    Ss = function(e, t) {
       return e.getTimezoneOffset() - t.getTimezoneOffset()
     },
-    Ss = function(e, t, n, r) {
+    Ds = function(e, t, n, r) {
       return +Xe(e, 'minutes') + '' + +Xe(t, 'minutes') + n + '-' + r
     }
   function Ms(e) {
@@ -5523,10 +5571,10 @@
         n = e.max,
         r = e.step,
         o = e.timeslots,
-        a = Ss(t, n, r, o),
+        a = Ds(t, n, r, o),
         i = Xe(t, 'day'),
-        s = Ds(i, t),
-        c = 1 + _t(t, n, 'minutes') + Ds(t, n),
+        s = Ss(i, t),
+        c = 1 + _t(t, n, 'minutes') + Ss(t, n),
         l = _t(i, t, 'minutes') + s,
         u = Math.ceil((c - 1) / (r * o)),
         f = u * o,
@@ -5553,7 +5601,7 @@
     }
     var y = p.length * r
     function b(e) {
-      var n = _t(t, e, 'minutes') + Ds(t, e)
+      var n = _t(t, e, 'minutes') + Ss(t, e)
       return Math.min(n, c)
     }
     return (
@@ -5563,7 +5611,7 @@
       {
         groups: d,
         update: function(e) {
-          return Ss(e) !== a ? Ms(e) : this
+          return Ds(e) !== a ? Ms(e) : this
         },
         dateIsInGroup: function(e, t) {
           var r = d[t + 1]
@@ -5642,7 +5690,7 @@
   function ks(e, t) {
     return e && xs(e, t, Ua)
   }
-  var js = (function(e, t) {
+  var Ts = (function(e, t) {
     return function(n, r) {
       if (null == n) return n
       if (!Pt(n)) return e(n, r)
@@ -5654,7 +5702,7 @@
       return n
     }
   })(ks)
-  function Ts(e, t) {
+  function js(e, t) {
     if (e !== t) {
       var n = void 0 !== e,
         r = null === e,
@@ -5705,7 +5753,7 @@
           var n = -1,
             r = Pt(e) ? Array(e.length) : []
           return (
-            js(e, function(e, o, a) {
+            Ts(e, function(e, o, a) {
               r[++n] = t(e, o, a)
             }),
             r
@@ -5730,7 +5778,7 @@
               ++r < i;
 
             ) {
-              var c = Ts(o[r], a[r])
+              var c = js(o[r], a[r])
               if (c) return r >= s ? c : c * ('desc' == n[r] ? -1 : 1)
             }
             return e.index - t.index
@@ -6029,9 +6077,9 @@
       for (var w = 0; w < t.length; ++w) {
         var E = t[w]
         E.style.left = E.idx * E.size
-        for (var _ = 0, D = 0; D < E.friends.length; ++D) {
-          var S = E.friends[D]
-          _ = _ > S ? _ : S
+        for (var _ = 0, S = 0; S < E.friends.length; ++S) {
+          var D = E.friends[S]
+          _ = _ > D ? _ : D
         }
         _ <= E.idx && (E.size = 100 - E.idx * E.size)
         var M = 0 === E.idx ? 0 : 3
@@ -6102,14 +6150,14 @@
       w = b.event,
       E = b.eventWrapper,
       _ = c.title(s),
-      D = c.tooltip(s),
-      S = c.end(s),
+      S = c.tooltip(s),
+      D = c.end(s),
       M = c.start(s),
-      O = v.eventProp(s, M, S, u),
+      O = v.eventProp(s, M, D, u),
       x = o.height,
       k = o.top,
-      j = o.width,
-      T = o.xOffset,
+      T = o.width,
+      j = o.xOffset,
       A = [
         r.createElement('div', { key: '1', className: 'rbc-event-label' }, f),
         r.createElement(
@@ -6125,12 +6173,12 @@
           ? (((t = {
               top: Xs(k),
               height: Xs(x),
-              width: 'calc(' + j + ' + 10px)',
-            })[l ? 'right' : 'left'] = Xs(Math.max(0, T))),
+              width: 'calc(' + T + ' + 10px)',
+            })[l ? 'right' : 'left'] = Xs(Math.max(0, j))),
             t)
-          : (((n = { top: Xs(k), width: Xs(j), height: Xs(x) })[
+          : (((n = { top: Xs(k), width: Xs(T), height: Xs(x) })[
               l ? 'right' : 'left'
-            ] = Xs(T)),
+            ] = Xs(j)),
             n)
       )
     return r.createElement(
@@ -6143,7 +6191,7 @@
           onDoubleClick: m,
           style: N,
           onKeyPress: y,
-          title: D ? ('string' == typeof f ? f + ': ' : '') + D : void 0,
+          title: S ? ('string' == typeof f ? f + ': ' : '') + S : void 0,
           className: G(
             g ? 'rbc-background-event' : 'rbc-event',
             a,
@@ -6225,7 +6273,7 @@
                 : E && (b = 'eventTimeRangeStartFormat'),
                 (a = w && E ? g.allDay : l.format({ start: y, end: v }, b))
               var _ = w || m.startsBefore(y),
-                D = E || m.startsAfter(v)
+                S = E || m.startsAfter(v)
               return r.createElement(qs, {
                 style: p,
                 event: d,
@@ -6235,7 +6283,7 @@
                 rtl: i,
                 components: f,
                 continuesEarlier: _,
-                continuesLater: D,
+                continuesLater: S,
                 accessors: c,
                 selected: wn(d, s),
                 onClick: function(e) {
@@ -6447,16 +6495,16 @@
             w = g.height,
             E = { start: g.startDate, end: g.endDate },
             _ = f(n),
-            D = _.className,
-            S = _.style,
+            S = _.className,
+            D = _.style,
             M = h.dayColumnWrapper || Gs
           return r.createElement(
             M,
             {
               date: t,
-              style: S,
+              style: D,
               className: G(
-                D,
+                S,
                 'rbc-day-slot',
                 'rbc-time-column',
                 a && 'rbc-now',
@@ -6967,36 +7015,42 @@
           h = e.max,
           m = e.showMultiDayTimes,
           g = e.longPressThreshold,
-          y = e.resizable
+          y = e.resizable,
+          b = e.reactStyle
         a = a || this.state.gutterWidth
-        var b = o[0],
-          w = o[o.length - 1]
+        var w = o[0],
+          E = o[o.length - 1]
         this.slots = o.length
-        var E = [],
-          _ = [],
+        var _ = [],
+          S = [],
           D = []
         return (
           t.forEach(function(e) {
-            if (qi(e, b, w, f)) {
+            if (qi(e, w, E, f)) {
               var t = f.start(e),
                 n = f.end(e)
               f.allDay(e) || (Et(t) && Et(n)) || (!m && !Ge(t, n, 'day'))
-                ? E.push(e)
-                : _.push(e)
+                ? _.push(e)
+                : S.push(e)
             }
           }),
           n.forEach(function(e) {
-            qi(e, b, w, f) && D.push(e)
+            qi(e, w, E, f) && D.push(e)
           }),
-          E.sort(function(e, t) {
+          _.sort(function(e, t) {
             return Zi(e, t, f)
           }),
           r.createElement(
             'div',
-            { className: G('rbc-time-view', l && 'rbc-time-view-resources') },
+            {
+              className: G(
+                b['rbc-time-view'],
+                l && b['rbc-time-view-resources']
+              ),
+            },
             r.createElement(ac, {
               range: o,
-              events: E,
+              events: _,
               width: a,
               rtl: i,
               getNow: c,
@@ -7022,23 +7076,23 @@
               'div',
               {
                 ref: this.contentRef,
-                className: 'rbc-time-content',
+                className: b['rbc-time-content'],
                 onScroll: this.handleScroll,
               },
               r.createElement(tc, {
-                date: b,
+                date: w,
                 ref: this.gutterRef,
                 localizer: p,
-                min: wt(b, v),
-                max: wt(b, h),
+                min: wt(w, v),
+                max: wt(w, h),
                 step: this.props.step,
                 getNow: this.props.getNow,
                 timeslots: this.props.timeslots,
                 components: u,
-                className: 'rbc-time-gutter',
+                className: b['rbc-time-gutter'],
                 getters: d,
               }),
-              this.renderEvents(o, _, D, c())
+              this.renderEvents(o, S, D, c())
             )
           )
         )
@@ -7449,19 +7503,19 @@
   }
   var Ec = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g
   var _c = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/
-  var Dc =
+  var Sc =
       '\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000',
-    Sc = '[' + Dc + ']',
+    Dc = '[' + Sc + ']',
     Mc = '\\d+',
     Oc = '[\\u2700-\\u27bf]',
     xc = '[a-z\\xdf-\\xf6\\xf8-\\xff]',
     kc =
       '[^\\ud800-\\udfff' +
-      Dc +
+      Sc +
       Mc +
       '\\u2700-\\u27bfa-z\\xdf-\\xf6\\xf8-\\xffA-Z\\xc0-\\xd6\\xd8-\\xde]',
-    jc = '(?:\\ud83c[\\udde6-\\uddff]){2}',
-    Tc = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+    Tc = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+    jc = '[\\ud800-\\udbff][\\udc00-\\udfff]',
     Ac = '[A-Z\\xc0-\\xd6\\xd8-\\xde]',
     Nc = '(?:' + xc + '|' + kc + ')',
     Pc = '(?:' + Ac + '|' + kc + ')',
@@ -7471,22 +7525,22 @@
       '[\\ufe0e\\ufe0f]?' +
       Rc +
       ('(?:\\u200d(?:' +
-        ['[^\\ud800-\\udfff]', jc, Tc].join('|') +
+        ['[^\\ud800-\\udfff]', Tc, jc].join('|') +
         ')[\\ufe0e\\ufe0f]?' +
         Rc +
         ')*'),
-    Fc = '(?:' + [Oc, jc, Tc].join('|') + ')' + Cc,
+    Fc = '(?:' + [Oc, Tc, jc].join('|') + ')' + Cc,
     Lc = RegExp(
       [
         Ac +
           '?' +
           xc +
           "+(?:['’](?:d|ll|m|re|s|t|ve))?(?=" +
-          [Sc, Ac, '$'].join('|') +
+          [Dc, Ac, '$'].join('|') +
           ')',
         Pc +
           "+(?:['’](?:D|LL|M|RE|S|T|VE))?(?=" +
-          [Sc, Ac + Nc, '$'].join('|') +
+          [Dc, Ac + Nc, '$'].join('|') +
           ')',
         Ac + '?' + Nc + "+(?:['’](?:d|ll|m|re|s|t|ve))?",
         Ac + "+(?:['’](?:D|LL|M|RE|S|T|VE))?",
@@ -7535,10 +7589,11 @@
         var e = this.props,
           t = e.localizer.messages,
           n = e.label,
-          o = e.lang
+          o = e.lang,
+          a = e.reactStyle
         o = o || 'en'
-        var a = Wc(n),
-          i = (function(e) {
+        var i = Wc(n),
+          s = (function(e) {
             for (
               var t = -1, n = null == e ? 0 : e.length, r = 0, o = [];
               ++t < n;
@@ -7550,32 +7605,32 @@
             return o
           })(
             t.en.month.map(function(e, t) {
-              if (e === a[1]) return t
+              if (e === i[1]) return t
             })
           ),
-          s = t[o].month[i[0] || 0],
-          c = 'en' === o ? n : a[0] + '年' + s
+          c = t[o].month[s[0] || 0],
+          l = 'en' === o ? n : i[0] + '年' + c
         return r.createElement(
           'div',
-          { className: 'rbc-toolbar' },
+          { className: a['rbc-toolbar'] },
           r.createElement(
             'div',
-            { className: 'rbc-toolbar-label' },
-            c,
+            { className: a['rbc-toolbar-label'] },
+            l,
             ' ',
             r.createElement(
               'span',
-              { className: 'rbc-toolbar-label-tip' },
+              { className: a['rbc-toolbar-label-tip'] },
               t[o].hasActivity
             )
           ),
           r.createElement(
             'span',
-            { className: 'rbc-btn-group' },
+            { className: a['rbc-btn-group'] },
             r.createElement('button', {
               type: 'button',
               onClick: this.navigate.bind(null, Z.PREVIOUS),
-              className: 'arrow arrow-left',
+              className: G(a.arrow, a['arrow-left']),
             }),
             r.createElement(
               'button',
@@ -7585,7 +7640,7 @@
             r.createElement('button', {
               type: 'button',
               onClick: this.navigate.bind(null, Z.NEXT),
-              className: 'arrow arrow-right',
+              className: G(a.arrow, a['arrow-right']),
             })
           )
         )
@@ -7610,7 +7665,7 @@
   var Uc = Object.prototype.hasOwnProperty
   function Vc(e, t, n) {
     var r = e[t]
-    ;(Uc.call(e, t) && St(r, n) && (void 0 !== n || t in e)) || Hc(e, t, n)
+    ;(Uc.call(e, t) && Dt(r, n) && (void 0 !== n || t in e)) || Hc(e, t, n)
   }
   function Bc(e, t, n, r) {
     var o = !n
@@ -7678,8 +7733,8 @@
     wl = '[object Int32Array]',
     El = '[object Uint8Array]',
     _l = '[object Uint8ClampedArray]',
-    Dl = '[object Uint16Array]',
-    Sl = '[object Uint32Array]'
+    Sl = '[object Uint16Array]',
+    Dl = '[object Uint32Array]'
   function Ml(e, t, n) {
     var r,
       o,
@@ -7703,8 +7758,8 @@
       case wl:
       case El:
       case _l:
-      case Dl:
       case Sl:
+      case Dl:
         return (function(e, t) {
           var n = t ? nl(e.buffer) : e.buffer
           return new e.constructor(n, e.byteOffset, e.length)
@@ -7738,9 +7793,9 @@
       }
     })()
   var kl = '[object Map]'
-  var jl = Na && Na.isMap,
-    Tl = jl
-      ? ka(jl)
+  var Tl = Na && Na.isMap,
+    jl = Tl
+      ? ka(Tl)
       : function(e) {
           return Ee(e) && ni(e) == kl
         },
@@ -7840,7 +7895,7 @@
         ? e.forEach(function(r) {
             i.add(Ul(r, t, n, r, e, a))
           })
-        : Tl(e) &&
+        : jl(e) &&
           e.forEach(function(r, o) {
             i.set(o, Ul(r, t, n, o, e, a))
           })
@@ -7856,7 +7911,7 @@
     return (
       null ==
         (e = (function(e, t) {
-          return t.length < 2 ? e : Fi(e, Dt(t, 0, -1))
+          return t.length < 2 ? e : Fi(e, St(t, 0, -1))
         })(e, (t = Pi(t, e)))) ||
       delete e[
         Ci(((n = t), (r = null == n ? 0 : n.length), r ? n[r - 1] : void 0))
@@ -7920,7 +7975,7 @@
         for (var a = t[n], i = $c(a), s = -1, c = i.length; ++s < c; ) {
           var l = i[s],
             u = e[l]
-          ;(void 0 === u || (St(u, Jl[l]) && !Ql.call(e, l))) && (e[l] = a[l])
+          ;(void 0 === u || (Dt(u, Jl[l]) && !Ql.call(e, l))) && (e[l] = a[l])
         }
       return e
     })
@@ -7961,6 +8016,7 @@
       'messages',
       'culture',
       'lang',
+      'reactStyle',
     ]
   function ou(e) {
     return Array.isArray(e) ? e : Object.keys(e)
@@ -7981,7 +8037,7 @@
                   o = r || Oa(e) || Ra(e)
                 if (((t = Bi(t)), null == n)) {
                   var a = e && e.constructor
-                  n = o ? (r ? new a() : []) : Mt(e) && Tt(a) ? xl(Jc(e)) : {}
+                  n = o ? (r ? new a() : []) : Mt(e) && jt(a) ? xl(Jc(e)) : {}
                 }
                 return (
                   (o ? Ic : ks)(e, function(e, r, o) {
@@ -8107,9 +8163,9 @@
           w = e.messages,
           E = void 0 === w ? {} : w,
           _ = e.components,
-          D = void 0 === _ ? {} : _,
-          S = e.formats,
-          M = void 0 === S ? {} : S,
+          S = void 0 === _ ? {} : _,
+          D = e.formats,
+          M = void 0 === D ? {} : D,
           O = ou(g)
         return {
           viewNames: O,
@@ -8138,7 +8194,7 @@
               return (h && h.apply(void 0, arguments)) || {}
             },
           },
-          components: eu(D[m] || {}, Zl(D, O), {
+          components: eu(S[m] || {}, Zl(S, O), {
             eventWrapper: a,
             backgroundEventWrapper: a,
             eventContainerWrapper: a,
@@ -8175,46 +8231,48 @@
           m = e.onShowMore,
           g = e.doShowMoreDrillDown,
           y = (e.components, e.formats, e.messages, e.culture, e.lang),
-          b = s(e, ru)
+          b = e.reactStyle,
+          w = s(e, ru)
         d = d || p()
-        var w = this.getView(),
-          E = this.state.context,
-          _ = E.accessors,
-          D = E.components,
-          S = E.getters,
-          M = E.localizer,
-          O = E.viewNames,
-          x = D.toolbar || zc,
-          k = w.title(d, { localizer: M, length: v })
+        var E = this.getView(),
+          _ = this.state.context,
+          S = _.accessors,
+          D = _.components,
+          M = _.getters,
+          O = _.localizer,
+          x = _.viewNames,
+          k = D.toolbar || zc,
+          T = E.title(d, { localizer: O, length: v })
         return r.createElement(
           'div',
           i({}, f, {
-            className: G(u, 'rbc-calendar', b.rtl && 'rbc-rtl'),
+            className: G(u, b['rbc-calendar'], w.rtl && b['rbc-rtl']),
             style: l,
           }),
           n &&
-            r.createElement(x, {
+            r.createElement(k, {
               date: d,
               view: t,
-              views: O,
-              label: k,
+              views: x,
+              label: T,
               onView: this.handleViewChange,
               onNavigate: this.handleNavigate,
-              localizer: M,
+              localizer: O,
               lang: y,
+              reactStyle: b,
             }),
           r.createElement(
-            w,
-            i({}, b, {
+            E,
+            i({}, w, {
               events: o,
               backgroundEvents: c,
               date: d,
               getNow: p,
               length: v,
-              localizer: M,
-              getters: S,
+              localizer: O,
+              getters: M,
               components: D,
-              accessors: _,
+              accessors: S,
               showMultiDayTimes: h,
               getDrilldownView: this.getDrilldownView,
               onNavigate: this.handleNavigate,
@@ -8226,7 +8284,8 @@
               onShowMore: m,
               doShowMoreDrillDown: g,
               lang: y,
-              label: k,
+              label: T,
+              reactStyle: b,
             })
           )
         )

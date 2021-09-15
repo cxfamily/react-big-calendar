@@ -39,12 +39,13 @@ class BackgroundCells extends React.Component {
       getters,
       date: currentDate,
       components: { dateCellWrapper: Wrapper },
+      reactStyle,
     } = this.props
     let { selecting, startIdx, endIdx } = this.state
     let current = getNow()
 
     return (
-      <div className="rbc-row-bg">
+      <div className={reactStyle['rbc-row-bg']}>
         {range.map((date, index) => {
           let selected = selecting && index >= startIdx && index <= endIdx
           const { className, style } = getters.dayProp(date)
@@ -54,13 +55,13 @@ class BackgroundCells extends React.Component {
               <div
                 style={style}
                 className={clsx(
-                  'rbc-day-bg',
+                  reactStyle['rbc-day-bg'],
                   className,
-                  selected && 'rbc-selected-cell',
-                  dates.eq(date, current, 'day') && 'rbc-today',
+                  selected && reactStyle['rbc-selected-cell'],
+                  dates.eq(date, current, 'day') && reactStyle['rbc-today'],
                   currentDate &&
                     dates.month(currentDate) !== dates.month(date) &&
-                    'rbc-off-range-bg'
+                    reactStyle['rbc-off-range-bg']
                 )}
               />
             </Wrapper>
@@ -185,6 +186,7 @@ BackgroundCells.propTypes = {
   rtl: PropTypes.bool,
   type: PropTypes.string,
   resourceId: PropTypes.any,
+  reactStyle: PropTypes.object,
 }
 
 export default BackgroundCells

@@ -25,8 +25,6 @@ import transform from 'lodash/transform'
 import mapValues from 'lodash/mapValues'
 import { wrapAccessor } from './utils/accessors'
 
-import '../lib/sass/styles.scss'
-
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
 }
@@ -465,6 +463,7 @@ class Calendar extends React.Component {
      */
     toolbar: PropTypes.bool,
     lang: PropTypes.string,
+    reactStyle: PropTypes.object,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.
@@ -942,6 +941,7 @@ class Calendar extends React.Component {
       messages: _2,
       culture: _3,
       lang,
+      reactStyle,
       ...props
     } = this.props
     current = current || getNow()
@@ -961,7 +961,11 @@ class Calendar extends React.Component {
     return (
       <div
         {...elementProps}
-        className={clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl')}
+        className={clsx(
+          className,
+          reactStyle['rbc-calendar'],
+          props.rtl && reactStyle['rbc-rtl']
+        )}
         style={style}
       >
         {toolbar && (
@@ -974,6 +978,7 @@ class Calendar extends React.Component {
             onNavigate={this.handleNavigate}
             localizer={localizer}
             lang={lang}
+            reactStyle={reactStyle}
           />
         )}
         <View
@@ -999,6 +1004,7 @@ class Calendar extends React.Component {
           doShowMoreDrillDown={doShowMoreDrillDown}
           lang={lang}
           label={label}
+          reactStyle={reactStyle}
         />
       </div>
     )

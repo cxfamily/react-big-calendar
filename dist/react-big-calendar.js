@@ -3047,7 +3047,9 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 && value % 1 == 0 && value < length
+      value > -1 &&
+      value % 1 == 0 &&
+      value < length
     )
   }
 
@@ -3558,6 +3560,7 @@
     'getters',
     'children',
     'components',
+    'reactStyle',
   ]
 
   var EventCell = /*#__PURE__*/ (function(_React$Component) {
@@ -3582,6 +3585,7 @@
         getters = _this$props.getters,
         children = _this$props.children,
         EventWrapper = _this$props.components.eventWrapper,
+        reactStyle = _this$props.reactStyle,
         props = _objectWithoutPropertiesLoose(_this$props, _excluded)
 
       delete props.resizable
@@ -3597,9 +3601,10 @@
         'a',
         {
           href: event.url ? event.url : '#',
-          className: clsx('rbc-event-content', {
-            'rbc-event-content-train': event.type === '2',
-          }),
+          className: clsx(
+            reactStyle['rbc-event-content'],
+            event.type === '2' && reactStyle['rbc-event-content-train']
+          ),
           target: '_blank',
           title: tooltip || undefined,
         },
@@ -3615,12 +3620,15 @@
           _extends({}, props, {
             tabIndex: 0,
             style: _extends({}, userProps.style, style),
-            className: clsx('rbc-event', className, userProps.className, {
-              'rbc-selected': selected,
-              'rbc-event-allday': showAsAllDay,
-              'rbc-event-continues-prior': continuesPrior,
-              'rbc-event-continues-after': continuesAfter,
-            }), // onClick={e => onSelect && onSelect(event, e)}
+            className: clsx(
+              reactStyle['rbc-event'],
+              className,
+              userProps.className,
+              selected && reactStyle['rbc-selected'],
+              showAsAllDay && reactStyle['rbc-event-allday'],
+              continuesPrior && reactStyle['rbc-event-continues-prior'],
+              continuesAfter && reactStyle['rbc-event-continues-after']
+            ), // onClick={e => onSelect && onSelect(event, e)}
             // onDoubleClick={e => onDoubleClick && onDoubleClick(event, e)}
             // onKeyPress={e => onKeyPress && onKeyPress(event, e)}
           }),
@@ -3648,6 +3656,7 @@
     onSelect: propTypes.func,
     onDoubleClick: propTypes.func,
     onKeyPress: propTypes.func,
+    reactStyle: propTypes.object,
   }
 
   function isSelected(event, selected) {
@@ -3779,7 +3788,8 @@
         slotStart = _this$props2.slotStart,
         slotEnd = _this$props2.slotEnd,
         localizer = _this$props2.localizer,
-        popperRef = _this$props2.popperRef
+        popperRef = _this$props2.popperRef,
+        reactStyle = _this$props2.reactStyle
       var width = this.props.position.width,
         topOffset = (this.state || {}).topOffset || 0,
         leftOffset = (this.state || {}).leftOffset || 0
@@ -3792,13 +3802,13 @@
         'div',
         {
           style: _extends({}, this.props.style, style),
-          className: 'rbc-overlay',
+          className: reactStyle['rbc-overlay'],
           ref: popperRef,
         },
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: 'rbc-overlay-header',
+            className: reactStyle['rbc-overlay-header'],
           },
           localizer.format(slotStart, 'dayHeaderFormat')
         ),
@@ -3824,6 +3834,7 @@
             onDragEnd: function onDragEnd() {
               return _this.props.show()
             },
+            reactStyle: reactStyle,
           })
         })
       )
@@ -3854,6 +3865,7 @@
     show: propTypes.func,
     slotStart: propTypes.instanceOf(Date),
     slotEnd: propTypes.number,
+    reactStyle: propTypes.object,
     popperRef: propTypes.oneOfType([
       propTypes.func,
       propTypes.shape({
@@ -4049,9 +4061,17 @@
     var scaleY = 1
 
     if (isHTMLElement$1(element) && includeScale) {
+      var offsetHeight = element.offsetHeight
+      var offsetWidth = element.offsetWidth // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
       // Fallback to 1 in case both values are `0`
-      scaleX = rect.width / element.offsetWidth || 1
-      scaleY = rect.height / element.offsetHeight || 1
+
+      if (offsetWidth > 0) {
+        scaleX = rect.width / offsetWidth || 1
+      }
+
+      if (offsetHeight > 0) {
+        scaleY = rect.height / offsetHeight || 1
+      }
     }
 
     return {
@@ -4381,6 +4401,10 @@
     requiresIfExists: ['preventOverflow'],
   }
 
+  function getVariation(placement) {
+    return placement.split('-')[1]
+  }
+
   var unsetSides = {
     top: 'auto',
     right: 'auto',
@@ -4407,6 +4431,7 @@
     var popper = _ref2.popper,
       popperRect = _ref2.popperRect,
       placement = _ref2.placement,
+      variation = _ref2.variation,
       offsets = _ref2.offsets,
       position = _ref2.position,
       gpuAcceleration = _ref2.gpuAcceleration,
@@ -4438,7 +4463,10 @@
       if (offsetParent === getWindow(popper)) {
         offsetParent = getDocumentElement(popper)
 
-        if (getComputedStyle$1(offsetParent).position !== 'static') {
+        if (
+          getComputedStyle$1(offsetParent).position !== 'static' &&
+          position === 'absolute'
+        ) {
           heightProp = 'scrollHeight'
           widthProp = 'scrollWidth'
         }
@@ -4446,14 +4474,20 @@
 
       offsetParent = offsetParent
 
-      if (placement === top) {
+      if (
+        placement === top ||
+        ((placement === left || placement === right) && variation === end)
+      ) {
         sideY = bottom // $FlowFixMe[prop-missing]
 
         y -= offsetParent[heightProp] - popperRect.height
         y *= gpuAcceleration ? 1 : -1
       }
 
-      if (placement === left) {
+      if (
+        placement === left ||
+        ((placement === top || placement === bottom) && variation === end)
+      ) {
         sideX = right // $FlowFixMe[prop-missing]
 
         x -= offsetParent[widthProp] - popperRect.width
@@ -4478,7 +4512,7 @@
         (_Object$assign[sideY] = hasY ? '0' : ''),
         (_Object$assign[sideX] = hasX ? '0' : ''),
         (_Object$assign.transform =
-          (win.devicePixelRatio || 1) < 2
+          (win.devicePixelRatio || 1) <= 1
             ? 'translate(' + x + 'px, ' + y + 'px)'
             : 'translate3d(' + x + 'px, ' + y + 'px, 0)'),
         _Object$assign)
@@ -4539,6 +4573,7 @@
 
     var commonStyles = {
       placement: getBasePlacement(state.placement),
+      variation: getVariation(state.placement),
       popper: state.elements.popper,
       popperRect: state.rects.popper,
       gpuAcceleration: gpuAcceleration,
@@ -4896,10 +4931,6 @@
     return clippingRect
   }
 
-  function getVariation(placement) {
-    return placement.split('-')[1]
-  }
-
   function computeOffsets(_ref) {
     var reference = _ref.reference,
       element = _ref.element,
@@ -4998,7 +5029,6 @@
         : expandToHashMap(padding, basePlacements)
     )
     var altContext = elementContext === popper ? reference : popper
-    var referenceElement = state.elements.reference
     var popperRect = state.rects.popper
     var element = state.elements[altBoundary ? altContext : elementContext]
     var clippingClientRect = getClippingRect(
@@ -5008,7 +5038,7 @@
       boundary,
       rootBoundary
     )
-    var referenceClientRect = getBoundingClientRect(referenceElement)
+    var referenceClientRect = getBoundingClientRect(state.elements.reference)
     var popperOffsets = computeOffsets({
       reference: referenceClientRect,
       element: popperRect,
@@ -5735,147 +5765,160 @@
   ]
   function validateModifiers(modifiers) {
     modifiers.forEach(function(modifier) {
-      Object.keys(modifier).forEach(function(key) {
-        switch (key) {
-          case 'name':
-            if (typeof modifier.name !== 'string') {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  String(modifier.name),
-                  '"name"',
-                  '"string"',
-                  '"' + String(modifier.name) + '"'
+      ;[]
+        .concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
+        .filter(function(value, index, self) {
+          return self.indexOf(value) === index
+        })
+        .forEach(function(key) {
+          switch (key) {
+            case 'name':
+              if (typeof modifier.name !== 'string') {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    String(modifier.name),
+                    '"name"',
+                    '"string"',
+                    '"' + String(modifier.name) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'enabled':
-            if (typeof modifier.enabled !== 'boolean') {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"enabled"',
-                  '"boolean"',
-                  '"' + String(modifier.enabled) + '"'
+            case 'enabled':
+              if (typeof modifier.enabled !== 'boolean') {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"enabled"',
+                    '"boolean"',
+                    '"' + String(modifier.enabled) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-          case 'phase':
-            if (modifierPhases.indexOf(modifier.phase) < 0) {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"phase"',
-                  'either ' + modifierPhases.join(', '),
-                  '"' + String(modifier.phase) + '"'
+              break
+
+            case 'phase':
+              if (modifierPhases.indexOf(modifier.phase) < 0) {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"phase"',
+                    'either ' + modifierPhases.join(', '),
+                    '"' + String(modifier.phase) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'fn':
-            if (typeof modifier.fn !== 'function') {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"fn"',
-                  '"function"',
-                  '"' + String(modifier.fn) + '"'
+            case 'fn':
+              if (typeof modifier.fn !== 'function') {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"fn"',
+                    '"function"',
+                    '"' + String(modifier.fn) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'effect':
-            if (typeof modifier.effect !== 'function') {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"effect"',
-                  '"function"',
-                  '"' + String(modifier.fn) + '"'
+            case 'effect':
+              if (
+                modifier.effect != null &&
+                typeof modifier.effect !== 'function'
+              ) {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"effect"',
+                    '"function"',
+                    '"' + String(modifier.fn) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'requires':
-            if (!Array.isArray(modifier.requires)) {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"requires"',
-                  '"array"',
-                  '"' + String(modifier.requires) + '"'
+            case 'requires':
+              if (
+                modifier.requires != null &&
+                !Array.isArray(modifier.requires)
+              ) {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"requires"',
+                    '"array"',
+                    '"' + String(modifier.requires) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'requiresIfExists':
-            if (!Array.isArray(modifier.requiresIfExists)) {
-              console.error(
-                format(
-                  INVALID_MODIFIER_ERROR,
-                  modifier.name,
-                  '"requiresIfExists"',
-                  '"array"',
-                  '"' + String(modifier.requiresIfExists) + '"'
+            case 'requiresIfExists':
+              if (!Array.isArray(modifier.requiresIfExists)) {
+                console.error(
+                  format(
+                    INVALID_MODIFIER_ERROR,
+                    modifier.name,
+                    '"requiresIfExists"',
+                    '"array"',
+                    '"' + String(modifier.requiresIfExists) + '"'
+                  )
                 )
-              )
-            }
+              }
 
-            break
+              break
 
-          case 'options':
-          case 'data':
-            break
+            case 'options':
+            case 'data':
+              break
 
-          default:
-            console.error(
-              'PopperJS: an invalid property has been provided to the "' +
-                modifier.name +
-                '" modifier, valid properties are ' +
-                VALID_PROPERTIES.map(function(s) {
-                  return '"' + s + '"'
-                }).join(', ') +
-                '; but "' +
-                key +
-                '" was provided.'
-            )
-        }
-
-        modifier.requires &&
-          modifier.requires.forEach(function(requirement) {
-            if (
-              modifiers.find(function(mod) {
-                return mod.name === requirement
-              }) == null
-            ) {
+            default:
               console.error(
-                format(
-                  MISSING_DEPENDENCY_ERROR,
-                  String(modifier.name),
-                  requirement,
-                  requirement
-                )
+                'PopperJS: an invalid property has been provided to the "' +
+                  modifier.name +
+                  '" modifier, valid properties are ' +
+                  VALID_PROPERTIES.map(function(s) {
+                    return '"' + s + '"'
+                  }).join(', ') +
+                  '; but "' +
+                  key +
+                  '" was provided.'
               )
-            }
-          })
-      })
+          }
+
+          modifier.requires &&
+            modifier.requires.forEach(function(requirement) {
+              if (
+                modifiers.find(function(mod) {
+                  return mod.name === requirement
+                }) == null
+              ) {
+                console.error(
+                  format(
+                    MISSING_DEPENDENCY_ERROR,
+                    String(modifier.name),
+                    requirement,
+                    requirement
+                  )
+                )
+              }
+            })
+        })
     })
   }
 
@@ -5967,7 +6010,11 @@
       var isDestroyed = false
       var instance = {
         state: state,
-        setOptions: function setOptions(options) {
+        setOptions: function setOptions(setOptionsAction) {
+          var options =
+            typeof setOptionsAction === 'function'
+              ? setOptionsAction(state.options)
+              : setOptionsAction
           cleanupModifierEffects()
           state.options = Object.assign(
             {},
@@ -6363,14 +6410,12 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
-
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
-
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -7866,7 +7911,8 @@
         getNow = _this$props.getNow,
         getters = _this$props.getters,
         currentDate = _this$props.date,
-        Wrapper = _this$props.components.dateCellWrapper
+        Wrapper = _this$props.components.dateCellWrapper,
+        reactStyle = _this$props.reactStyle
       var _this$state = this.state,
         selecting = _this$state.selecting,
         startIdx = _this$state.startIdx,
@@ -7875,7 +7921,7 @@
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
-          className: 'rbc-row-bg',
+          className: reactStyle['rbc-row-bg'],
         },
         range.map(function(date, index) {
           var selected = selecting && index >= startIdx && index <= endIdx
@@ -7894,13 +7940,13 @@
             /*#__PURE__*/ React__default.createElement('div', {
               style: style,
               className: clsx(
-                'rbc-day-bg',
+                reactStyle['rbc-day-bg'],
                 className,
-                selected && 'rbc-selected-cell',
-                eq(date, current, 'day') && 'rbc-today',
+                selected && reactStyle['rbc-selected-cell'],
+                eq(date, current, 'day') && reactStyle['rbc-today'],
                 currentDate &&
                   month(currentDate) !== month(date) &&
-                  'rbc-off-range-bg'
+                  reactStyle['rbc-off-range-bg']
               ),
             })
           )
@@ -8054,6 +8100,7 @@
     rtl: propTypes.bool,
     type: propTypes.string,
     resourceId: propTypes.any,
+    reactStyle: propTypes.object,
   }
 
   /* eslint-disable react/prop-types */
@@ -8086,7 +8133,8 @@
         localizer = props.localizer,
         slotMetrics = props.slotMetrics,
         components = props.components,
-        resizable = props.resizable
+        resizable = props.resizable,
+        reactStyle = props.reactStyle
       var continuesPrior = slotMetrics.continuesPrior(event)
       var continuesAfter = slotMetrics.continuesAfter(event)
       return /*#__PURE__*/ React__default.createElement(EventCell, {
@@ -8103,9 +8151,10 @@
         // slotEnd={slotMetrics.last}
         selected: isSelected(event, selected),
         resizable: resizable,
+        reactStyle: reactStyle,
       })
     },
-    renderSpan: function renderSpan(slots, len, key, content) {
+    renderSpan: function renderSpan(slots, len, key, content, reactStyle) {
       if (content === void 0) {
         content = ' '
       }
@@ -8115,7 +8164,7 @@
         'div',
         {
           key: key,
-          className: 'rbc-row-segment', // IE10/11 need max-width. flex-basis doesn't respect box-sizing
+          className: reactStyle ? reactStyle['rbc-row-segment'] : '', // IE10/11 need max-width. flex-basis doesn't respect box-sizing
           style: {
             WebkitFlexBasis: per,
             flexBasis: per,
@@ -8142,12 +8191,13 @@
       var _this$props = this.props,
         segments = _this$props.segments,
         slots = _this$props.slotMetrics.slots,
-        className = _this$props.className
+        className = _this$props.className,
+        reactStyle = _this$props.reactStyle
       var lastEnd = 1
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
-          className: clsx(className, 'rbc-row'),
+          className: clsx(className, reactStyle['rbc-row']),
         },
         segments.reduce(function(row, _ref, li) {
           var event = _ref.event,
@@ -8158,7 +8208,9 @@
           var gap = left - lastEnd
           var content = EventRowMixin.renderEvent(_this.props, event)
           if (gap) row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
-          row.push(EventRowMixin.renderSpan(slots, span, key, content))
+          row.push(
+            EventRowMixin.renderSpan(slots, span, key, content, reactStyle)
+          )
           lastEnd = right + 1
           return row
         }, [])
@@ -8171,6 +8223,7 @@
   EventRow.propTypes = _extends(
     {
       segments: propTypes.array,
+      reactStyle: propTypes.object,
     },
     EventRowMixin.propTypes
   )
@@ -9686,7 +9739,8 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object && 'constructor' in other &&
+        'constructor' in object &&
+        'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -10826,7 +10880,8 @@
     _proto.render = function render() {
       var _this$props = this.props,
         segments = _this$props.segments,
-        slots = _this$props.slotMetrics.slots
+        slots = _this$props.slotMetrics.slots,
+        reactStyle = _this$props.reactStyle
       var rowSegments = eventLevels(segments).levels[0]
       var current = 1,
         lastEnd = 1,
@@ -10870,7 +10925,8 @@
               slots,
               1,
               key,
-              this.renderShowMore(segments, current)
+              this.renderShowMore(segments, current),
+              reactStyle
             )
           )
           lastEnd = current = current + 1
@@ -10880,7 +10936,7 @@
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
-          className: 'rbc-row',
+          className: reactStyle['rbc-row'],
         },
         row
       )
@@ -10905,7 +10961,8 @@
         localizer = _this$props2.localizer,
         lang = _this$props2.lang,
         range = _this$props2.range,
-        newWeeks = _this$props2.newWeeks
+        newWeeks = _this$props2.newWeeks,
+        reactStyle = _this$props2.reactStyle
       var count = eventsInSlot(segments, slot)
       var newDate = range[slot - 1]
       var currentMonth = newDate.getMonth() + 1
@@ -10931,14 +10988,17 @@
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: 'rbc-event-wrap',
+            className: reactStyle['rbc-event-wrap'],
             'data-id': 'ref' + currentMonth + currentDate,
           },
           /*#__PURE__*/ React__default.createElement(
             'div',
             {
               key: 'sm_' + slot,
-              className: 'rbc-event-content rbc-show-more',
+              className: clsx(
+                reactStyle['rbc-event-content'],
+                reactStyle['rbc-show-more']
+              ),
               onClick: function onClick(e) {
                 return _this.showMore(slot, e, index)
               },
@@ -10953,20 +11013,22 @@
               'div',
               {
                 className: clsx(
-                  'rbc-event-more',
+                  reactStyle['rbc-event-more'],
                   ((_newIsMoreShow$2 = newIsMoreShow[0]) == null
                     ? void 0
-                    : _newIsMoreShow$2.right) && 'rbc-event-more-right',
+                    : _newIsMoreShow$2.right) &&
+                    reactStyle['rbc-event-more-right'],
                   ((_newIsMoreShow$3 = newIsMoreShow[0]) == null
                     ? void 0
-                    : _newIsMoreShow$3.bottom) && 'rbc-event-more-bottom'
+                    : _newIsMoreShow$3.bottom) &&
+                    reactStyle['rbc-event-more-bottom']
                 ),
                 'data-id': 'ref' + currentMonth + currentDate,
               },
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
-                  className: 'more-title',
+                  className: reactStyle['more-title'],
                   'data-id': 'ref' + currentMonth + currentDate,
                 },
                 currentMonth,
@@ -10981,7 +11043,7 @@
                     return /*#__PURE__*/ React__default.createElement(
                       'div',
                       {
-                        className: 'more-li',
+                        className: reactStyle['more-li'],
                         key: i,
                         'data-id': 'ref' + currentMonth + currentDate,
                       },
@@ -10991,7 +11053,7 @@
                           href: newItem.url,
                           title: newItem.title,
                           target: '_blank',
-                          className: 'more-li-title',
+                          className: reactStyle['more-li-title'],
                           'data-id': 'ref' + currentMonth + currentDate,
                         },
                         newItem.title
@@ -10999,7 +11061,7 @@
                       /*#__PURE__*/ React__default.createElement(
                         'div',
                         {
-                          className: 'more-text',
+                          className: reactStyle['more-text'],
                           'data-id': 'ref' + currentMonth + currentDate,
                         },
                         newItem.campaignTimeType,
@@ -11035,17 +11097,21 @@
       clickMore: propTypes.func,
       lang: propTypes.string,
       newWeeks: propTypes.array,
+      reactStyle: propTypes.object,
     },
     EventRowMixin.propTypes
   )
   EventEndingRow.defaultProps = _extends({}, EventRowMixin.defaultProps)
 
+  var _this = undefined
+
   var ScrollableWeekWrapper = function ScrollableWeekWrapper(_ref) {
     var children = _ref.children
+    var reactStyle = _this.props.reactStyle
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
-        className: 'rbc-row-content-scroll-container',
+        className: reactStyle['rbc-row-content-scroll-container'],
       },
       children
     )
@@ -11240,13 +11306,14 @@
       _this.renderHeadingCell = function(date, index) {
         var _this$props3 = _this.props,
           renderHeader = _this$props3.renderHeader,
-          getNow = _this$props3.getNow
+          getNow = _this$props3.getNow,
+          reactStyle = _this$props3.reactStyle
         return renderHeader({
           date: date,
           key: 'header_' + index,
           className: clsx(
-            'rbc-date-cell',
-            eq(date, getNow(), 'day') && 'rbc-now'
+            reactStyle['rbc-date-cell'],
+            eq(date, getNow(), 'day') && reactStyle['rbc-now']
           ),
         })
       }
@@ -11256,7 +11323,8 @@
           className = _this$props4.className,
           range = _this$props4.range,
           renderHeader = _this$props4.renderHeader,
-          showAllEvents = _this$props4.showAllEvents
+          showAllEvents = _this$props4.showAllEvents,
+          reactStyle = _this$props4.reactStyle
         return /*#__PURE__*/ React__default.createElement(
           'div',
           {
@@ -11266,15 +11334,15 @@
             'div',
             {
               className: clsx(
-                'rbc-row-content',
-                showAllEvents && 'rbc-row-content-scrollable'
+                reactStyle['rbc-row-content'],
+                showAllEvents && reactStyle['rbc-row-content-scrollable']
               ),
             },
             renderHeader &&
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
-                  className: 'rbc-row',
+                  className: reactStyle['rbc-row'],
                   ref: _this.createHeadingRef,
                 },
                 range.map(_this.renderHeadingCell)
@@ -11282,23 +11350,23 @@
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className: 'rbc-row',
+                className: reactStyle['rbc-row'],
                 ref: _this.createEventRef,
               },
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
-                  className: 'rbc-row-segment',
+                  className: reactStyle['rbc-row-segment'],
                 },
                 /*#__PURE__*/ React__default.createElement(
                   'div',
                   {
-                    className: 'rbc-event',
+                    className: reactStyle['rbc-event'],
                   },
                   /*#__PURE__*/ React__default.createElement(
                     'div',
                     {
-                      className: 'rbc-event-content',
+                      className: reactStyle['rbc-event-content'],
                     },
                     '\xA0'
                   )
@@ -11350,7 +11418,8 @@
         showAllEvents = _this$props5.showAllEvents,
         lang = _this$props5.lang,
         newWeeks = _this$props5.newWeeks,
-        clickMore = _this$props5.clickMore
+        clickMore = _this$props5.clickMore,
+        reactStyle = _this$props5.reactStyle
       if (renderForMeasure) return this.renderDummy()
       var metrics = this.slotMetrics(this.props)
       var levels = metrics.levels,
@@ -11371,6 +11440,7 @@
         resourceId: resourceId,
         slotMetrics: metrics,
         resizable: resizable,
+        reactStyle: reactStyle,
       }
       return /*#__PURE__*/ React__default.createElement(
         'div',
@@ -11392,13 +11462,14 @@
           components: components,
           longPressThreshold: longPressThreshold,
           resourceId: resourceId,
+          reactStyle: reactStyle,
         }),
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
             className: clsx(
-              'rbc-row-content',
-              showAllEvents && 'rbc-row-content-scrollable'
+              reactStyle['rbc-row-content'],
+              showAllEvents && reactStyle['rbc-row-content-scrollable']
             ),
             role: 'row',
           },
@@ -11406,7 +11477,7 @@
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className: 'rbc-row',
+                className: reactStyle['rbc-row'],
                 ref: this.createHeadingRef,
               },
               range.map(this.renderHeadingCell)
@@ -11430,7 +11501,10 @@
                       key: idx,
                       segments: segs,
                     },
-                    eventRowProps
+                    eventRowProps,
+                    {
+                      reactStyle: reactStyle,
+                    }
                   )
                 )
               }),
@@ -11446,6 +11520,7 @@
                       onShowMore: this.handleShowMore,
                       clickMore: clickMore,
                       newMoreShow: newWeeks,
+                      reactStyle: reactStyle,
                     },
                     eventRowProps
                   )
@@ -11492,6 +11567,7 @@
     maxRows: propTypes.number.isRequired,
     newWeeks: propTypes.array,
     clickMore: propTypes.func,
+    reactStyle: propTypes.object,
   }
   DateContentRow.defaultProps = {
     minRows: 0,
@@ -11516,19 +11592,20 @@
 
   var DateHeader = function DateHeader(_ref) {
     var label = _ref.label,
-      onDrillDown = _ref.onDrillDown
+      onDrillDown = _ref.onDrillDown,
+      reactStyle = _ref.reactStyle
     label = label.replace(/^0/, '')
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
-        className: 'current-text-wrap',
+        className: reactStyle['current-text-wrap'],
         role: 'cell',
         onClick: onDrillDown,
       },
       /*#__PURE__*/ React__default.createElement(
         'span',
         {
-          className: 'current-text',
+          className: reactStyle['current-text'],
         },
         label
       )
@@ -11541,6 +11618,7 @@
     drilldownView: propTypes.string,
     onDrillDown: propTypes.func,
     isOffRange: propTypes.bool,
+    reactStyle: propTypes.object,
   }
 
   var _excluded$1 = ['date', 'className']
@@ -11574,6 +11652,7 @@
       }
 
       _this.clickMore = function(slot, e, index) {
+        var reactStyle = _this.props.reactStyle
         var newMoreShow = _this.state.newWeeks
         newMoreShow = newMoreShow.map(function(el, i) {
           el.isMore = false
@@ -11594,7 +11673,7 @@
           },
           function() {
             var moreClassName = document.getElementsByClassName(
-              'rbc-event-more'
+              reactStyle['rbc-event-more']
             )[0]
             var moreHeight = moreClassName.offsetHeight
             var moreWidth = moreClassName.offsetWidth
@@ -11642,7 +11721,8 @@
           getters = _this$props.getters,
           showAllEvents = _this$props.showAllEvents,
           lang = _this$props.lang,
-          label = _this$props.label
+          label = _this$props.label,
+          reactStyle = _this$props.reactStyle
         var _this$state = _this.state,
           needLimitMeasure = _this$state.needLimitMeasure,
           rowLimit = _this$state.rowLimit,
@@ -11660,7 +11740,7 @@
           key: weekIdx,
           ref: weekIdx === 0 ? _this.slotRowRef : undefined,
           container: _this.getContainer,
-          className: 'rbc-month-row',
+          className: reactStyle['rbc-month-row'],
           getNow: getNow,
           date: date,
           range: week,
@@ -11687,6 +11767,7 @@
           label: label,
           newWeeks: newWeeks,
           clickMore: _this.clickMore,
+          reactStyle: reactStyle,
         })
       }
 
@@ -11701,7 +11782,8 @@
           currentDate = _this$props2.date,
           getDrilldownView = _this$props2.getDrilldownView,
           localizer = _this$props2.localizer,
-          events = _this$props2.events
+          events = _this$props2.events,
+          reactStyle = _this$props2.reactStyle
         var clickActiveEle = _this.state.clickActiveEle
         var isOffRange = month(date) !== month(currentDate)
         var isCurrent = eq(date, currentDate, 'day')
@@ -11748,13 +11830,13 @@
           _extends({}, props, {
             className: clsx(
               className,
-              isOffRange && 'rbc-off-range',
-              isCurrent && 'rbc-current',
+              isOffRange && reactStyle['rbc-off-range'],
+              isCurrent && reactStyle['rbc-current'],
               (currectData == null ? void 0 : currectData.length) > 0 &&
-                'rbc-data',
+                reactStyle['rbc-data'],
               ((_newActiveEle$ = newActiveEle[0]) == null
                 ? void 0
-                : _newActiveEle$.value) && 'rbc-active'
+                : _newActiveEle$.value) && reactStyle['rbc-active']
             ),
             role: 'cell',
           }),
@@ -11763,6 +11845,7 @@
             date: date,
             drilldownView: drilldownView,
             isOffRange: isOffRange,
+            reactStyle: reactStyle,
             onDrillDown: function onDrillDown(e) {
               return _this.handleHeadingClick(date, currectData, e, dateId)
             },
@@ -12002,6 +12085,7 @@
         localizer = _this$props5.localizer,
         className = _this$props5.className,
         loading = _this$props5.loading,
+        reactStyle = _this$props5.reactStyle,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -12012,9 +12096,9 @@
           'div',
           {
             className: clsx(
-              'rbc-month-view',
+              reactStyle['rbc-month-view'],
               className,
-              loading && 'rbc-month-view-loading'
+              loading && reactStyle['rbc-month-view-loading']
             ),
             role: 'table',
             'aria-label': 'Month View',
@@ -12022,7 +12106,10 @@
           /*#__PURE__*/ React__default.createElement(
             'div',
             {
-              className: 'rbc-row rbc-month-header',
+              className: clsx(
+                reactStyle['rbc-row'],
+                reactStyle['rbc-month-header']
+              ),
               role: 'row',
             },
             this.renderHeaders(weeks[0])
@@ -12034,12 +12121,12 @@
           /*#__PURE__*/ React__default.createElement(
             'div',
             {
-              className: 'wap-render-list',
+              className: reactStyle['wap-render-list'],
             },
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className: 'active-title',
+                className: reactStyle['active-title'],
               },
               clickActiveDate.date
             ),
@@ -12052,7 +12139,7 @@
                     return /*#__PURE__*/ React__default.createElement(
                       'div',
                       {
-                        className: 'active-li',
+                        className: reactStyle['active-li'],
                         key: i,
                       },
                       /*#__PURE__*/ React__default.createElement(
@@ -12061,26 +12148,27 @@
                           href: item.url,
                           title: item.title,
                           target: '_blank',
-                          className: 'active-li-title',
+                          className: reactStyle['active-li-title'],
                         },
                         item.title
                       ),
                       /*#__PURE__*/ React__default.createElement(
                         'div',
                         {
-                          className: 'active-text',
+                          className: reactStyle['active-text'],
                         },
-                        '\u62A5\u540D\u65F6\u95F4\uFF1A',
-                        item.start,
+                        item.campaignTimeType,
+                        '\uFF1A',
+                        item.campaignStartTime,
                         ' \u81F3 ',
-                        item.end
+                        item.campaignEndTime
                       )
                     )
                   })
               : /*#__PURE__*/ React__default.createElement(
                   'div',
                   {
-                    className: 'active-li-none',
+                    className: reactStyle['active-li-none'],
                   },
                   '\u6682\u65E0\u6D3B\u52A8'
                 )
@@ -12107,7 +12195,8 @@
       var _this$props6 = this.props,
         localizer = _this$props6.localizer,
         components = _this$props6.components,
-        lang = _this$props6.lang
+        lang = _this$props6.lang,
+        reactStyle = _this$props6.reactStyle
       var first = row[0]
       var last = row[row.length - 1]
       var HeaderComponent = components.header || Header
@@ -12118,7 +12207,7 @@
           'div',
           {
             key: 'header_' + idx,
-            className: 'rbc-header',
+            className: reactStyle['rbc-header'],
           },
           /*#__PURE__*/ React__default.createElement(HeaderComponent, {
             date: day,
@@ -12139,7 +12228,8 @@
         components = _this$props7.components,
         getters = _this$props7.getters,
         selected = _this$props7.selected,
-        popupOffset = _this$props7.popupOffset
+        popupOffset = _this$props7.popupOffset,
+        reactStyle = _this$props7.reactStyle
       return /*#__PURE__*/ React__default.createElement(
         Overlay,
         {
@@ -12175,6 +12265,7 @@
               onDoubleClick: _this3.handleDoubleClickEvent,
               onKeyPress: _this3.handleKeyPressEvent,
               handleDragStart: _this3.props.handleDragStart,
+              reactStyle: reactStyle,
             })
           )
         }
@@ -12249,6 +12340,7 @@
     popup: propTypes.bool,
     handleDragStart: propTypes.func,
     label: propTypes.string,
+    reactStyle: propTypes.object,
     popupOffset: propTypes.oneOfType([
       propTypes.number,
       propTypes.shape({
@@ -14745,7 +14837,8 @@
         max = _this$props3.max,
         showMultiDayTimes = _this$props3.showMultiDayTimes,
         longPressThreshold = _this$props3.longPressThreshold,
-        resizable = _this$props3.resizable
+        resizable = _this$props3.resizable,
+        reactStyle = _this$props3.reactStyle
       width = width || this.state.gutterWidth
       var start = range[0],
         end = range[range.length - 1]
@@ -14781,8 +14874,8 @@
         'div',
         {
           className: clsx(
-            'rbc-time-view',
-            resources && 'rbc-time-view-resources'
+            reactStyle['rbc-time-view'],
+            resources && reactStyle['rbc-time-view-resources']
           ),
         },
         /*#__PURE__*/ React__default.createElement(TimeGridHeader, {
@@ -14813,7 +14906,7 @@
           'div',
           {
             ref: this.contentRef,
-            className: 'rbc-time-content',
+            className: reactStyle['rbc-time-content'],
             onScroll: this.handleScroll,
           },
           /*#__PURE__*/ React__default.createElement(TimeGutter, {
@@ -14826,7 +14919,7 @@
             getNow: this.props.getNow,
             timeslots: this.props.timeslots,
             components: components,
-            className: 'rbc-time-gutter',
+            className: reactStyle['rbc-time-gutter'],
             getters: getters,
           }),
           this.renderEvents(range, rangeEvents, rangeBackgroundEvents, getNow())
@@ -14916,6 +15009,7 @@
     onDrillDown: propTypes.func,
     getDrilldownView: propTypes.func.isRequired,
     dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
+    reactStyle: propTypes.object,
   }
   TimeGrid.defaultProps = {
     step: 30,
@@ -15743,7 +15837,8 @@
       var _this$props = this.props,
         messages = _this$props.localizer.messages,
         label = _this$props.label,
-        lang = _this$props.lang
+        lang = _this$props.lang,
+        reactStyle = _this$props.reactStyle
       lang = lang ? lang : 'en'
       var labelArr = words(label)
       var labelIndex = compact(
@@ -15758,19 +15853,19 @@
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
-          className: 'rbc-toolbar',
+          className: reactStyle['rbc-toolbar'],
         },
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: 'rbc-toolbar-label',
+            className: reactStyle['rbc-toolbar-label'],
           },
           newLabel,
           ' ',
           /*#__PURE__*/ React__default.createElement(
             'span',
             {
-              className: 'rbc-toolbar-label-tip',
+              className: reactStyle['rbc-toolbar-label-tip'],
             },
             messages[lang].hasActivity
           )
@@ -15778,12 +15873,12 @@
         /*#__PURE__*/ React__default.createElement(
           'span',
           {
-            className: 'rbc-btn-group',
+            className: reactStyle['rbc-btn-group'],
           },
           /*#__PURE__*/ React__default.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
-            className: 'arrow arrow-left',
+            className: clsx(reactStyle['arrow'], reactStyle['arrow-left']),
           }),
           /*#__PURE__*/ React__default.createElement(
             'button',
@@ -15796,7 +15891,7 @@
           /*#__PURE__*/ React__default.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.NEXT),
-            className: 'arrow arrow-right',
+            className: clsx(reactStyle['arrow'], reactStyle['arrow-right']),
           })
         )
       )
@@ -15829,6 +15924,7 @@
     onNavigate: propTypes.func.isRequired,
     onView: propTypes.func.isRequired,
     lang: propTypes.string,
+    reactStyle: propTypes.object,
   }
 
   /**
@@ -16998,6 +17094,7 @@
       'messages',
       'culture',
       'lang',
+      'reactStyle',
     ]
 
   function viewNames$1(_views) {
@@ -17320,6 +17417,7 @@
         _2 = _this$props4.messages,
         _3 = _this$props4.culture,
         lang = _this$props4.lang,
+        reactStyle = _this$props4.reactStyle,
         props = _objectWithoutPropertiesLoose(_this$props4, _excluded2$1)
 
       current = current || getNow()
@@ -17338,7 +17436,11 @@
       return /*#__PURE__*/ React__default.createElement(
         'div',
         _extends({}, elementProps, {
-          className: clsx(className, 'rbc-calendar', props.rtl && 'rbc-rtl'),
+          className: clsx(
+            className,
+            reactStyle['rbc-calendar'],
+            props.rtl && reactStyle['rbc-rtl']
+          ),
           style: style,
         }),
         toolbar &&
@@ -17351,6 +17453,7 @@
             onNavigate: this.handleNavigate,
             localizer: localizer,
             lang: lang,
+            reactStyle: reactStyle,
           }),
         /*#__PURE__*/ React__default.createElement(
           View,
@@ -17376,6 +17479,7 @@
             doShowMoreDrillDown: doShowMoreDrillDown,
             lang: lang,
             label: label,
+            reactStyle: reactStyle,
           })
         )
       )
@@ -17828,6 +17932,7 @@
      */
     toolbar: propTypes.bool,
     lang: propTypes.string,
+    reactStyle: propTypes.object,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.

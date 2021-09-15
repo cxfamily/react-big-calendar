@@ -3,6 +3,7 @@ import Api from './Api'
 import Intro from './Intro.md'
 import { render } from 'react-dom'
 import Layout from 'react-tackle-box/Layout'
+import clsx from 'clsx'
 
 import localizer from 'react-big-calendar/lib/localizers/globalize'
 import globalize from 'globalize'
@@ -10,8 +11,8 @@ import globalize from 'globalize'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 
-// import 'react-big-calendar/lib/sass/styles.scss'
-import './styles.scss'
+import reactStyle from 'react-big-calendar/lib/sass/styles.scss'
+import styleDemo from './styles.scss'
 import './prism.scss'
 import Card from './Card'
 import ExampleControlSlot from './ExampleControlSlot'
@@ -54,48 +55,54 @@ class Example extends React.Component {
     let Current = Basic
 
     return (
-      <div className="app">
-        <div className="jumbotron">
-          <div className="container">
+      <div className={styleDemo['app']}>
+        <div className={styleDemo['jumbotron']}>
+          <div className={styleDemo['container']}>
             <h1>
-              Big Calendar <i className="fa fa-calendar" />
+              Big Calendar{' '}
+              <i className={clsx(styleDemo['fa'], styleDemo['fa-calendar'])} />
             </h1>
             <p>such enterprise, very business.</p>
             <p>
               <a href="#intro">
-                <i className="fa fa-play" /> Getting started
+                <i className={clsx(styleDemo['fa'], styleDemo['fa-play'])} />{' '}
+                Getting started
               </a>
               {' | '}
               <a href="#api">
-                <i className="fa fa-book" /> API documentation
+                <i className={clsx(styleDemo['fa'], styleDemo['fa-book'])} />{' '}
+                API documentation
               </a>
               {' | '}
               <a
                 target="_blank"
                 href="https://github.com/intljusticemission/react-big-calendar"
               >
-                <i className="fa fa-github" /> github
+                <i className={clsx(styleDemo['fa'], styleDemo['fa-github'])} />{' '}
+                github
               </a>
             </p>
           </div>
         </div>
-        <div className="examples">
-          <Card className="examples--header">
+        <div className={styleDemo['examples']}>
+          <Card className={styleDemo['examples--header']}>
             <Layout
               align="center"
               justify="space-between"
               style={{ marginBottom: 15 }}
             >
-              <div className="examples--view-source">
+              <div className={styleDemo['examples--view-source']}>
                 <a target="_blank" href={demoRoot + '/' + selected + '.js'}>
                   <strong>
-                    <i className="fa fa-code" />
+                    <i
+                      className={clsx(styleDemo['fa'], styleDemo['fa-code'])}
+                    />
                     {' View example source code'}
                   </strong>
                 </a>
               </div>
               <div
-                className="changeLang"
+                className={styleDemo['changeLang']}
                 onClick={() => {
                   this.langChange()
                 }}
@@ -107,15 +114,19 @@ class Example extends React.Component {
             </Layout>
             <ExampleControlSlot.Outlet />
           </Card>
-          <div className="example">
-            <Current localizer={globalizeLocalizer} lang={this.state.lang} />
+          <div className={styleDemo['example']}>
+            <Current
+              localizer={globalizeLocalizer}
+              lang={this.state.lang}
+              reactStyle={reactStyle}
+            />
           </div>
         </div>
-        <div className="docs">
-          <div className="contain section">
+        <div className={styleDemo['docs']}>
+          <div className={clsx(styleDemo['contain'], styleDemo['section'])}>
             <Intro />
           </div>
-          <Api className="contain section" />
+          <Api className={clsx(styleDemo['contain'], styleDemo['section'])} />
         </div>
       </div>
     )

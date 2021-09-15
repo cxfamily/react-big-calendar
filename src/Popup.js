@@ -43,6 +43,7 @@ class Popup extends React.Component {
       slotEnd,
       localizer,
       popperRef,
+      reactStyle,
     } = this.props
 
     let { width } = this.props.position,
@@ -58,10 +59,10 @@ class Popup extends React.Component {
     return (
       <div
         style={{ ...this.props.style, ...style }}
-        className="rbc-overlay"
+        className={reactStyle['rbc-overlay']}
         ref={popperRef}
       >
-        <div className="rbc-overlay-header">
+        <div className={reactStyle['rbc-overlay-header']}>
           {localizer.format(slotStart, 'dayHeaderFormat')}
         </div>
         {events.map((event, idx) => (
@@ -83,6 +84,7 @@ class Popup extends React.Component {
             draggable={true}
             onDragStart={() => this.props.handleDragStart(event)}
             onDragEnd={() => this.props.show()}
+            reactStyle={reactStyle}
           />
         ))}
       </div>
@@ -113,6 +115,7 @@ Popup.propTypes = {
   show: PropTypes.func,
   slotStart: PropTypes.instanceOf(Date),
   slotEnd: PropTypes.number,
+  reactStyle: PropTypes.object,
   popperRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.Element }),

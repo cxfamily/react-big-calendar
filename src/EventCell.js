@@ -23,6 +23,7 @@ class EventCell extends React.Component {
       components: { eventWrapper: EventWrapper },
       // slotStart,
       // slotEnd,
+      reactStyle,
       ...props
     } = this.props
     delete props.resizable
@@ -41,9 +42,10 @@ class EventCell extends React.Component {
     const content = (
       <a
         href={event.url ? event.url : '#'}
-        className={clsx('rbc-event-content', {
-          'rbc-event-content-train': event.type === '2',
-        })}
+        className={clsx(
+          reactStyle['rbc-event-content'],
+          event.type === '2' && reactStyle['rbc-event-content-train']
+        )}
         target="_blank"
         title={tooltip || undefined}
       >
@@ -58,12 +60,15 @@ class EventCell extends React.Component {
           {...props}
           tabIndex={0}
           style={{ ...userProps.style, ...style }}
-          className={clsx('rbc-event', className, userProps.className, {
-            'rbc-selected': selected,
-            'rbc-event-allday': showAsAllDay,
-            'rbc-event-continues-prior': continuesPrior,
-            'rbc-event-continues-after': continuesAfter,
-          })}
+          className={clsx(
+            reactStyle['rbc-event'],
+            className,
+            userProps.className,
+            selected && reactStyle['rbc-selected'],
+            showAsAllDay && reactStyle['rbc-event-allday'],
+            continuesPrior && reactStyle['rbc-event-continues-prior'],
+            continuesAfter && reactStyle['rbc-event-continues-after']
+          )}
           // onClick={e => onSelect && onSelect(event, e)}
           // onDoubleClick={e => onDoubleClick && onDoubleClick(event, e)}
           // onKeyPress={e => onKeyPress && onKeyPress(event, e)}
@@ -94,6 +99,7 @@ EventCell.propTypes = {
   onSelect: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onKeyPress: PropTypes.func,
+  reactStyle: PropTypes.object,
 }
 
 export default EventCell

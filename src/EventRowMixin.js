@@ -39,6 +39,7 @@ export default {
       slotMetrics,
       components,
       resizable,
+      reactStyle,
     } = props
 
     let continuesPrior = slotMetrics.continuesPrior(event)
@@ -60,16 +61,18 @@ export default {
         // slotEnd={slotMetrics.last}
         selected={isSelected(event, selected)}
         resizable={resizable}
+        reactStyle={reactStyle}
       />
     )
   },
 
-  renderSpan(slots, len, key, content = ' ') {
+  renderSpan(slots, len, key, content = ' ', reactStyle) {
     let per = (Math.abs(len) / slots) * 100 + '%'
+
     return (
       <div
         key={key}
-        className="rbc-row-segment"
+        className={reactStyle ? reactStyle['rbc-row-segment'] : ''}
         // IE10/11 need max-width. flex-basis doesn't respect box-sizing
         style={{ WebkitFlexBasis: per, flexBasis: per, maxWidth: per }}
       >

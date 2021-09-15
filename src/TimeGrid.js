@@ -185,6 +185,7 @@ export default class TimeGrid extends Component {
       showMultiDayTimes,
       longPressThreshold,
       resizable,
+      reactStyle,
     } = this.props
 
     width = width || this.state.gutterWidth
@@ -226,8 +227,8 @@ export default class TimeGrid extends Component {
     return (
       <div
         className={clsx(
-          'rbc-time-view',
-          resources && 'rbc-time-view-resources'
+          reactStyle['rbc-time-view'],
+          resources && reactStyle['rbc-time-view-resources']
         )}
       >
         <TimeGridHeader
@@ -256,7 +257,7 @@ export default class TimeGrid extends Component {
         />
         <div
           ref={this.contentRef}
-          className="rbc-time-content"
+          className={reactStyle['rbc-time-content']}
           onScroll={this.handleScroll}
         >
           <TimeGutter
@@ -269,7 +270,7 @@ export default class TimeGrid extends Component {
             getNow={this.props.getNow}
             timeslots={this.props.timeslots}
             components={components}
-            className="rbc-time-gutter"
+            className={reactStyle['rbc-time-gutter']}
             getters={getters}
           />
           {this.renderEvents(
@@ -379,6 +380,7 @@ TimeGrid.propTypes = {
   getDrilldownView: PropTypes.func.isRequired,
 
   dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
+  reactStyle: PropTypes.object,
 }
 
 TimeGrid.defaultProps = {

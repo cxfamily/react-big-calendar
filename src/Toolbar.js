@@ -3,6 +3,7 @@ import React from 'react'
 import { navigate } from './utils/constants'
 import compact from 'lodash/compact'
 import words from 'lodash/words'
+import clsx from 'clsx'
 
 class Toolbar extends React.Component {
   render() {
@@ -10,6 +11,7 @@ class Toolbar extends React.Component {
       localizer: { messages },
       label,
       lang,
+      reactStyle,
     } = this.props
     lang = lang ? lang : 'en'
     let labelArr = words(label)
@@ -23,19 +25,19 @@ class Toolbar extends React.Component {
     let newMonth = messages[lang].month[labelIndex[0] || 0]
     let newLabel = lang === 'en' ? label : `${labelArr[0]}年${newMonth}`
     return (
-      <div className="rbc-toolbar">
+      <div className={reactStyle['rbc-toolbar']}>
         {/*todo日历头部*/}
-        <div className="rbc-toolbar-label">
+        <div className={reactStyle['rbc-toolbar-label']}>
           {newLabel}{' '}
-          <span className="rbc-toolbar-label-tip">
+          <span className={reactStyle['rbc-toolbar-label-tip']}>
             {messages[lang].hasActivity}
           </span>
         </div>
-        <span className="rbc-btn-group">
+        <span className={reactStyle['rbc-btn-group']}>
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.PREVIOUS)}
-            className="arrow arrow-left"
+            className={clsx(reactStyle.arrow, reactStyle['arrow-left'])}
           >
             {/*{messages.previous}*/}
           </button>
@@ -48,7 +50,7 @@ class Toolbar extends React.Component {
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.NEXT)}
-            className="arrow arrow-right"
+            className={clsx(reactStyle.arrow, reactStyle['arrow-right'])}
           >
             {/*{messages.next}*/}
           </button>
@@ -94,6 +96,7 @@ Toolbar.propTypes = {
   onNavigate: PropTypes.func.isRequired,
   onView: PropTypes.func.isRequired,
   lang: PropTypes.string,
+  reactStyle: PropTypes.object,
 }
 
 export default Toolbar

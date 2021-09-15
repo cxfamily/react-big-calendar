@@ -118,7 +118,7 @@ class MonthView extends React.Component {
 
   render() {
     let { clickActiveDate } = this.state
-    let { date, localizer, className, loading } = this.props,
+    let { date, localizer, className, loading, reactStyle } = this.props,
       month = dates.visibleDays(date, localizer),
       weeks = chunk(month, 7)
 
@@ -128,14 +128,20 @@ class MonthView extends React.Component {
       <>
         <div
           className={clsx(
-            'rbc-month-view',
+            reactStyle['rbc-month-view'],
             className,
-            loading && 'rbc-month-view-loading'
+            loading && reactStyle['rbc-month-view-loading']
           )}
           role="table"
           aria-label="Month View"
         >
-          <div className="rbc-row rbc-month-header" role="row">
+          <div
+            className={clsx(
+              reactStyle['rbc-row'],
+              reactStyle['rbc-month-header']
+            )}
+            role="row"
+          >
             {this.renderHeaders(weeks[0])}
           </div>
           {weeks.map(this.renderWeek)}
@@ -143,28 +149,31 @@ class MonthView extends React.Component {
         </div>
 
         {clickActiveDate.date && (
-          <div className="wap-render-list">
-            <div className="active-title">{clickActiveDate.date}</div>
+          <div className={reactStyle['wap-render-list']}>
+            <div className={reactStyle['active-title']}>
+              {clickActiveDate.date}
+            </div>
             {clickActiveDate.list?.length > 0 ? (
               clickActiveDate.list?.map((item, i) => {
                 return (
-                  <div className="active-li" key={i}>
+                  <div className={reactStyle['active-li']} key={i}>
                     <a
                       href={item.url}
                       title={item.title}
                       target="_blank"
-                      className="active-li-title"
+                      className={reactStyle['active-li-title']}
                     >
                       {item.title}
                     </a>
-                    <div className="active-text">
-                      报名时间：{item.start} 至 {item.end}
+                    <div className={reactStyle['active-text']}>
+                      {item.campaignTimeType}：{item.campaignStartTime} 至{' '}
+                      {item.campaignEndTime}
                     </div>
                   </div>
                 )
               })
             ) : (
-              <div className="active-li-none">暂无活动</div>
+              <div className={reactStyle['active-li-none']}>暂无活动</div>
             )}
           </div>
         )}
@@ -185,6 +194,7 @@ class MonthView extends React.Component {
   }
 
   clickMore = (slot, e, index) => {
+    let { reactStyle } = this.props
     let newMoreShow = this.state.newWeeks
     newMoreShow = newMoreShow.map((el, i) => {
       el.isMore = false
@@ -201,7 +211,9 @@ class MonthView extends React.Component {
         newWeeksIndex: index,
       },
       () => {
-        let moreClassName = document.getElementsByClassName('rbc-event-more')[0]
+        let moreClassName = document.getElementsByClassName(
+          reactStyle['rbc-event-more']
+        )[0]
         let moreHeight = moreClassName.offsetHeight
         let moreWidth = moreClassName.offsetWidth
         let scrollX =
@@ -248,6 +260,7 @@ class MonthView extends React.Component {
       showAllEvents,
       lang,
       label,
+      reactStyle,
     } = this.props
 
     const { needLimitMeasure, rowLimit, newWeeks } = this.state
@@ -261,7 +274,7 @@ class MonthView extends React.Component {
         key={weekIdx}
         ref={weekIdx === 0 ? this.slotRowRef : undefined}
         container={this.getContainer}
-        className="rbc-month-row"
+        className={reactStyle['rbc-month-row']}
         getNow={getNow}
         date={date}
         range={week}
@@ -288,12 +301,19 @@ class MonthView extends React.Component {
         label={label}
         newWeeks={newWeeks}
         clickMore={this.clickMore}
+        reactStyle={reactStyle}
       />
     )
   }
 
   readerDateHeading = ({ date, className, ...props }) => {
-    let { date: currentDate, getDrilldownView, localizer, events } = this.props
+    let {
+      date: currentDate,
+      getDrilldownView,
+      localizer,
+      events,
+      reactStyle,
+    } = this.props
     let { clickActiveEle } = this.state
 
     let isOffRange = dates.month(date) !== dates.month(currentDate)
@@ -335,10 +355,10 @@ class MonthView extends React.Component {
         {...props}
         className={clsx(
           className,
-          isOffRange && 'rbc-off-range',
-          isCurrent && 'rbc-current',
-          currectData?.length > 0 && 'rbc-data',
-          newActiveEle[0]?.value && 'rbc-active'
+          isOffRange && reactStyle['rbc-off-range'],
+          isCurrent && reactStyle['rbc-current'],
+          currectData?.length > 0 && reactStyle['rbc-data'],
+          newActiveEle[0]?.value && reactStyle['rbc-active']
         )}
         role="cell"
       >
@@ -347,6 +367,7 @@ class MonthView extends React.Component {
           date={date}
           drilldownView={drilldownView}
           isOffRange={isOffRange}
+          reactStyle={reactStyle}
           onDrillDown={e =>
             this.handleHeadingClick(date, currectData, e, dateId)
           }
@@ -356,14 +377,14 @@ class MonthView extends React.Component {
   }
 
   renderHeaders(row) {
-    let { localizer, components, lang } = this.props
+    let { localizer, components, lang, reactStyle } = this.props
     let first = row[0]
     let last = row[row.length - 1]
     let HeaderComponent = components.header || Header
     lang = lang ? lang : 'en'
     var label = localizer.messages[lang].weeks
     return dates.range(first, last, 'day').map((day, idx) => (
-      <div key={'header_' + idx} className="rbc-header">
+      <div key={'header_' + idx} className={reactStyle['rbc-header']}>
         <HeaderComponent
           date={day}
           localizer={localizer}
@@ -382,6 +403,7 @@ class MonthView extends React.Component {
       getters,
       selected,
       popupOffset,
+      reactStyle,
     } = this.props
 
     return (
@@ -410,6 +432,7 @@ class MonthView extends React.Component {
             onDoubleClick={this.handleDoubleClickEvent}
             onKeyPress={this.handleKeyPressEvent}
             handleDragStart={this.props.handleDragStart}
+            reactStyle={reactStyle}
           />
         )}
       </Overlay>
@@ -564,6 +587,7 @@ MonthView.propTypes = {
   popup: PropTypes.bool,
   handleDragStart: PropTypes.func,
   label: PropTypes.string,
+  reactStyle: PropTypes.object,
 
   popupOffset: PropTypes.oneOfType([
     PropTypes.number,

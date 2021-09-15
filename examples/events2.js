@@ -408,11 +408,13 @@ export default [
   {
     id: 14,
     title: '22Today',
-    start: now,
-    end: now,
+    start: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+    end: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
     url: 'http://www.baidu.com/',
-    campaignStartTime: now,
-    campaignEndTime: now,
+    campaignStartTime: `${now.getFullYear()}-${now.getMonth() +
+      1}-${now.getDate()}`,
+    campaignEndTime: `${now.getFullYear()}-${now.getMonth() +
+      1}-${now.getDate()}`,
     campaignTimeType: '报名时间',
   },
 ]

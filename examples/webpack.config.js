@@ -28,11 +28,41 @@ module.exports = {
       rules.js({}),
       rules.images(),
       rules.fonts(),
-      { oneOf: [rules.css.modules(), rules.css()] },
-      rules.sass({ browsers }),
+      // { oneOf: [rules.css.modules(), rules.css()] },
+      // rules.sass({ browsers }),
       {
         test: /\.md/,
         use: [loaders.js(), 'markdown-jsx-loader'],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /(\.module)?.(sass|scss)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]-[hash:8]',
+              },
+              sourceMap: true,
+            },
+          },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(eot|woff|ttf|woff2|svg|gif|png|jpg)(\?|$)/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[folder]/[name].[hash:8].[ext]',
+            outputPath: './static/assets',
+          },
+        },
       },
     ],
   },
