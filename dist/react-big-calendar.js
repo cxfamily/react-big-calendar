@@ -12021,7 +12021,7 @@
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
         clickActiveDate: {
-          list: events,
+          list: this.currectData(date, events),
           date: newDate,
         },
       })

@@ -5318,7 +5318,7 @@
               '日活动'
           this.setState({
             needLimitMeasure: !Ge(t, this.props.date, 'month'),
-            clickActiveDate: { list: n, date: r },
+            clickActiveDate: { list: this.currectData(t, n), date: r },
           })
         }),
         (o.updateData = function() {

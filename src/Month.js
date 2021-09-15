@@ -51,7 +51,7 @@ class MonthView extends React.Component {
     this.setState({
       needLimitMeasure: !dates.eq(date, this.props.date, 'month'),
       clickActiveDate: {
-        list: events,
+        list: this.currectData(date, events),
         date: newDate,
       },
     })
