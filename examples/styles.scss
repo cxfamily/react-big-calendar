@@ -39,7 +39,11 @@ a {
     color: darken(white, 10%);
   }
 }
-
+.container {
+  padding: 40px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
 .contain {
   background-color: white;
   border-radius: 3px;

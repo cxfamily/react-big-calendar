@@ -10912,7 +10912,9 @@
             row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
           }
 
-          row.push(EventRowMixin.renderSpan(slots, span, key, content))
+          row.push(
+            EventRowMixin.renderSpan(slots, span, key, content, reactStyle)
+          )
           lastEnd = current = right + 1
         } else {
           if (gap) {
@@ -11636,6 +11638,8 @@
     })
   }
 
+  var wapFirstRender = true //触屏初次渲染
+
   var MonthView = /*#__PURE__*/ (function(_React$Component) {
     _inheritsLoose(MonthView, _React$Component)
 
@@ -11778,8 +11782,39 @@
         })
       }
 
+      _this.currectData = function(date, events) {
+        var start = function start(el) {
+          return new Date(el.start)
+        }
+
+        var end = function end(el) {
+          return new Date(el.end)
+        }
+
+        var currectData =
+          events.filter(function(el) {
+            return (
+              start(el).getFullYear() === date.getFullYear() &&
+              start(el).getMonth() === date.getMonth() &&
+              start(el).getDate() <= date.getDate() &&
+              end(el).getDate() >= date.getDate() &&
+              (start(el).getDate() === end(el).getDate() ||
+                (start(el).getDate() !== end(el).getDate() &&
+                  Date.parse(el.end) >
+                    Date.parse(
+                      date.getFullYear() +
+                        '-' +
+                        (date.getMonth() + 1) +
+                        '-' +
+                        date.getDate()
+                    )))
+            )
+          }) || []
+        return currectData
+      }
+
       _this.readerDateHeading = function(_ref) {
-        var _newActiveEle$
+        var _this$currectData, _newActiveEle$
 
         var date = _ref.date,
           className = _ref.className,
@@ -11798,34 +11833,6 @@
         var label = localizer.format(date, 'dateFormat')
         var DateHeaderComponent =
           _this.props.components.dateHeader || DateHeader
-
-        var start = function start(el) {
-          return new Date(el.start)
-        }
-
-        var end = function end(el) {
-          return new Date(el.end)
-        }
-
-        var currectData =
-          events.filter(function(el) {
-            return (
-              start(el).getFullYear() === date.getFullYear() &&
-              start(el).getMonth() === date.getMonth() &&
-              start(el).getDate() <= label &&
-              end(el).getDate() >= label &&
-              (start(el).getDate() === end(el).getDate() ||
-                (start(el).getDate() !== end(el).getDate() &&
-                  Date.parse(el.end) >
-                    Date.parse(
-                      date.getFullYear() +
-                        '-' +
-                        (date.getMonth() + 1) +
-                        '-' +
-                        date.getDate()
-                    )))
-            )
-          }) || []
         var dateId = '' + (date.getMonth() + 1) + date.getDate()
         var newActiveEle = clickActiveEle.filter(function(el) {
           if (el.key === dateId) {
@@ -11839,8 +11846,9 @@
               className,
               isOffRange && reactStyle['rbc-off-range'],
               isCurrent && reactStyle['rbc-current'],
-              (currectData == null ? void 0 : currectData.length) > 0 &&
-                reactStyle['rbc-data'],
+              ((_this$currectData = _this.currectData(date, events)) == null
+                ? void 0
+                : _this$currectData.length) > 0 && reactStyle['rbc-data'],
               ((_newActiveEle$ = newActiveEle[0]) == null
                 ? void 0
                 : _newActiveEle$.value) && reactStyle['rbc-active']
@@ -11854,7 +11862,7 @@
             isOffRange: isOffRange,
             reactStyle: reactStyle,
             onDrillDown: function onDrillDown(e) {
-              return _this.handleHeadingClick(date, currectData, e, dateId)
+              return _this.handleHeadingClick(date, events, e, dateId)
             },
           })
         )
@@ -11868,7 +11876,7 @@
         })
       }
 
-      _this.handleHeadingClick = function(date, currectData, e, dateId) {
+      _this.handleHeadingClick = function(date, events, e, dateId) {
         e.preventDefault()
         var clickActiveEle = _this.state.clickActiveEle
         var newClickActiveEle = clickActiveEle
@@ -11892,7 +11900,7 @@
         _this.setState({
           clickActiveEle: newClickActiveEle,
           clickActiveDate: {
-            list: currectData,
+            list: _this.currectData(date, events),
             date: newDate,
           },
         }) // this.clearSelection()
@@ -12001,9 +12009,21 @@
     _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(
       _ref2
     ) {
-      var date = _ref2.date
+      var date = _ref2.date,
+        events = _ref2.events
+      var newDate =
+        date.getFullYear() +
+        '\u5E74' +
+        (date.getMonth() + 1) +
+        '\u6708' +
+        date.getDate() +
+        '\u65E5\u6D3B\u52A8'
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
+        clickActiveDate: {
+          list: events,
+          date: newDate,
+        },
       })
     }
 
@@ -12019,10 +12039,11 @@
           return sel
         })
       })
+      var dataId = '' + (date.getMonth() + 1) + date.getDate()
       var clickActiveEle = flatten(newWeeks).map(function(el) {
         el = {
           key: el,
-          value: false,
+          value: el === dataId && wapFirstRender,
         }
         return el
       })
@@ -12039,6 +12060,7 @@
         newWeeks: newWeeks,
         clickActiveEle: clickActiveEle,
       })
+      wapFirstRender = false
     }
 
     _proto.componentDidMount = function componentDidMount() {
@@ -12083,8 +12105,15 @@
     //   window.removeEventListener('resize', this._resizeListener, false)
     // }
 
+    _proto.activeUrl = function activeUrl(e, url) {
+      e.preventDefault()
+      window.location.href = url
+    }
+
     _proto.render = function render() {
-      var _clickActiveDate$list, _clickActiveDate$list2
+      var _clickActiveDate$list,
+        _clickActiveDate$list2,
+        _this3 = this
 
       var clickActiveDate = this.state.clickActiveDate
       var _this$props5 = this.props,
@@ -12161,6 +12190,9 @@
                           target: '_blank',
                           className: reactStyle['active-li-title'],
                           'data-class': 'active-li-title',
+                          onClick: function onClick(e) {
+                            _this3.activeUrl(e, item.url)
+                          },
                         },
                         item.title
                       ),
@@ -12235,7 +12267,7 @@
     }
 
     _proto.renderOverlay = function renderOverlay() {
-      var _this3 = this
+      var _this4 = this
 
       var overlay = (this.state && this.state.overlay) || {}
       var _this$props7 = this.props,
@@ -12253,7 +12285,7 @@
           placement: 'bottom',
           show: !!overlay.position,
           onHide: function onHide() {
-            return _this3.setState({
+            return _this4.setState({
               overlay: null,
             })
           },
@@ -12273,14 +12305,14 @@
               components: components,
               localizer: localizer,
               position: overlay.position,
-              show: _this3.overlayDisplay,
+              show: _this4.overlayDisplay,
               events: overlay.events,
               slotStart: overlay.date,
               slotEnd: overlay.end,
-              onSelect: _this3.handleSelectEvent,
-              onDoubleClick: _this3.handleDoubleClickEvent,
-              onKeyPress: _this3.handleKeyPressEvent,
-              handleDragStart: _this3.props.handleDragStart,
+              onSelect: _this4.handleSelectEvent,
+              onDoubleClick: _this4.handleDoubleClickEvent,
+              onKeyPress: _this4.handleKeyPressEvent,
+              handleDragStart: _this4.props.handleDragStart,
               reactStyle: reactStyle,
             })
           )

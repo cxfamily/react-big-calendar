@@ -23,6 +23,8 @@ import { inRange, sortEvents } from './utils/eventLevels'
 let eventsForWeek = (evts, start, end, accessors) =>
   evts.filter(e => inRange(e, start, end, accessors))
 
+let wapFirstRender = true //触屏初次渲染
+
 class MonthView extends React.Component {
   constructor(...args) {
     super(...args)
@@ -43,9 +45,15 @@ class MonthView extends React.Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps({ date }) {
+  UNSAFE_componentWillReceiveProps({ date, events }) {
+    let newDate = `${date.getFullYear()}年${date.getMonth() +
+      1}月${date.getDate()}日活动`
     this.setState({
       needLimitMeasure: !dates.eq(date, this.props.date, 'month'),
+      clickActiveDate: {
+        list: events,
+        date: newDate,
+      },
     })
   }
 
@@ -59,18 +67,23 @@ class MonthView extends React.Component {
         return sel
       })
     )
+
+    let dataId = `${date.getMonth() + 1}${date.getDate()}`
     let clickActiveEle = flatten(newWeeks).map(el => {
-      el = { key: el, value: false }
+      el = { key: el, value: el === dataId && wapFirstRender }
       return el
     })
     newWeeks = flatten(newWeeks).map(el => {
       el = { key: el, isMore: false, right: false, bottom: false }
       return el
     })
+
     this.setState({
       newWeeks: newWeeks,
       clickActiveEle: clickActiveEle,
     })
+
+    wapFirstRender = false
   }
 
   componentDidMount() {
@@ -114,6 +127,11 @@ class MonthView extends React.Component {
 
   getContainer = () => {
     return findDOMNode(this)
+  }
+
+  activeUrl(e, url) {
+    e.preventDefault()
+    window.location.href = url
   }
 
   render() {
@@ -172,6 +190,9 @@ class MonthView extends React.Component {
                       target="_blank"
                       className={reactStyle['active-li-title']}
                       data-class="active-li-title"
+                      onClick={e => {
+                        this.activeUrl(e, item.url)
+                      }}
                     >
                       {item.title}
                     </a>
@@ -324,6 +345,32 @@ class MonthView extends React.Component {
     )
   }
 
+  currectData = (date, events) => {
+    let start = el => {
+      return new Date(el.start)
+    }
+    let end = el => {
+      return new Date(el.end)
+    }
+    let currectData =
+      events.filter(
+        el =>
+          start(el).getFullYear() === date.getFullYear() &&
+          start(el).getMonth() === date.getMonth() &&
+          start(el).getDate() <= date.getDate() &&
+          end(el).getDate() >= date.getDate() &&
+          (start(el).getDate() === end(el).getDate() ||
+            (start(el).getDate() !== end(el).getDate() &&
+              Date.parse(el.end) >
+                Date.parse(
+                  `${date.getFullYear()}-${date.getMonth() +
+                    1}-${date.getDate()}`
+                )))
+      ) || []
+
+    return currectData
+  }
+
   readerDateHeading = ({ date, className, ...props }) => {
     let {
       date: currentDate,
@@ -339,27 +386,6 @@ class MonthView extends React.Component {
     let drilldownView = getDrilldownView(date)
     let label = localizer.format(date, 'dateFormat')
     let DateHeaderComponent = this.props.components.dateHeader || DateHeader
-    let start = el => {
-      return new Date(el.start)
-    }
-    let end = el => {
-      return new Date(el.end)
-    }
-    let currectData =
-      events.filter(
-        el =>
-          start(el).getFullYear() === date.getFullYear() &&
-          start(el).getMonth() === date.getMonth() &&
-          start(el).getDate() <= label &&
-          end(el).getDate() >= label &&
-          (start(el).getDate() === end(el).getDate() ||
-            (start(el).getDate() !== end(el).getDate() &&
-              Date.parse(el.end) >
-                Date.parse(
-                  `${date.getFullYear()}-${date.getMonth() +
-                    1}-${date.getDate()}`
-                )))
-      ) || []
 
     let dateId = `${date.getMonth() + 1}${date.getDate()}`
     let newActiveEle = clickActiveEle.filter(el => {
@@ -375,7 +401,7 @@ class MonthView extends React.Component {
           className,
           isOffRange && reactStyle['rbc-off-range'],
           isCurrent && reactStyle['rbc-current'],
-          currectData?.length > 0 && reactStyle['rbc-data'],
+          this.currectData(date, events)?.length > 0 && reactStyle['rbc-data'],
           newActiveEle[0]?.value && reactStyle['rbc-active']
         )}
         role="cell"
@@ -386,9 +412,7 @@ class MonthView extends React.Component {
           drilldownView={drilldownView}
           isOffRange={isOffRange}
           reactStyle={reactStyle}
-          onDrillDown={e =>
-            this.handleHeadingClick(date, currectData, e, dateId)
-          }
+          onDrillDown={e => this.handleHeadingClick(date, events, e, dateId)}
         />
       </div>
     )
@@ -475,7 +499,7 @@ class MonthView extends React.Component {
     this._selectTimer = setTimeout(() => this.selectDates(slotInfo))
   }
 
-  handleHeadingClick = (date, currectData, e, dateId) => {
+  handleHeadingClick = (date, events, e, dateId) => {
     e.preventDefault()
 
     let { clickActiveEle } = this.state
@@ -487,11 +511,12 @@ class MonthView extends React.Component {
       }
       return el
     })
+
     let newDate = `${date.getFullYear()}年${date.getMonth() +
       1}月${date.getDate()}日活动`
     this.setState({
       clickActiveEle: newClickActiveEle,
-      clickActiveDate: { list: currectData, date: newDate },
+      clickActiveDate: { list: this.currectData(date, events), date: newDate },
     })
     // this.clearSelection()
     // notify(this.props.onDrillDown, [date, view])
