@@ -132,10 +132,6 @@
   .rbc-calendar {
     padding: 30px 0;
     min-height: 325px;
-
-    .rbc-toolbar {
-      padding: 0 30px;
-    }
   }
   .rbc-month-view {
     margin-top: 0;
@@ -221,6 +217,7 @@
 
   }
   .rbc-toolbar {
+    padding: 0 30px;
     .rbc-toolbar-label {
       font-size: 32px;
       display: flex;
@@ -306,38 +303,38 @@
 @mixin screen-600 {
   .rbc-calendar {
     padding: 15px 0 0;
-    .rbc-toolbar {
-      padding: 0 15px;
-      .rbc-toolbar-label {
-        font-size: 16px;
+  }
+  .rbc-toolbar {
+    padding: 0 15px;
+    .rbc-toolbar-label {
+      font-size: 16px;
+    }
+    .rbc-toolbar-label-tip {
+      font-size: 12px;
+      margin-left: 10px;
+      padding-left: 10px;
+      &:before {
+        width: 3px;
+        height: 3px;
+        margin-top: -1.5px;
       }
-      .rbc-toolbar-label-tip {
-        font-size: 12px;
-        margin-left: 10px;
-        padding-left: 10px;
-        &:before {
-          width: 3px;
-          height: 3px;
-          margin-top: -1.5px;
-        }
+    }
+    button {
+      font-size: 12px;
+      height: 25px;
+      width: 50px;
+      border-radius: 2px;
+    }
+    .arrow {
+      width: 24px;
+      padding: 0 0 0 9px;
+      &:before {
+        width: 7px;
+        height: 7px;
       }
-      button {
-        font-size: 12px;
-        height: 25px;
-        width: 50px;
-        border-radius: 2px;
-      }
-      .arrow {
-        width: 24px;
-        padding: 0 0 0 9px;
-        &:before {
-          width: 7px;
-          height: 7px;
-        }
-      }
-      .arrow-right {
-        padding: 0 0 0 6px;
-      }
+    }
+    .arrow-right {
+      padding: 0 0 0 6px;
     }
   }
   .rbc-month-view {
@@ -404,7 +401,7 @@
   padding: 0 !important;
   @include screen-767;
   @include screen-600;
-  .rbc-calendar {
+  &.rbc-calendar {
     min-height: 200px;
     padding: 0;
     .rbc-toolbar {

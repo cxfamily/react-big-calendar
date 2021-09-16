@@ -4264,7 +4264,9 @@
         null != e &&
         !Ut(e)
       ) ||
-      mi.test(e) || !hi.test(e) || (null != t && e in Object(t))
+      mi.test(e) ||
+      !hi.test(e) ||
+      (null != t && e in Object(t))
     )
   }
   var yi = 'Expected a function'
@@ -8086,6 +8088,7 @@
       'culture',
       'lang',
       'reactStyle',
+      'showPosition',
     ]
   function au(e) {
     return Array.isArray(e) ? e : Object.keys(e)
@@ -8301,62 +8304,71 @@
           g = e.doShowMoreDrillDown,
           y = (e.components, e.formats, e.messages, e.culture, e.lang),
           b = e.reactStyle,
-          w = s(e, ou)
+          w = e.showPosition,
+          E = s(e, ou)
         d = d || p()
-        var E = this.getView(),
-          _ = this.state.context,
-          S = _.accessors,
-          D = _.components,
-          M = _.getters,
-          O = _.localizer,
-          x = _.viewNames,
-          k = D.toolbar || Ic,
-          T = E.title(d, { localizer: O, length: v })
-        return r.createElement(
-          'div',
-          i({}, f, {
-            className: G(u, b['rbc-calendar'], w.rtl && b['rbc-rtl']),
-            style: l,
-            'data-class': 'rbc-calendar',
-          }),
-          n &&
-            r.createElement(k, {
-              date: d,
-              view: t,
-              views: x,
-              label: T,
-              onView: this.handleViewChange,
-              onNavigate: this.handleNavigate,
-              localizer: O,
-              lang: y,
-              reactStyle: b,
-            }),
+        var _ = this.getView(),
+          S = this.state.context,
+          D = S.accessors,
+          M = S.components,
+          O = S.getters,
+          x = S.localizer,
+          k = S.viewNames,
+          T = M.toolbar || Ic,
+          j = _.title(d, { localizer: x, length: v })
+        return (
+          console.log('111', w),
           r.createElement(
-            E,
-            i({}, w, {
-              events: o,
-              backgroundEvents: c,
-              date: d,
-              getNow: p,
-              length: v,
-              localizer: O,
-              getters: M,
-              components: D,
-              accessors: S,
-              showMultiDayTimes: h,
-              getDrilldownView: this.getDrilldownView,
-              onNavigate: this.handleNavigate,
-              onDrillDown: this.handleDrillDown,
-              onSelectEvent: this.handleSelectEvent,
-              onDoubleClickEvent: this.handleDoubleClickEvent,
-              onKeyPressEvent: this.handleKeyPressEvent,
-              onSelectSlot: this.handleSelectSlot,
-              onShowMore: m,
-              doShowMoreDrillDown: g,
-              lang: y,
-              label: T,
-              reactStyle: b,
-            })
+            'div',
+            i({}, f, {
+              className: G(
+                u,
+                b['rbc-calendar'],
+                E.rtl && b['rbc-rtl'],
+                w && b['index-calendar-small']
+              ),
+              style: l,
+              'data-class': 'rbc-calendar',
+            }),
+            n &&
+              r.createElement(T, {
+                date: d,
+                view: t,
+                views: k,
+                label: j,
+                onView: this.handleViewChange,
+                onNavigate: this.handleNavigate,
+                localizer: x,
+                lang: y,
+                reactStyle: b,
+              }),
+            r.createElement(
+              _,
+              i({}, E, {
+                events: o,
+                backgroundEvents: c,
+                date: d,
+                getNow: p,
+                length: v,
+                localizer: x,
+                getters: O,
+                components: M,
+                accessors: D,
+                showMultiDayTimes: h,
+                getDrilldownView: this.getDrilldownView,
+                onNavigate: this.handleNavigate,
+                onDrillDown: this.handleDrillDown,
+                onSelectEvent: this.handleSelectEvent,
+                onDoubleClickEvent: this.handleDoubleClickEvent,
+                onKeyPressEvent: this.handleKeyPressEvent,
+                onSelectSlot: this.handleSelectSlot,
+                onShowMore: m,
+                doShowMoreDrillDown: g,
+                lang: y,
+                label: j,
+                reactStyle: b,
+              })
+            )
           )
         )
       }),

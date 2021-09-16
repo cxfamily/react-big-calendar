@@ -464,6 +464,7 @@ class Calendar extends React.Component {
     toolbar: PropTypes.bool,
     lang: PropTypes.string,
     reactStyle: PropTypes.object,
+    showPosition: PropTypes.bool,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.
@@ -942,6 +943,7 @@ class Calendar extends React.Component {
       culture: _3,
       lang,
       reactStyle,
+      showPosition,
       ...props
     } = this.props
     current = current || getNow()
@@ -957,14 +959,14 @@ class Calendar extends React.Component {
 
     let CalToolbar = components.toolbar || Toolbar
     const label = View.title(current, { localizer, length })
-
     return (
       <div
         {...elementProps}
         className={clsx(
           className,
           reactStyle['rbc-calendar'],
-          props.rtl && reactStyle['rbc-rtl']
+          props.rtl && reactStyle['rbc-rtl'],
+          showPosition && reactStyle['index-calendar-small']
         )}
         style={style}
         data-class="rbc-calendar"
