@@ -517,6 +517,7 @@ class MonthView extends React.Component {
       clickActiveEle: newClickActiveEle,
       clickActiveDate: { list: this.currectData(date, events), date: newDate },
     })
+    this.props.clickDate(this.currectData(date, events), date)
     // this.clearSelection()
     // notify(this.props.onDrillDown, [date, view])
   }
@@ -632,6 +633,7 @@ MonthView.propTypes = {
   loading: PropTypes.bool,
   popup: PropTypes.bool,
   handleDragStart: PropTypes.func,
+  clickDate: PropTypes.func,
   label: PropTypes.string,
   reactStyle: PropTypes.object,
 

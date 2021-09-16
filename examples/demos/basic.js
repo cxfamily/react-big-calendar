@@ -25,8 +25,11 @@ export default class Basic extends React.Component {
     }
   }
 
-  changeCalendar(date) {
+  changeCalendar(date, action) {
     this.setState({ changeStatus: `${date.getMonth() + 1}${date.getDate()}` })
+  }
+  clickDate(list, date) {
+    // console.log('111',list,date);
   }
 
   render() {
@@ -47,6 +50,7 @@ export default class Basic extends React.Component {
         reactStyle={reactStyle}
         showPosition={showPosition}
         changeCalendar={(date, action) => this.changeCalendar(date, action)}
+        clickDate={(list, date) => this.clickDate(list, date)}
       />
     )
   }
