@@ -11599,11 +11599,22 @@
     label: propTypes.node,
   }
 
+  var _this$1 = undefined
+
   var DateHeader = function DateHeader(_ref) {
+    var _clickActiveEle$, _clickActiveDate$list, _clickActiveDate$list2
+
     var label = _ref.label,
       onDrillDown = _ref.onDrillDown,
-      reactStyle = _ref.reactStyle
+      reactStyle = _ref.reactStyle,
+      clickActiveDate = _ref.clickActiveDate,
+      clickActiveEle = _ref.clickActiveEle,
+      date = _ref.date
     label = label.replace(/^0/, '')
+    var dateId = '' + (date.getMonth() + 1) + date.getDate()
+    clickActiveEle = clickActiveEle.filter(function(el) {
+      return el.key === dateId && el.value
+    })
     return /*#__PURE__*/ React__default.createElement(
       'div',
       {
@@ -11615,9 +11626,101 @@
         'span',
         {
           className: reactStyle['current-text'],
+          'data-id': 'ref' + dateId,
         },
         label
-      )
+      ),
+      ((_clickActiveEle$ = clickActiveEle[0]) == null
+        ? void 0
+        : _clickActiveEle$.value) &&
+        /*#__PURE__*/ React__default.createElement(
+          'div',
+          {
+            className: clsx(
+              reactStyle['wap-render-list'],
+              reactStyle['wap-render-list-position']
+            ),
+            'data-class': 'wap-render-list',
+          },
+          /*#__PURE__*/ React__default.createElement(
+            'div',
+            {
+              className: reactStyle['active-title'],
+              'data-id': 'ref' + dateId,
+            },
+            clickActiveDate.date
+          ),
+          ((_clickActiveDate$list = clickActiveDate.list) == null
+            ? void 0
+            : _clickActiveDate$list.length) > 0
+            ? /*#__PURE__*/ React__default.createElement(
+                'div',
+                {
+                  className: reactStyle['wap-calendar-list'],
+                },
+                (_clickActiveDate$list2 = clickActiveDate.list) == null
+                  ? void 0
+                  : _clickActiveDate$list2.map(function(item, i) {
+                      return /*#__PURE__*/ React__default.createElement(
+                        'div',
+                        {
+                          className: reactStyle['active-li'],
+                          key: i,
+                          'data-class': 'active-li',
+                          'data-id': 'ref' + dateId,
+                        },
+                        /*#__PURE__*/ React__default.createElement(
+                          'a',
+                          {
+                            'data-id': 'ref' + dateId,
+                            href: item.url,
+                            title: item.title,
+                            target: '_blank',
+                            className: reactStyle['active-li-title'],
+                            'data-class': 'active-li-title',
+                            onClick: function onClick(e) {
+                              _this$1.activeUrl(e, item.url)
+                            },
+                          },
+                          item.title
+                        ),
+                        /*#__PURE__*/ React__default.createElement(
+                          'div',
+                          {
+                            className: reactStyle['active-text'],
+                            'data-class': 'active-text',
+                            'data-id': 'ref' + dateId,
+                          },
+                          item.campaignTimeType,
+                          '\uFF1A',
+                          item.campaignStartTime,
+                          ' \u81F3',
+                          ' ',
+                          item.campaignEndTime
+                        )
+                      )
+                    }),
+                clickActiveDate.list.length > 6 &&
+                  /*#__PURE__*/ React__default.createElement(
+                    'a',
+                    {
+                      href: '#',
+                      target: '_blank',
+                      className: reactStyle['view-more'],
+                      'data-id': 'ref' + dateId,
+                    },
+                    '\u67E5\u770B\u5168\u90E812\u4E2A\u6D3B\u52A8'
+                  )
+              )
+            : /*#__PURE__*/ React__default.createElement(
+                'div',
+                {
+                  className: reactStyle['active-li-none'],
+                  'data-class': 'active-li-none',
+                },
+                '\u6682\u65E0\u6D3B\u52A8'
+              )
+        )
     )
   }
 
@@ -11628,6 +11731,8 @@
     onDrillDown: propTypes.func,
     isOffRange: propTypes.bool,
     reactStyle: propTypes.object,
+    clickActiveDate: propTypes.object,
+    clickActiveEle: propTypes.array,
   }
 
   var _excluded$1 = ['date', 'className']
@@ -11826,7 +11931,9 @@
           localizer = _this$props2.localizer,
           events = _this$props2.events,
           reactStyle = _this$props2.reactStyle
-        var clickActiveEle = _this.state.clickActiveEle
+        var _this$state2 = _this.state,
+          clickActiveEle = _this$state2.clickActiveEle,
+          clickActiveDate = _this$state2.clickActiveDate
         var isOffRange = month(date) !== month(currentDate)
         var isCurrent = eq(date, currentDate, 'day')
         var drilldownView = getDrilldownView(date)
@@ -11864,6 +11971,8 @@
             onDrillDown: function onDrillDown(e) {
               return _this.handleHeadingClick(date, events, e, dateId)
             },
+            clickActiveDate: clickActiveDate,
+            clickActiveEle: clickActiveEle,
           })
         )
       }
@@ -11889,6 +11998,12 @@
 
           return el
         })
+        var newWeeksIndex = 0
+        clickActiveEle.map(function(el, i) {
+          if (el.key === dateId) {
+            newWeeksIndex = i
+          }
+        })
         var newDate =
           date.getFullYear() +
           '\u5E74' +
@@ -11903,10 +12018,10 @@
             list: _this.currectData(date, events),
             date: newDate,
           },
+          newWeeksIndex: newWeeksIndex,
         })
 
-        _this.props.clickDate(_this.currectData(date, events), date) // this.clearSelection()
-        // notify(this.props.onDrillDown, [date, view])
+        _this.props.clickDate(_this.currectData(date, events), date)
       }
 
       _this.handleSelectEvent = function() {
@@ -12226,16 +12341,20 @@
     }
 
     _proto.hideClickMore = function hideClickMore(e) {
-      var _this$state2 = this.state,
-        newWeeks = _this$state2.newWeeks,
-        newWeeksIndex = _this$state2.newWeeksIndex
+      var _this$state3 = this.state,
+        newWeeks = _this$state3.newWeeks,
+        newWeeksIndex = _this$state3.newWeeksIndex,
+        clickActiveEle = _this$state3.clickActiveEle
       var newMoreShow = newWeeks
+      var newClickActiveEle = clickActiveEle
       var node = e.target.getAttribute('data-id')
 
       if (node !== 'ref' + newMoreShow[newWeeksIndex].key) {
         newMoreShow[this.state.newWeeksIndex].isMore = false
+        newClickActiveEle[this.state.newWeeksIndex].value = false
         this.setState({
           newWeeks: newMoreShow,
+          clickActiveEle: newClickActiveEle,
         })
       }
     }

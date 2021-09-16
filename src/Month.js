@@ -220,13 +220,16 @@ class MonthView extends React.Component {
   }
 
   hideClickMore(e) {
-    let { newWeeks, newWeeksIndex } = this.state
+    let { newWeeks, newWeeksIndex, clickActiveEle } = this.state
     let newMoreShow = newWeeks
+    let newClickActiveEle = clickActiveEle
     let node = e.target.getAttribute('data-id')
     if (node !== `ref${newMoreShow[newWeeksIndex].key}`) {
       newMoreShow[this.state.newWeeksIndex].isMore = false
+      newClickActiveEle[this.state.newWeeksIndex].value = false
       this.setState({
         newWeeks: newMoreShow,
+        clickActiveEle: newClickActiveEle,
       })
     }
   }
@@ -378,7 +381,7 @@ class MonthView extends React.Component {
       events,
       reactStyle,
     } = this.props
-    let { clickActiveEle } = this.state
+    let { clickActiveEle, clickActiveDate } = this.state
 
     let isOffRange = dates.month(date) !== dates.month(currentDate)
     let isCurrent = dates.eq(date, currentDate, 'day')
@@ -412,6 +415,8 @@ class MonthView extends React.Component {
           isOffRange={isOffRange}
           reactStyle={reactStyle}
           onDrillDown={e => this.handleHeadingClick(date, events, e, dateId)}
+          clickActiveDate={clickActiveDate}
+          clickActiveEle={clickActiveEle}
         />
       </div>
     )
@@ -511,15 +516,21 @@ class MonthView extends React.Component {
       return el
     })
 
+    let newWeeksIndex = 0
+    clickActiveEle.map((el, i) => {
+      if (el.key === dateId) {
+        newWeeksIndex = i
+      }
+    })
+
     let newDate = `${date.getFullYear()}年${date.getMonth() +
       1}月${date.getDate()}日活动`
     this.setState({
       clickActiveEle: newClickActiveEle,
       clickActiveDate: { list: this.currectData(date, events), date: newDate },
+      newWeeksIndex: newWeeksIndex,
     })
     this.props.clickDate(this.currectData(date, events), date)
-    // this.clearSelection()
-    // notify(this.props.onDrillDown, [date, view])
   }
 
   handleSelectEvent = (...args) => {
