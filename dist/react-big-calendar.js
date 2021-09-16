@@ -12021,10 +12021,11 @@
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
         clickActiveDate: {
-          list: this.currectData(date, events),
-          date: newDate,
+          list: wapFirstRender ? this.currectData(date, events) : [],
+          date: wapFirstRender ? newDate : null,
         },
       })
+      wapFirstRender = false
     }
 
     _proto.updateData = function updateData() {
@@ -12060,7 +12061,6 @@
         newWeeks: newWeeks,
         clickActiveEle: clickActiveEle,
       })
-      wapFirstRender = false
     }
 
     _proto.componentDidMount = function componentDidMount() {

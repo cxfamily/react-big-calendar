@@ -5318,8 +5318,12 @@
               '日活动'
           this.setState({
             needLimitMeasure: !Ge(t, this.props.date, 'month'),
-            clickActiveDate: { list: this.currectData(t, n), date: r },
-          })
+            clickActiveDate: {
+              list: ms ? this.currectData(t, n) : [],
+              date: ms ? r : null,
+            },
+          }),
+            (ms = !1)
         }),
         (o.updateData = function() {
           var e = this.props,
@@ -5336,8 +5340,7 @@
           ;(n = Ne(n).map(function(e) {
             return (e = { key: e, isMore: !1, right: !1, bottom: !1 })
           })),
-            this.setState({ newWeeks: n, clickActiveEle: o }),
-            (ms = !1)
+            this.setState({ newWeeks: n, clickActiveEle: o })
         }),
         (o.componentDidMount = function() {
           var e = this

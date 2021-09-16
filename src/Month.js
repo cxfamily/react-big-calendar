@@ -51,10 +51,12 @@ class MonthView extends React.Component {
     this.setState({
       needLimitMeasure: !dates.eq(date, this.props.date, 'month'),
       clickActiveDate: {
-        list: this.currectData(date, events),
-        date: newDate,
+        list: wapFirstRender ? this.currectData(date, events) : [],
+        date: wapFirstRender ? newDate : null,
       },
     })
+
+    wapFirstRender = false
   }
 
   updateData() {
@@ -77,13 +79,10 @@ class MonthView extends React.Component {
       el = { key: el, isMore: false, right: false, bottom: false }
       return el
     })
-
     this.setState({
       newWeeks: newWeeks,
       clickActiveEle: clickActiveEle,
     })
-
-    wapFirstRender = false
   }
 
   componentDidMount() {

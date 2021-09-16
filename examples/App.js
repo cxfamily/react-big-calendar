@@ -112,7 +112,7 @@ class Example extends React.Component {
             </Layout>
             <ExampleControlSlot.Outlet />
           </Card>
-          <div className={styleDemo.example}>
+          <div className={clsx(styleDemo.example)}>
             <Current
               localizer={globalizeLocalizer}
               lang={this.state.lang}

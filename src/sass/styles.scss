@@ -128,8 +128,7 @@
 @import './agenda';
 @import './time-grid';
 
-
-@media screen and (max-width: 767px) {
+@mixin screen-767 {
   .rbc-calendar {
     padding: 30px 0;
     min-height: 325px;
@@ -304,87 +303,90 @@
   }
 }
 
-  @media screen and (max-width: 767px) {
-    .rbc-calendar {
-      min-height: 300px;
-      padding: 30px 0 0;
-    }
-  }
-  @media screen and (max-width: 600px) {
-
-    .rbc-calendar {
-      padding: 15px 0 0;
-      .rbc-toolbar {
-        padding: 0 15px;
-        .rbc-toolbar-label {
-          font-size: 16px;
-        }
-        .rbc-toolbar-label-tip {
-          font-size: 12px;
-          margin-left: 10px;
-          padding-left: 10px;
-          &:before {
-            width: 3px;
-            height: 3px;
-            margin-top: -1.5px;
-          }
-        }
-        button {
-          font-size: 12px;
-          height: 25px;
-          width: 50px;
-          border-radius: 2px;
-        }
-        .arrow {
-          width: 24px;
-          padding: 0 0 0 9px;
-          &:before {
-            width: 7px;
-            height: 7px;
-          }
-        }
-        .arrow-right {
-          padding: 0 0 0 6px;
-        }
+@mixin screen-600 {
+  .rbc-calendar {
+    padding: 15px 0 0;
+    .rbc-toolbar {
+      padding: 0 15px;
+      .rbc-toolbar-label {
+        font-size: 16px;
       }
-    }
-    .rbc-month-view {
-      padding: 0 7px;
-    }
-    .rbc-date-cell {
-      padding: 8px;
-      font-size: 14px;
-      &.rbc-data {
-        .current-text-wrap:before {
+      .rbc-toolbar-label-tip {
+        font-size: 12px;
+        margin-left: 10px;
+        padding-left: 10px;
+        &:before {
           width: 3px;
           height: 3px;
-          margin: 12px 0 0 -1.5px;
+          margin-top: -1.5px;
         }
       }
-    }
-    .wap-render-list {
-      padding: 15px;
-      .active-title {
-        font-size: 14px;
-        padding-bottom: 10px;
+      button {
+        font-size: 12px;
+        height: 25px;
+        width: 50px;
+        border-radius: 2px;
       }
-      .active-li {
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        .active-li-title {
-          font-size: 14px;
-          margin-bottom: 5px;
-        }
-        .active-text {
-          font-size: 12px;
+      .arrow {
+        width: 24px;
+        padding: 0 0 0 9px;
+        &:before {
+          width: 7px;
+          height: 7px;
         }
       }
-      .active-li-none {
-        font-size: 14px;
+      .arrow-right {
+        padding: 0 0 0 6px;
       }
     }
   }
+  .rbc-month-view {
+    padding: 0 7px;
+  }
+  .rbc-date-cell {
+    padding: 8px;
+    font-size: 14px;
+    &.rbc-data {
+      .current-text-wrap:before {
+        width: 3px;
+        height: 3px;
+        margin: 12px 0 0 -1.5px;
+      }
+    }
+  }
+  .wap-render-list {
+    padding: 15px;
+    .active-title {
+      font-size: 14px;
+      padding-bottom: 10px;
+    }
+    .active-li {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      .active-li-title {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+      .active-text {
+        font-size: 12px;
+      }
+    }
+    .active-li-none {
+      font-size: 14px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  @include screen-767;
+}
+
+
+@media screen and (max-width: 600px) {
+  @include screen-600;
+
+}
 
 @media screen and (max-width: 460px) {
   .rbc-date-cell {
@@ -394,4 +396,46 @@
       }
     }
   }
+}
+
+
+.index-calendar-small {
+  max-width: 260px;
+  padding: 0 !important;
+  @include screen-767;
+  @include screen-600;
+  .rbc-calendar {
+    min-height: 200px;
+    padding: 0;
+    .rbc-toolbar {
+      margin-bottom: 7px;
+      .rbc-toolbar-label-tip {
+        display: none;
+      }
+      .rbc-toolbar-label {
+        font-size: 14px;
+        font-weight: normal;
+      }
+      button {
+        border: none;
+      }
+    }
+  }
+  .rbc-date-cell {
+    padding: 5px;
+    font-size: 12px;
+    &.rbc-data {
+      .current-text-wrap {
+        &:before {
+          width: 2px;
+          height: 2px;
+          margin: 8px 0 0 -1px;
+        }
+      }
+    }
+  }
+  .wap-render-list {
+    display: none;
+  }
+
 }
