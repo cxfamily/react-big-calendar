@@ -797,6 +797,7 @@ button.rbc-input::-moz-focus-inner {
 .index-calendar-wap {
   max-width: 750px;
   margin: 0 auto;
+  min-height: 300px;
 }
 .index-calendar-wap .rbc-calendar {
   padding: 30px 0;

@@ -306,6 +306,7 @@
   @include screen-767;
   max-width: 750px;
   margin: 0 auto;
+  min-height: 300px;
   .wap-render-list-position {
     display: none;
   }
