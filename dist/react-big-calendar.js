@@ -11623,8 +11623,6 @@
     label: propTypes.node,
   }
 
-  var _this$1 = undefined
-
   var DateHeader = function DateHeader(_ref) {
     var _clickActiveEle$, _clickActiveDate$list, _clickActiveDate$list2
 
@@ -11688,49 +11686,53 @@
                   ? void 0
                   : _clickActiveDate$list2.map(function(item, i) {
                       return /*#__PURE__*/ React__default.createElement(
-                        'div',
+                        React.Fragment,
                         {
-                          className: reactStyle['active-li'],
                           key: i,
-                          'data-class': 'active-li',
-                          'data-id': 'ref' + dateId,
                         },
-                        /*#__PURE__*/ React__default.createElement(
-                          'a',
-                          {
-                            'data-id': 'ref' + dateId,
-                            href: item.url,
-                            title: item.title,
-                            target: '_blank',
-                            className: reactStyle['active-li-title'],
-                            'data-class': 'active-li-title',
-                            onClick: function onClick(e) {
-                              _this$1.activeUrl(e, item.url)
+                        i < 6 &&
+                          /*#__PURE__*/ React__default.createElement(
+                            'div',
+                            {
+                              className: reactStyle['active-li'],
+                              'data-class': 'active-li',
+                              'data-id': 'ref' + dateId,
                             },
-                          },
-                          item.title
-                        ),
-                        /*#__PURE__*/ React__default.createElement(
-                          'div',
-                          {
-                            className: reactStyle['active-text'],
-                            'data-class': 'active-text',
-                            'data-id': 'ref' + dateId,
-                          },
-                          item.campaignTimeType,
-                          '\uFF1A',
-                          item.campaignStartTime,
-                          ' \u81F3',
-                          ' ',
-                          item.campaignEndTime
-                        )
+                            /*#__PURE__*/ React__default.createElement(
+                              'a',
+                              {
+                                'data-id': 'ref' + dateId,
+                                href: item.url,
+                                title: item.title,
+                                target: '_blank',
+                                className: reactStyle['active-li-title'],
+                                'data-class': 'active-li-title',
+                              },
+                              item.title
+                            ),
+                            /*#__PURE__*/ React__default.createElement(
+                              'div',
+                              {
+                                className: reactStyle['active-text'],
+                                'data-class': 'active-text',
+                                'data-id': 'ref' + dateId,
+                              },
+                              item.campaignTimeType,
+                              '\uFF1A',
+                              item.campaignStartTime,
+                              ' \u81F3',
+                              ' ',
+                              item.campaignEndTime
+                            )
+                          )
                       )
                     }),
                 clickActiveDate.list.length > 6 &&
                   /*#__PURE__*/ React__default.createElement(
                     'a',
                     {
-                      href: '#',
+                      href:
+                        '//membercenter.made-in-china.com/campaign.do?xcase=calendar',
                       target: '_blank',
                       className: reactStyle['view-more'],
                       'data-id': 'ref' + dateId,
@@ -12074,7 +12076,7 @@
           newWeeksIndex: newWeeksIndex,
         })
 
-        _this.props.clickDate(_this.currectData(date, events), date)
+        _this.props.clickDate(date)
       }
 
       _this.handleSelectEvent = function() {
@@ -12270,11 +12272,6 @@
     //   window.removeEventListener('resize', this._resizeListener, false)
     // }
 
-    _proto.activeUrl = function activeUrl(e, url) {
-      e.preventDefault()
-      window.location.href = url
-    }
-
     _proto.render = function render() {
       var _clickActiveDate$list,
         _clickActiveDate$list2,
@@ -12346,6 +12343,9 @@
                         className: reactStyle['active-li'],
                         key: i,
                         'data-class': 'active-li',
+                        onClick: function onClick() {
+                          _this3.props.clickDate(date)
+                        },
                       },
                       /*#__PURE__*/ React__default.createElement(
                         'a',
@@ -12355,9 +12355,6 @@
                           target: '_blank',
                           className: reactStyle['active-li-title'],
                           'data-class': 'active-li-title',
-                          onClick: function onClick(e) {
-                            _this3.activeUrl(e, item.url)
-                          },
                         },
                         item.title
                       ),
@@ -17450,6 +17447,8 @@
         _this.handleRangeChange(date, ViewComponent)
 
         _this.props.changeCalendar(date, action)
+
+        _this.props.clickDate(date)
       }
 
       _this.handleViewChange = function(view) {
@@ -18293,6 +18292,7 @@
      */
     culture: propTypes.string,
     changeCalendar: propTypes.func,
+    clickDate: propTypes.func,
 
     /**
      * Localizer specific formats, tell the Calendar how to format and display dates.

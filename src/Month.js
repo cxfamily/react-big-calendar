@@ -127,11 +127,6 @@ class MonthView extends React.Component {
     return findDOMNode(this)
   }
 
-  activeUrl(e, url) {
-    e.preventDefault()
-    window.location.href = url
-  }
-
   render() {
     let { clickActiveDate } = this.state
     let { date, localizer, className, loading, reactStyle } = this.props,
@@ -181,6 +176,9 @@ class MonthView extends React.Component {
                     className={reactStyle['active-li']}
                     key={i}
                     data-class="active-li"
+                    onClick={() => {
+                      this.props.clickDate(date)
+                    }}
                   >
                     <a
                       href={item.url}
@@ -188,9 +186,6 @@ class MonthView extends React.Component {
                       target="_blank"
                       className={reactStyle['active-li-title']}
                       data-class="active-li-title"
-                      onClick={e => {
-                        this.activeUrl(e, item.url)
-                      }}
                     >
                       {item.title}
                     </a>
@@ -548,7 +543,7 @@ class MonthView extends React.Component {
       clickActiveDate: { list: this.currectData(date, events), date: newDate },
       newWeeksIndex: newWeeksIndex,
     })
-    this.props.clickDate(this.currectData(date, events), date)
+    this.props.clickDate(date)
   }
 
   handleSelectEvent = (...args) => {

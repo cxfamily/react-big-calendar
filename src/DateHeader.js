@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Fragment } from 'react'
 import clsx from 'clsx'
 
 const DateHeader = ({
@@ -41,39 +41,39 @@ const DateHeader = ({
             <div className={reactStyle['wap-calendar-list']}>
               {clickActiveDate.list?.map((item, i) => {
                 return (
-                  <div
-                    className={reactStyle['active-li']}
-                    key={i}
-                    data-class="active-li"
-                    data-id={`ref${dateId}`}
-                  >
-                    <a
-                      data-id={`ref${dateId}`}
-                      href={item.url}
-                      title={item.title}
-                      target="_blank"
-                      className={reactStyle['active-li-title']}
-                      data-class="active-li-title"
-                      onClick={e => {
-                        this.activeUrl(e, item.url)
-                      }}
-                    >
-                      {item.title}
-                    </a>
-                    <div
-                      className={reactStyle['active-text']}
-                      data-class="active-text"
-                      data-id={`ref${dateId}`}
-                    >
-                      {item.campaignTimeType}：{item.campaignStartTime} 至{' '}
-                      {item.campaignEndTime}
-                    </div>
-                  </div>
+                  <Fragment key={i}>
+                    {i < 6 && (
+                      <div
+                        className={reactStyle['active-li']}
+                        data-class="active-li"
+                        data-id={`ref${dateId}`}
+                      >
+                        <a
+                          data-id={`ref${dateId}`}
+                          href={item.url}
+                          title={item.title}
+                          target="_blank"
+                          className={reactStyle['active-li-title']}
+                          data-class="active-li-title"
+                        >
+                          {item.title}
+                        </a>
+                        <div
+                          className={reactStyle['active-text']}
+                          data-class="active-text"
+                          data-id={`ref${dateId}`}
+                        >
+                          {item.campaignTimeType}：{item.campaignStartTime} 至{' '}
+                          {item.campaignEndTime}
+                        </div>
+                      </div>
+                    )}
+                  </Fragment>
                 )
               })}
               {clickActiveDate.list.length > 6 && (
                 <a
-                  href="#"
+                  href="//membercenter.made-in-china.com/campaign.do?xcase=calendar"
                   target="_blank"
                   className={reactStyle['view-more']}
                   data-id={`ref${dateId}`}
