@@ -71,7 +71,7 @@ const DateHeader = ({
                   </Fragment>
                 )
               })}
-              {clickActiveDate.list.length > 6 && (
+              {clickActiveDate.list.length > 1 && (
                 <a
                   href="//membercenter.made-in-china.com/campaign.do?xcase=calendar"
                   target="_blank"
@@ -80,7 +80,7 @@ const DateHeader = ({
                 >
                   {lang === 'cn'
                     ? `查看全部${clickActiveDate.list.length}个活动`
-                    : `View All ${clickActiveDate.list.length} Activity`}
+                    : `View More ${clickActiveDate.list.length} Activities`}
                 </a>
               )}
             </div>
@@ -89,7 +89,7 @@ const DateHeader = ({
               className={reactStyle['active-li-none']}
               data-class="active-li-none"
             >
-              {lang === 'cn' ? '暂无活动' : 'No Activity'}
+              {lang === 'cn' ? '暂无活动' : 'No Activity Now'}
             </div>
           )}
         </div>

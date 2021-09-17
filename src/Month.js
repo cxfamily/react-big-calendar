@@ -500,7 +500,7 @@ class MonthView extends React.Component {
   }
 
   handleHeadingClick = (date, events, e, dateId) => {
-    e.preventDefault()
+    // e.preventDefault()
     let { lang, localizer } = this.props
 
     let { clickActiveEle } = this.state
@@ -535,7 +535,7 @@ class MonthView extends React.Component {
     let newDate =
       lang === 'cn'
         ? `${date.getMonth() + 1}月${date.getDate()}日活动`
-        : `${
+        : `Activities on ${
             localizer.messages[lang].month[date.getMonth()]
           } ${date.getDate()}${dateText}`
     this.setState({

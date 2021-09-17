@@ -118,6 +118,7 @@ class Example extends React.Component {
               lang={this.state.lang}
               reactStyle={reactStyle}
               showPosition={false}
+              wapCalendar={false}
             />
           </div>
         </div>

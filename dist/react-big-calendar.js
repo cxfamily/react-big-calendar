@@ -11727,7 +11727,7 @@
                           )
                       )
                     }),
-                clickActiveDate.list.length > 6 &&
+                clickActiveDate.list.length > 1 &&
                   /*#__PURE__*/ React__default.createElement(
                     'a',
                     {
@@ -11741,7 +11741,9 @@
                       ? '\u67E5\u770B\u5168\u90E8' +
                           clickActiveDate.list.length +
                           '\u4E2A\u6D3B\u52A8'
-                      : 'View All ' + clickActiveDate.list.length + ' Activity'
+                      : 'View More ' +
+                          clickActiveDate.list.length +
+                          ' Activities'
                   )
               )
             : /*#__PURE__*/ React__default.createElement(
@@ -11750,7 +11752,7 @@
                   className: reactStyle['active-li-none'],
                   'data-class': 'active-li-none',
                 },
-                lang === 'cn' ? '暂无活动' : 'No Activity'
+                lang === 'cn' ? '暂无活动' : 'No Activity Now'
               )
         )
     )
@@ -12021,7 +12023,7 @@
       }
 
       _this.handleHeadingClick = function(date, events, e, dateId) {
-        e.preventDefault()
+        // e.preventDefault()
         var _this$props3 = _this.props,
           lang = _this$props3.lang,
           localizer = _this$props3.localizer
@@ -12062,7 +12064,8 @@
               '\u6708' +
               date.getDate() +
               '\u65E5\u6D3B\u52A8'
-            : localizer.messages[lang].month[date.getMonth()] +
+            : 'Activities on ' +
+              localizer.messages[lang].month[date.getMonth()] +
               ' ' +
               date.getDate() +
               dateText
@@ -17314,6 +17317,7 @@
       'lang',
       'reactStyle',
       'showPosition',
+      'wapCalendar',
     ]
 
   function viewNames$1(_views) {
@@ -17640,6 +17644,7 @@
         lang = _this$props4.lang,
         reactStyle = _this$props4.reactStyle,
         showPosition = _this$props4.showPosition,
+        wapCalendar = _this$props4.wapCalendar,
         props = _objectWithoutPropertiesLoose(_this$props4, _excluded2$1)
 
       current = current || getNow()
@@ -17662,7 +17667,8 @@
             className,
             reactStyle['rbc-calendar'],
             props.rtl && reactStyle['rbc-rtl'],
-            showPosition && reactStyle['index-calendar-small']
+            showPosition && reactStyle['index-calendar-small'],
+            wapCalendar && reactStyle['index-calendar-wap']
           ),
           style: style,
           'data-class': 'rbc-calendar',
@@ -18158,6 +18164,7 @@
     lang: propTypes.string,
     reactStyle: propTypes.object,
     showPosition: propTypes.bool,
+    wapCalendar: propTypes.bool,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.

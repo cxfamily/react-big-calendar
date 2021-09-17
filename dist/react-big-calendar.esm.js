@@ -5132,7 +5132,7 @@
                             )
                         )
                       }),
-                  l.list.length > 6 &&
+                  l.list.length > 1 &&
                     r.createElement(
                       'a',
                       {
@@ -5144,7 +5144,7 @@
                       },
                       'cn' === d
                         ? '查看全部' + l.list.length + '个活动'
-                        : 'View All ' + l.list.length + ' Activity'
+                        : 'View More ' + l.list.length + ' Activities'
                     )
                 )
               : r.createElement(
@@ -5153,7 +5153,7 @@
                     className: c['active-li-none'],
                     'data-class': 'active-li-none',
                   },
-                  'cn' === d ? '暂无活动' : 'No Activity'
+                  'cn' === d ? '暂无活动' : 'No Activity Now'
                 )
           )
       )
@@ -5365,7 +5365,6 @@
               }))
           }),
           (t.handleHeadingClick = function(e, n, r, o) {
-            r.preventDefault()
             var a = t.props,
               i = a.lang,
               s = a.localizer,
@@ -5391,7 +5390,11 @@
             var p =
               'cn' === i
                 ? e.getMonth() + 1 + '月' + e.getDate() + '日活动'
-                : s.messages[i].month[e.getMonth()] + ' ' + e.getDate() + f
+                : 'Activities on ' +
+                  s.messages[i].month[e.getMonth()] +
+                  ' ' +
+                  e.getDate() +
+                  f
             t.setState({
               clickActiveEle: l,
               clickActiveDate: { list: t.currectData(e, n), date: p },
@@ -8226,6 +8229,7 @@
       'lang',
       'reactStyle',
       'showPosition',
+      'wapCalendar',
     ]
   function au(e) {
     return Array.isArray(e) ? e : Object.keys(e)
@@ -8443,53 +8447,55 @@
           y = (e.components, e.formats, e.messages, e.culture, e.lang),
           b = e.reactStyle,
           w = e.showPosition,
-          E = s(e, ou)
+          E = e.wapCalendar,
+          D = s(e, ou)
         d = d || p()
-        var D = this.getView(),
-          _ = this.state.context,
-          S = _.accessors,
-          M = _.components,
-          O = _.getters,
-          x = _.localizer,
-          k = _.viewNames,
-          T = M.toolbar || Ic,
-          j = D.title(d, { localizer: x, length: v })
+        var _ = this.getView(),
+          S = this.state.context,
+          M = S.accessors,
+          O = S.components,
+          x = S.getters,
+          k = S.localizer,
+          T = S.viewNames,
+          j = O.toolbar || Ic,
+          A = _.title(d, { localizer: k, length: v })
         return r.createElement(
           'div',
           i({}, f, {
             className: G(
               u,
               b['rbc-calendar'],
-              E.rtl && b['rbc-rtl'],
-              w && b['index-calendar-small']
+              D.rtl && b['rbc-rtl'],
+              w && b['index-calendar-small'],
+              E && b['index-calendar-wap']
             ),
             style: l,
             'data-class': 'rbc-calendar',
           }),
           n &&
-            r.createElement(T, {
+            r.createElement(j, {
               date: d,
               view: t,
-              views: k,
-              label: j,
+              views: T,
+              label: A,
               onView: this.handleViewChange,
               onNavigate: this.handleNavigate,
-              localizer: x,
+              localizer: k,
               lang: y,
               reactStyle: b,
             }),
           r.createElement(
-            D,
-            i({}, E, {
+            _,
+            i({}, D, {
               events: o,
               backgroundEvents: c,
               date: d,
               getNow: p,
               length: v,
-              localizer: x,
-              getters: O,
-              components: M,
-              accessors: S,
+              localizer: k,
+              getters: x,
+              components: O,
+              accessors: M,
               showMultiDayTimes: h,
               getDrilldownView: this.getDrilldownView,
               onNavigate: this.handleNavigate,
@@ -8501,7 +8507,7 @@
               onShowMore: m,
               doShowMoreDrillDown: g,
               lang: y,
-              label: j,
+              label: A,
               reactStyle: b,
             })
           )

@@ -465,6 +465,7 @@ class Calendar extends React.Component {
     lang: PropTypes.string,
     reactStyle: PropTypes.object,
     showPosition: PropTypes.bool,
+    wapCalendar: PropTypes.bool,
 
     /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.
@@ -945,6 +946,7 @@ class Calendar extends React.Component {
       lang,
       reactStyle,
       showPosition,
+      wapCalendar,
       ...props
     } = this.props
     current = current || getNow()
@@ -967,7 +969,8 @@ class Calendar extends React.Component {
           className,
           reactStyle['rbc-calendar'],
           props.rtl && reactStyle['rbc-rtl'],
-          showPosition && reactStyle['index-calendar-small']
+          showPosition && reactStyle['index-calendar-small'],
+          wapCalendar && reactStyle['index-calendar-wap']
         )}
         style={style}
         data-class="rbc-calendar"

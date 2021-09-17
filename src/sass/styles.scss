@@ -167,7 +167,6 @@
       position: relative;
       width: 100%;
       padding-top: 100%;
-      max-width: 70px;
       border-radius: 50%;
     }
 
@@ -176,6 +175,8 @@
       top: 0;
       height: 100%;
       width: 100%;
+      max-width: 70px;
+      max-height: 70px;
     }
 
     &.rbc-now {
@@ -230,6 +231,7 @@
       padding-left: 15px;
       margin-left: 20px;
       display: block;
+      color: #888;
       &:before {
         content: "";
         display: block;
@@ -297,6 +299,15 @@
         font-size: 22px;
       }
     }
+  }
+}
+
+.index-calendar-wap {
+  @include screen-767;
+  max-width: 750px;
+  margin: 0 auto;
+  .wap-render-list-position {
+    display: none;
   }
 }
 
@@ -381,18 +392,24 @@
 
 
 @media screen and (max-width: 600px) {
-  @include screen-600;
+
+  .index-calendar-wap {
+    @include screen-600;
+  }
 
 }
 
 @media screen and (max-width: 460px) {
-  .rbc-date-cell {
-    &.rbc-data {
-      .current-text-wrap:before {
-        margin-top: 10px;
+  .index-calendar-wap {
+    .rbc-date-cell {
+      &.rbc-data {
+        .current-text-wrap:before {
+          margin-top: 10px;
+        }
       }
     }
   }
+
 }
 
 .wap-render-list-position {
@@ -492,4 +509,5 @@
   }
 
 }
+
 
