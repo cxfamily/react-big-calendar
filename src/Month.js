@@ -46,8 +46,7 @@ class MonthView extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps({ date, events }) {
-    let newDate = `${date.getFullYear()}年${date.getMonth() +
-      1}月${date.getDate()}日活动`
+    let newDate = `${date.getMonth() + 1}月${date.getDate()}日活动`
     this.setState({
       needLimitMeasure: !dates.eq(date, this.props.date, 'month'),
       clickActiveDate: {
@@ -380,6 +379,7 @@ class MonthView extends React.Component {
       localizer,
       events,
       reactStyle,
+      lang,
     } = this.props
     let { clickActiveEle, clickActiveDate } = this.state
 
@@ -417,6 +417,7 @@ class MonthView extends React.Component {
           onDrillDown={e => this.handleHeadingClick(date, events, e, dateId)}
           clickActiveDate={clickActiveDate}
           clickActiveEle={clickActiveEle}
+          lang={lang}
         />
       </div>
     )
@@ -505,6 +506,7 @@ class MonthView extends React.Component {
 
   handleHeadingClick = (date, events, e, dateId) => {
     e.preventDefault()
+    let { lang, localizer } = this.props
 
     let { clickActiveEle } = this.state
     let newClickActiveEle = clickActiveEle
@@ -523,8 +525,24 @@ class MonthView extends React.Component {
       }
     })
 
-    let newDate = `${date.getFullYear()}年${date.getMonth() +
-      1}月${date.getDate()}日活动`
+    let dateText = 'th'
+    let getDate = date.getDate()
+    if (getDate === 1 || getDate === 21 || getDate === 31) {
+      dateText = 'st'
+    } else if (getDate === 2 || getDate === 22) {
+      dateText = 'nd'
+    } else if (getDate === 3 || getDate === 23) {
+      dateText = 'rd'
+    } else {
+      dateText = 'th'
+    }
+
+    let newDate =
+      lang === 'cn'
+        ? `${date.getMonth() + 1}月${date.getDate()}日活动`
+        : `${
+            localizer.messages[lang].month[date.getMonth()]
+          } ${date.getDate()}${dateText}`
     this.setState({
       clickActiveEle: newClickActiveEle,
       clickActiveDate: { list: this.currectData(date, events), date: newDate },

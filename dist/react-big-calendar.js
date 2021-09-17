@@ -2173,6 +2173,30 @@
         'November',
         'December',
       ],
+      date: [
+        '1st',
+        '2nd',
+        '3rd',
+        '4th',
+        '5th',
+        '6th',
+        '7th',
+        '8th',
+        '9th',
+        '10th',
+        '11th',
+        '12th',
+        '13th',
+        '14th',
+        '15th',
+        '16th',
+        '17th',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ],
       hasActivity: 'The representative has activities on that day',
     },
     cn: {
@@ -11609,7 +11633,8 @@
       reactStyle = _ref.reactStyle,
       clickActiveDate = _ref.clickActiveDate,
       clickActiveEle = _ref.clickActiveEle,
-      date = _ref.date
+      date = _ref.date,
+      lang = _ref.lang
     label = label.replace(/^0/, '')
     var dateId = '' + (date.getMonth() + 1) + date.getDate()
     clickActiveEle = clickActiveEle.filter(function(el) {
@@ -11633,6 +11658,7 @@
       ((_clickActiveEle$ = clickActiveEle[0]) == null
         ? void 0
         : _clickActiveEle$.value) &&
+        clickActiveDate.date &&
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
@@ -11709,7 +11735,11 @@
                       className: reactStyle['view-more'],
                       'data-id': 'ref' + dateId,
                     },
-                    '\u67E5\u770B\u5168\u90E812\u4E2A\u6D3B\u52A8'
+                    lang === 'cn'
+                      ? '\u67E5\u770B\u5168\u90E8' +
+                          clickActiveDate.list.length +
+                          '\u4E2A\u6D3B\u52A8'
+                      : 'View All ' + clickActiveDate.list.length + ' Activity'
                   )
               )
             : /*#__PURE__*/ React__default.createElement(
@@ -11718,7 +11748,7 @@
                   className: reactStyle['active-li-none'],
                   'data-class': 'active-li-none',
                 },
-                '\u6682\u65E0\u6D3B\u52A8'
+                lang === 'cn' ? '暂无活动' : 'No Activity'
               )
         )
     )
@@ -11733,6 +11763,7 @@
     reactStyle: propTypes.object,
     clickActiveDate: propTypes.object,
     clickActiveEle: propTypes.array,
+    lang: propTypes.string,
   }
 
   var _excluded$1 = ['date', 'className']
@@ -11930,7 +11961,8 @@
           getDrilldownView = _this$props2.getDrilldownView,
           localizer = _this$props2.localizer,
           events = _this$props2.events,
-          reactStyle = _this$props2.reactStyle
+          reactStyle = _this$props2.reactStyle,
+          lang = _this$props2.lang
         var _this$state2 = _this.state,
           clickActiveEle = _this$state2.clickActiveEle,
           clickActiveDate = _this$state2.clickActiveDate
@@ -11973,6 +12005,7 @@
             },
             clickActiveDate: clickActiveDate,
             clickActiveEle: clickActiveEle,
+            lang: lang,
           })
         )
       }
@@ -11987,6 +12020,9 @@
 
       _this.handleHeadingClick = function(date, events, e, dateId) {
         e.preventDefault()
+        var _this$props3 = _this.props,
+          lang = _this$props3.lang,
+          localizer = _this$props3.localizer
         var clickActiveEle = _this.state.clickActiveEle
         var newClickActiveEle = clickActiveEle
         newClickActiveEle = newClickActiveEle.map(function(el) {
@@ -12004,13 +12040,30 @@
             newWeeksIndex = i
           }
         })
+        var dateText = 'th'
+        var getDate = date.getDate()
+
+        if (getDate === 1 || getDate === 21 || getDate === 31) {
+          dateText = 'st'
+        } else if (getDate === 2 || getDate === 22) {
+          dateText = 'nd'
+        } else if (getDate === 3 || getDate === 23) {
+          dateText = 'rd'
+        } else {
+          dateText = 'th'
+        }
+
         var newDate =
-          date.getFullYear() +
-          '\u5E74' +
-          (date.getMonth() + 1) +
-          '\u6708' +
-          date.getDate() +
-          '\u65E5\u6D3B\u52A8'
+          lang === 'cn'
+            ? date.getMonth() +
+              1 +
+              '\u6708' +
+              date.getDate() +
+              '\u65E5\u6D3B\u52A8'
+            : localizer.messages[lang].month[date.getMonth()] +
+              ' ' +
+              date.getDate() +
+              dateText
 
         _this.setState({
           clickActiveEle: newClickActiveEle,
@@ -12067,12 +12120,12 @@
       }
 
       _this.handleShowMore = function(events, date, cell, slot, target) {
-        var _this$props3 = _this.props,
-          popup = _this$props3.popup,
-          onDrillDown = _this$props3.onDrillDown,
-          onShowMore = _this$props3.onShowMore,
-          getDrilldownView = _this$props3.getDrilldownView,
-          doShowMoreDrillDown = _this$props3.doShowMoreDrillDown //cancel any pending selections so only the event click goes through.
+        var _this$props4 = _this.props,
+          popup = _this$props4.popup,
+          onDrillDown = _this$props4.onDrillDown,
+          onShowMore = _this$props4.onShowMore,
+          getDrilldownView = _this$props4.getDrilldownView,
+          doShowMoreDrillDown = _this$props4.doShowMoreDrillDown //cancel any pending selections so only the event click goes through.
 
         _this.clearSelection()
 
@@ -12129,12 +12182,7 @@
       var date = _ref2.date,
         events = _ref2.events
       var newDate =
-        date.getFullYear() +
-        '\u5E74' +
-        (date.getMonth() + 1) +
-        '\u6708' +
-        date.getDate() +
-        '\u65E5\u6D3B\u52A8'
+        date.getMonth() + 1 + '\u6708' + date.getDate() + '\u65E5\u6D3B\u52A8'
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
         clickActiveDate: {
@@ -12146,9 +12194,9 @@
     }
 
     _proto.updateData = function updateData() {
-      var _this$props4 = this.props,
-        date = _this$props4.date,
-        localizer = _this$props4.localizer,
+      var _this$props5 = this.props,
+        date = _this$props5.date,
+        localizer = _this$props5.localizer,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       var newWeeks = weeks.map(function(el) {
@@ -12233,12 +12281,12 @@
         _this3 = this
 
       var clickActiveDate = this.state.clickActiveDate
-      var _this$props5 = this.props,
-        date = _this$props5.date,
-        localizer = _this$props5.localizer,
-        className = _this$props5.className,
-        loading = _this$props5.loading,
-        reactStyle = _this$props5.reactStyle,
+      var _this$props6 = this.props,
+        date = _this$props6.date,
+        localizer = _this$props6.localizer,
+        className = _this$props6.className,
+        loading = _this$props6.loading,
+        reactStyle = _this$props6.reactStyle,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -12360,11 +12408,11 @@
     }
 
     _proto.renderHeaders = function renderHeaders(row) {
-      var _this$props6 = this.props,
-        localizer = _this$props6.localizer,
-        components = _this$props6.components,
-        lang = _this$props6.lang,
-        reactStyle = _this$props6.reactStyle
+      var _this$props7 = this.props,
+        localizer = _this$props7.localizer,
+        components = _this$props7.components,
+        lang = _this$props7.lang,
+        reactStyle = _this$props7.reactStyle
       var first = row[0]
       var last = row[row.length - 1]
       var HeaderComponent = components.header || Header
@@ -12391,14 +12439,14 @@
       var _this4 = this
 
       var overlay = (this.state && this.state.overlay) || {}
-      var _this$props7 = this.props,
-        accessors = _this$props7.accessors,
-        localizer = _this$props7.localizer,
-        components = _this$props7.components,
-        getters = _this$props7.getters,
-        selected = _this$props7.selected,
-        popupOffset = _this$props7.popupOffset,
-        reactStyle = _this$props7.reactStyle
+      var _this$props8 = this.props,
+        accessors = _this$props8.accessors,
+        localizer = _this$props8.localizer,
+        components = _this$props8.components,
+        getters = _this$props8.getters,
+        selected = _this$props8.selected,
+        popupOffset = _this$props8.popupOffset,
+        reactStyle = _this$props8.reactStyle
       return /*#__PURE__*/ React__default.createElement(
         Overlay,
         {

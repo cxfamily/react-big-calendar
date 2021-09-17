@@ -9,6 +9,7 @@ const DateHeader = ({
   clickActiveDate,
   clickActiveEle,
   date,
+  lang,
 }) => {
   label = label.replace(/^0/, '')
   let dateId = `${date.getMonth() + 1}${date.getDate()}`
@@ -25,7 +26,7 @@ const DateHeader = ({
         {label}
       </span>
 
-      {clickActiveEle[0]?.value && (
+      {clickActiveEle[0]?.value && clickActiveDate.date && (
         <div
           className={clsx(
             reactStyle['wap-render-list'],
@@ -77,7 +78,9 @@ const DateHeader = ({
                   className={reactStyle['view-more']}
                   data-id={`ref${dateId}`}
                 >
-                  查看全部12个活动
+                  {lang === 'cn'
+                    ? `查看全部${clickActiveDate.list.length}个活动`
+                    : `View All ${clickActiveDate.list.length} Activity`}
                 </a>
               )}
             </div>
@@ -86,7 +89,7 @@ const DateHeader = ({
               className={reactStyle['active-li-none']}
               data-class="active-li-none"
             >
-              暂无活动
+              {lang === 'cn' ? '暂无活动' : 'No Activity'}
             </div>
           )}
         </div>
@@ -104,6 +107,7 @@ DateHeader.propTypes = {
   reactStyle: PropTypes.object,
   clickActiveDate: PropTypes.object,
   clickActiveEle: PropTypes.array,
+  lang: PropTypes.string,
 }
 
 export default DateHeader

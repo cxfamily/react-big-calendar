@@ -443,7 +443,7 @@
     position: absolute;
     max-width: 360px;
     width: max-content;
-    top: 9px;
+    top: 2px;
     right: 100%;
     z-index: 9;
     background: #fff;
@@ -451,7 +451,7 @@
     border-radius: 4px;
     padding: 20px 0 0;
     text-align: left;
-    margin-right: 2px;
+    margin-right: 10px;
     &:before {
       content: '';
       display: block;
@@ -464,6 +464,7 @@
       right: 0;
       top: 5px;
       margin-right: -6px;
+      filter: drop-shadow(2px 0px 2px rgba(0,0,0,0.05));
     }
     .active-title {
       font-weight: bold;
