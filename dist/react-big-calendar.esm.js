@@ -5057,19 +5057,20 @@
       l = e.clickActiveDate,
       u = e.clickActiveEle,
       f = e.date,
-      d = e.lang
+      d = e.lang,
+      p = e.detailUrl
     i = i.replace(/^0/, '')
-    var p = '' + (f.getMonth() + 1) + f.getDate()
+    var v = '' + (f.getMonth() + 1) + f.getDate()
     return (
       (u = u.filter(function(e) {
-        return e.key === p && e.value
+        return e.key === v && e.value
       })),
       r.createElement(
         'div',
         { className: c['current-text-wrap'], role: 'cell', onClick: s },
         r.createElement(
           'span',
-          { className: c['current-text'], 'data-id': 'ref' + p },
+          { className: c['current-text'], 'data-id': 'ref' + v },
           i
         ),
         (null == (n = u[0]) ? void 0 : n.value) &&
@@ -5082,7 +5083,7 @@
             },
             r.createElement(
               'div',
-              { className: c['active-title'], 'data-id': 'ref' + p },
+              { className: c['active-title'], 'data-id': 'ref' + v },
               l.date
             ),
             (null == (o = l.list) ? void 0 : o.length) > 0
@@ -5101,12 +5102,12 @@
                               {
                                 className: c['active-li'],
                                 'data-class': 'active-li',
-                                'data-id': 'ref' + p,
+                                'data-id': 'ref' + v,
                               },
                               r.createElement(
                                 'a',
                                 {
-                                  'data-id': 'ref' + p,
+                                  'data-id': 'ref' + v,
                                   href: e.url,
                                   title: e.title,
                                   target: '_blank',
@@ -5120,7 +5121,7 @@
                                 {
                                   className: c['active-text'],
                                   'data-class': 'active-text',
-                                  'data-id': 'ref' + p,
+                                  'data-id': 'ref' + v,
                                 },
                                 e.campaignTimeType,
                                 '：',
@@ -5136,11 +5137,10 @@
                     r.createElement(
                       'a',
                       {
-                        href:
-                          '//membercenter.made-in-china.com/calendar/index.do',
+                        href: '//' + p,
                         target: '_blank',
                         className: c['view-more'],
-                        'data-id': 'ref' + p,
+                        'data-id': 'ref' + v,
                       },
                       'cn' === d
                         ? '查看全部' + l.list.length + '个活动'
@@ -5317,43 +5317,45 @@
               v = u.events,
               h = u.reactStyle,
               m = u.lang,
-              g = t.state,
-              y = g.clickActiveEle,
-              b = g.clickActiveDate,
-              w = ut(a) !== ut(f),
-              E = Ge(a, f, 'day'),
-              D = d(a),
-              _ = p.format(a, 'dateFormat'),
-              S = t.props.components.dateHeader || ps,
-              M = '' + (a.getMonth() + 1) + a.getDate(),
-              O = y.filter(function(e) {
-                if (e.key === M) return e
+              g = u.detailUrl,
+              y = t.state,
+              b = y.clickActiveEle,
+              w = y.clickActiveDate,
+              E = ut(a) !== ut(f),
+              D = Ge(a, f, 'day'),
+              _ = d(a),
+              S = p.format(a, 'dateFormat'),
+              M = t.props.components.dateHeader || ps,
+              O = '' + (a.getMonth() + 1) + a.getDate(),
+              x = b.filter(function(e) {
+                if (e.key === O) return e
               })
             return r.createElement(
               'div',
               i({}, l, {
                 className: G(
                   c,
-                  w && h['rbc-off-range'],
-                  E && h['rbc-current'],
+                  E && h['rbc-off-range'],
+                  D && h['rbc-current'],
                   (null == (n = t.currectData(a, v)) ? void 0 : n.length) > 0 &&
                     h['rbc-data'],
-                  (null == (o = O[0]) ? void 0 : o.value) && h['rbc-active']
+                  (null == (o = x[0]) ? void 0 : o.value) && h['rbc-active']
                 ),
                 role: 'cell',
               }),
-              r.createElement(S, {
-                label: _,
+              r.createElement(M, {
+                label: S,
                 date: a,
-                drilldownView: D,
-                isOffRange: w,
+                drilldownView: _,
+                isOffRange: E,
                 reactStyle: h,
                 onDrillDown: function(e) {
-                  return t.handleHeadingClick(a, v, e, M)
+                  return t.handleHeadingClick(a, v, e, O)
                 },
-                clickActiveDate: b,
-                clickActiveEle: y,
+                clickActiveDate: w,
+                clickActiveEle: b,
                 lang: m,
+                detailUrl: g,
               })
             )
           }),

@@ -117,8 +117,9 @@ class Example extends React.Component {
               localizer={globalizeLocalizer}
               lang={this.state.lang}
               reactStyle={reactStyle}
-              showPosition={true}
+              showPosition={false}
               wapCalendar={false}
+              detailUrl={'//www.baodu.com?ceshi=123'}
             />
           </div>
         </div>

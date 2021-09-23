@@ -11632,7 +11632,8 @@
       clickActiveDate = _ref.clickActiveDate,
       clickActiveEle = _ref.clickActiveEle,
       date = _ref.date,
-      lang = _ref.lang
+      lang = _ref.lang,
+      detailUrl = _ref.detailUrl
     label = label.replace(/^0/, '')
     var dateId = '' + (date.getMonth() + 1) + date.getDate()
     clickActiveEle = clickActiveEle.filter(function(el) {
@@ -11731,8 +11732,7 @@
                   /*#__PURE__*/ React__default.createElement(
                     'a',
                     {
-                      href:
-                        '//membercenter.made-in-china.com/calendar/index.do',
+                      href: '//' + detailUrl,
                       target: '_blank',
                       className: reactStyle['view-more'],
                       'data-id': 'ref' + dateId,
@@ -11768,6 +11768,7 @@
     clickActiveDate: propTypes.object,
     clickActiveEle: propTypes.array,
     lang: propTypes.string,
+    detailUrl: propTypes.string,
   }
 
   var _excluded$1 = ['date', 'className']
@@ -11966,7 +11967,8 @@
           localizer = _this$props2.localizer,
           events = _this$props2.events,
           reactStyle = _this$props2.reactStyle,
-          lang = _this$props2.lang
+          lang = _this$props2.lang,
+          detailUrl = _this$props2.detailUrl
         var _this$state2 = _this.state,
           clickActiveEle = _this$state2.clickActiveEle,
           clickActiveDate = _this$state2.clickActiveDate
@@ -12010,6 +12012,7 @@
             clickActiveDate: clickActiveDate,
             clickActiveEle: clickActiveEle,
             lang: lang,
+            detailUrl: detailUrl,
           })
         )
       }
@@ -12540,6 +12543,7 @@
     getters: propTypes.object.isRequired,
     localizer: propTypes.object.isRequired,
     lang: propTypes.string,
+    detailUrl: propTypes.string,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
     longPressThreshold: propTypes.number,

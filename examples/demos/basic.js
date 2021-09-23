@@ -32,7 +32,14 @@ export default class Basic extends React.Component {
   clickDate(date) {}
 
   render() {
-    let { localizer, lang, reactStyle, showPosition, wapCalendar } = this.props
+    let {
+      localizer,
+      lang,
+      reactStyle,
+      showPosition,
+      wapCalendar,
+      detailUrl,
+    } = this.props
     return (
       <Calendar
         events={this.state.events}
@@ -51,6 +58,7 @@ export default class Basic extends React.Component {
         wapCalendar={wapCalendar}
         changeCalendar={(date, action) => this.changeCalendar(date, action)}
         clickDate={date => this.clickDate(date)}
+        detailUrl={detailUrl}
       />
     )
   }

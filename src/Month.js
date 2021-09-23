@@ -375,6 +375,7 @@ class MonthView extends React.Component {
       events,
       reactStyle,
       lang,
+      detailUrl,
     } = this.props
     let { clickActiveEle, clickActiveDate } = this.state
 
@@ -413,6 +414,7 @@ class MonthView extends React.Component {
           clickActiveDate={clickActiveDate}
           clickActiveEle={clickActiveEle}
           lang={lang}
+          detailUrl={detailUrl}
         />
       </div>
     )
@@ -638,6 +640,7 @@ MonthView.propTypes = {
   getters: PropTypes.object.isRequired,
   localizer: PropTypes.object.isRequired,
   lang: PropTypes.string,
+  detailUrl: PropTypes.string,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
