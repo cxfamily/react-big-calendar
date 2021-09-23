@@ -4288,9 +4288,7 @@
         null != e &&
         !Ut(e)
       ) ||
-      mi.test(e) ||
-      !hi.test(e) ||
-      (null != t && e in Object(t))
+      mi.test(e) || !hi.test(e) || (null != t && e in Object(t))
     )
   }
   var yi = 'Expected a function'
@@ -5139,7 +5137,7 @@
                       'a',
                       {
                         href:
-                          '//membercenter.made-in-china.com/campaign.do?xcase=calendar',
+                          '//membercenter.made-in-china.com/calendar/index.do',
                         target: '_blank',
                         className: c['view-more'],
                         'data-id': 'ref' + p,
@@ -5519,7 +5517,6 @@
             f = en(gt(i, s), 7)
           return (
             (this._weekCount = f.length),
-            console.log('111-----', o),
             r.createElement(
               r.Fragment,
               null,

@@ -73,7 +73,7 @@ const DateHeader = ({
               })}
               {clickActiveDate.list.length > 1 && (
                 <a
-                  href="//membercenter.made-in-china.com/campaign.do?xcase=calendar"
+                  href="//membercenter.made-in-china.com/calendar/index.do"
                   target="_blank"
                   className={reactStyle['view-more']}
                   data-id={`ref${dateId}`}

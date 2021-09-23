@@ -3071,9 +3071,7 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 &&
-      value % 1 == 0 &&
-      value < length
+      value > -1 && value % 1 == 0 && value < length
     )
   }
 
@@ -6434,12 +6432,14 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
+
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
+
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -9763,8 +9763,7 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object &&
-        'constructor' in other &&
+        'constructor' in object && 'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -11733,7 +11732,7 @@
                     'a',
                     {
                       href:
-                        '//membercenter.made-in-china.com/campaign.do?xcase=calendar',
+                        '//membercenter.made-in-china.com/calendar/index.do',
                       target: '_blank',
                       className: reactStyle['view-more'],
                       'data-id': 'ref' + dateId,
@@ -12291,7 +12290,6 @@
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
-      console.log('111-----', clickActiveDate)
       return /*#__PURE__*/ React__default.createElement(
         React__default.Fragment,
         null,
