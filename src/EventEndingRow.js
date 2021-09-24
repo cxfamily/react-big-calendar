@@ -94,7 +94,8 @@ class EventEndingRow extends React.Component {
           new Date(el.event.start).getFullYear() === newDate.getFullYear() &&
           new Date(el.event.start).getMonth() === newDate.getMonth() &&
           new Date(el.event.start).getDate() <= currentDate &&
-          new Date(el.event.end).getDate() >= currentDate
+          (new Date(el.event.end).getDate() >= currentDate ||
+            new Date(el.event.end).getMonth() > newDate.getMonth())
       ) || []
     let index = 0
     let newIsMoreShow = newWeeks.filter((el, i) => {

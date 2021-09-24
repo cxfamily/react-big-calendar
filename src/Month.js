@@ -3,6 +3,7 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import clsx from 'clsx'
 import flatten from 'lodash/flatten'
+import cloneDeep from 'lodash/cloneDeep'
 
 import * as dates from './utils/dates'
 import chunk from 'lodash/chunk'
@@ -38,6 +39,7 @@ class MonthView extends React.Component {
       newWeeks: [],
       newWeeksIndex: 0,
       clickActiveEle: [], //点击当前日期元素
+      clickActiveEleHeader: [], //点击当前日期元素日期
       clickActiveDate: {
         list: [],
         date: null,
@@ -79,9 +81,11 @@ class MonthView extends React.Component {
       el = { key: el, isMore: false, right: false, bottom: false }
       return el
     })
+
     this.setState({
       newWeeks: newWeeks,
       clickActiveEle: clickActiveEle,
+      clickActiveEleHeader: cloneDeep(clickActiveEle),
     })
   }
 
@@ -342,27 +346,18 @@ class MonthView extends React.Component {
   }
 
   currectData = (date, events) => {
-    let start = el => {
-      return new Date(el.start)
+    let timeStamp = (el, type) => {
+      el = type ? el : new Date(el)
+      return Date.parse(
+        `${el.getFullYear()}-${el.getMonth() + 1}-${el.getDate()}`
+      )
     }
-    let end = el => {
-      return new Date(el.end)
-    }
-    let currectData =
-      events.filter(
-        el =>
-          start(el).getFullYear() === date.getFullYear() &&
-          start(el).getMonth() === date.getMonth() &&
-          start(el).getDate() <= date.getDate() &&
-          end(el).getDate() >= date.getDate() &&
-          (start(el).getDate() === end(el).getDate() ||
-            (start(el).getDate() !== end(el).getDate() &&
-              Date.parse(el.end) >
-                Date.parse(
-                  `${date.getFullYear()}-${date.getMonth() +
-                    1}-${date.getDate()}`
-                )))
-      ) || []
+
+    let currectData = events.filter(
+      el =>
+        timeStamp(el.start) <= timeStamp(date, 'date') &&
+        timeStamp(el.end) >= timeStamp(date, 'date')
+    )
 
     return currectData
   }
@@ -377,7 +372,7 @@ class MonthView extends React.Component {
       lang,
       detailUrl,
     } = this.props
-    let { clickActiveEle, clickActiveDate } = this.state
+    let { clickActiveEle, clickActiveDate, clickActiveEleHeader } = this.state
 
     let isOffRange = dates.month(date) !== dates.month(currentDate)
     let isCurrent = dates.eq(date, currentDate, 'day')
@@ -386,7 +381,7 @@ class MonthView extends React.Component {
     let DateHeaderComponent = this.props.components.dateHeader || DateHeader
 
     let dateId = `${date.getMonth() + 1}${date.getDate()}`
-    let newActiveEle = clickActiveEle.filter(el => {
+    let newActiveEle = clickActiveEleHeader.filter(el => {
       if (el.key === dateId) {
         return el
       }
@@ -544,6 +539,7 @@ class MonthView extends React.Component {
       clickActiveEle: newClickActiveEle,
       clickActiveDate: { list: this.currectData(date, events), date: newDate },
       newWeeksIndex: newWeeksIndex,
+      clickActiveEleHeader: cloneDeep(newClickActiveEle),
     })
     this.props.clickDate(date)
   }
