@@ -45,13 +45,14 @@ class MonthView extends React.Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps({ date, events }) {
+  UNSAFE_componentWillReceiveProps({ date, events, wapCalendar }) {
     let newDate = `${date.getMonth() + 1}月${date.getDate()}日活动`
     this.setState({
       needLimitMeasure: !dates.eq(date, this.props.date, 'month'),
       clickActiveDate: {
-        list: wapFirstRender ? this.currectData(date, events) : [],
-        date: wapFirstRender ? newDate : null,
+        list:
+          wapFirstRender && wapCalendar ? this.currectData(date, events) : [],
+        date: wapFirstRender && wapCalendar ? newDate : null,
       },
     })
 
@@ -86,7 +87,6 @@ class MonthView extends React.Component {
 
   componentDidMount() {
     // let running
-
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
 
     document.addEventListener('click', e => this.hideClickMore(e), false)
@@ -641,6 +641,7 @@ MonthView.propTypes = {
   localizer: PropTypes.object.isRequired,
   lang: PropTypes.string,
   detailUrl: PropTypes.string,
+  wapCalendar: PropTypes.boolean,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),

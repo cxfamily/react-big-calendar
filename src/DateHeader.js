@@ -72,7 +72,7 @@ const DateHeader = ({
                   </Fragment>
                 )
               })}
-              {clickActiveDate.list.length > 1 && (
+              {clickActiveDate.list.length > 6 && (
                 <a
                   href={`//${detailUrl}`}
                   target="_blank"

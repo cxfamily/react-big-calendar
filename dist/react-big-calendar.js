@@ -11728,7 +11728,7 @@
                           )
                       )
                     }),
-                clickActiveDate.list.length > 1 &&
+                clickActiveDate.list.length > 6 &&
                   /*#__PURE__*/ React__default.createElement(
                     'a',
                     {
@@ -12188,14 +12188,16 @@
       _ref2
     ) {
       var date = _ref2.date,
-        events = _ref2.events
+        events = _ref2.events,
+        wapCalendar = _ref2.wapCalendar
       var newDate =
         date.getMonth() + 1 + '\u6708' + date.getDate() + '\u65E5\u6D3B\u52A8'
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
         clickActiveDate: {
-          list: wapFirstRender ? this.currectData(date, events) : [],
-          date: wapFirstRender ? newDate : null,
+          list:
+            wapFirstRender && wapCalendar ? this.currectData(date, events) : [],
+          date: wapFirstRender && wapCalendar ? newDate : null,
         },
       })
       wapFirstRender = false
@@ -12544,6 +12546,7 @@
     localizer: propTypes.object.isRequired,
     lang: propTypes.string,
     detailUrl: propTypes.string,
+    wapCalendar: propTypes.boolean,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
     longPressThreshold: propTypes.number,
@@ -17714,6 +17717,7 @@
             lang: lang,
             label: label,
             reactStyle: reactStyle,
+            wapCalendar: wapCalendar,
           })
         )
       )

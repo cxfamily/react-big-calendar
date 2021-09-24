@@ -5133,7 +5133,7 @@
                             )
                         )
                       }),
-                  l.list.length > 1 &&
+                  l.list.length > 6 &&
                     r.createElement(
                       'a',
                       {
@@ -5460,12 +5460,13 @@
         (o.UNSAFE_componentWillReceiveProps = function(e) {
           var t = e.date,
             n = e.events,
-            r = t.getMonth() + 1 + '月' + t.getDate() + '日活动'
+            r = e.wapCalendar,
+            o = t.getMonth() + 1 + '月' + t.getDate() + '日活动'
           this.setState({
             needLimitMeasure: !Ge(t, this.props.date, 'month'),
             clickActiveDate: {
-              list: ms ? this.currectData(t, n) : [],
-              date: ms ? r : null,
+              list: ms && r ? this.currectData(t, n) : [],
+              date: ms && r ? o : null,
             },
           }),
             (ms = !1)
@@ -8511,6 +8512,7 @@
               lang: y,
               label: A,
               reactStyle: b,
+              wapCalendar: E,
             })
           )
         )

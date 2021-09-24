@@ -1012,6 +1012,7 @@ class Calendar extends React.Component {
           lang={lang}
           label={label}
           reactStyle={reactStyle}
+          wapCalendar={wapCalendar}
         />
       </div>
     )
