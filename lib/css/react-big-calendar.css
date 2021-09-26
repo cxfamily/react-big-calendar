@@ -968,6 +968,12 @@ button.rbc-input::-moz-focus-inner {
 .index-calendar-wap .wap-render-list-position {
   display: none;
 }
+.index-calendar-wap .rbc-month-row {
+  border-width: 0;
+}
+.index-calendar-wap .rbc-month-row:last-child {
+  border-width: 0;
+}
 
 @media screen and (max-width: 767px) {
   .rbc-calendar {
@@ -1535,4 +1541,10 @@ button.rbc-input::-moz-focus-inner {
   padding: 0 20px 20px;
   text-align: left;
   color: #bfbfbf;
+}
+.index-calendar-small .rbc-month-row {
+  border-width: 0;
+}
+.index-calendar-small .rbc-month-row:last-child {
+  border-width: 0;
 }

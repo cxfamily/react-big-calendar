@@ -311,6 +311,12 @@
   .wap-render-list-position {
     display: none;
   }
+  .rbc-month-row {
+    border-width: 0;
+    &:last-child {
+      border-width: 0;
+    }
+  }
 }
 
 @mixin screen-600 {
@@ -510,6 +516,13 @@
       padding: 0 20px 20px;
       text-align: left;
       color: #BFBFBF;
+    }
+  }
+
+  .rbc-month-row {
+    border-width: 0;
+    &:last-child {
+      border-width: 0;
     }
   }
 
