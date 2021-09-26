@@ -961,6 +961,9 @@ class Calendar extends React.Component {
     } = this.state.context
 
     let CalToolbar = components.toolbar || Toolbar
+    let classLength = document.getElementsByClassName(
+      `${reactStyle['rbc-month-row']}`
+    ).length
     const label = View.title(current, { localizer, length })
     return (
       <div
@@ -970,7 +973,8 @@ class Calendar extends React.Component {
           reactStyle['rbc-calendar'],
           props.rtl && reactStyle['rbc-rtl'],
           showPosition && reactStyle['index-calendar-small'],
-          wapCalendar && reactStyle['index-calendar-wap']
+          wapCalendar && reactStyle['index-calendar-wap'],
+          classLength === 6 && reactStyle['rbc-calendar-big']
         )}
         style={style}
         data-class="rbc-calendar"

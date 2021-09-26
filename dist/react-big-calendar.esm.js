@@ -1319,7 +1319,7 @@
             r = e.getMonth(),
             o = e.getDate(),
             a = 12 * n + r + t,
-            i = Math.trunc(a / 12),
+            i = parseInt(a / 12),
             s = a % 12,
             c = Math.min(
               o,
@@ -4571,9 +4571,7 @@
         null != e &&
         !so(e)
       ) ||
-      Ss.test(e) ||
-      !_s.test(e) ||
-      (null != t && e in Object(t))
+      Ss.test(e) || !_s.test(e) || (null != t && e in Object(t))
     )
   }
   var Ms = 'Expected a function'
@@ -8092,7 +8090,7 @@
             })
           ),
           c = t[o].month[s[0] || 0],
-          l = 'en' === o ? n : i[0] + '年' + c
+          l = 'en' === o ? c + ' ' + i[0] : i[0] + '年' + c
         return r.createElement(
           'div',
           { className: a['rbc-toolbar'], 'data-class': 'rbc-toolbar' },
@@ -8103,7 +8101,6 @@
               'data-class': 'rbc-toolbar-label',
             },
             l,
-            ' ',
             r.createElement(
               'span',
               { className: a['rbc-toolbar-label-tip'] },
@@ -8461,7 +8458,8 @@
           k = D.localizer,
           T = D.viewNames,
           A = O.toolbar || Kl,
-          j = S.title(d, { localizer: k, length: v })
+          j = document.getElementsByClassName('' + b['rbc-month-row']).length,
+          N = S.title(d, { localizer: k, length: v })
         return r.createElement(
           'div',
           i({}, f, {
@@ -8470,7 +8468,8 @@
               b['rbc-calendar'],
               _.rtl && b['rbc-rtl'],
               w && b['index-calendar-small'],
-              E && b['index-calendar-wap']
+              E && b['index-calendar-wap'],
+              6 === j && b['rbc-calendar-big']
             ),
             style: l,
             'data-class': 'rbc-calendar',
@@ -8480,7 +8479,7 @@
               date: d,
               view: t,
               views: T,
-              label: j,
+              label: N,
               onView: this.handleViewChange,
               onNavigate: this.handleNavigate,
               localizer: k,
@@ -8510,7 +8509,7 @@
               onShowMore: m,
               doShowMoreDrillDown: g,
               lang: y,
-              label: j,
+              label: N,
               reactStyle: b,
               wapCalendar: E,
             })

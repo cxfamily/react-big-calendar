@@ -637,7 +637,7 @@ MonthView.propTypes = {
   localizer: PropTypes.object.isRequired,
   lang: PropTypes.string,
   detailUrl: PropTypes.string,
-  wapCalendar: PropTypes.boolean,
+  wapCalendar: PropTypes.bool,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),

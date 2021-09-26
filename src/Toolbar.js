@@ -23,7 +23,10 @@ class Toolbar extends React.Component {
       })
     )
     let newMonth = messages[lang].month[labelIndex[0] || 0]
-    let newLabel = lang === 'en' ? label : `${labelArr[0]}年${newMonth}`
+    let newLabel =
+      lang === 'en'
+        ? `${newMonth} ${labelArr[0]}`
+        : `${labelArr[0]}年${newMonth}`
     return (
       <div className={reactStyle['rbc-toolbar']} data-class="rbc-toolbar">
         {/*todo日历头部*/}
@@ -31,7 +34,7 @@ class Toolbar extends React.Component {
           className={reactStyle['rbc-toolbar-label']}
           data-class="rbc-toolbar-label"
         >
-          {newLabel}{' '}
+          {newLabel}
           <span className={reactStyle['rbc-toolbar-label-tip']}>
             {messages[lang].hasActivity}
           </span>

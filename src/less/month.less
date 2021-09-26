@@ -34,7 +34,7 @@
   border: 1px solid @calendar-border;
   display: flex;
   flex-direction: column;
-  flex: 1 0 0;
+  flex: 1;
   width: 100%;
   user-select: none;
   -webkit-user-select: none;
@@ -51,7 +51,7 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  flex: 1 0 0; // postcss will remove the 0px here hence the duplication below
+  flex: 1; // postcss will remove the 0px here hence the duplication below
   flex-basis: 0px;
   overflow: hidden;
 
@@ -63,7 +63,7 @@
 }
 
 .rbc-date-cell {
-  flex: 1 1 0;
+  flex: 1;
   min-width: 0;
   padding-right: 5px;
   text-align: right;
@@ -84,12 +84,12 @@
   &:extend(.rbc-abs-full);
   display: flex;
   flex-direction: row;
-  flex: 1 0 0;
+  flex: 1;
   overflow: hidden;
 }
 
 .rbc-day-bg {
-  flex: 1 0 0%;
+  flex: 1;
 
   & + & {
     border-left: 1px solid @cell-border;

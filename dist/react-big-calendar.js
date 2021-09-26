@@ -3467,9 +3467,7 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 &&
-      value % 1 == 0 &&
-      value < length
+      value > -1 && value % 1 == 0 && value < length
     )
   }
 
@@ -4767,7 +4765,7 @@
       month = d.getMonth(),
       day = d.getDate(),
       totalMonths = year * 12 + month + num,
-      nextYear = Math.trunc(totalMonths / 12),
+      nextYear = parseInt(totalMonths / 12),
       nextMonth = totalMonths % 12,
       nextDay = Math.min(day, daysOf(nextYear)[nextMonth])
 
@@ -8406,12 +8404,14 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
+
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
+
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -10657,8 +10657,7 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object &&
-        'constructor' in other &&
+        'constructor' in object && 'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -13363,6 +13362,7 @@
     localizer: propTypes.object.isRequired,
     lang: propTypes.string,
     detailUrl: propTypes.string,
+    wapCalendar: propTypes.bool,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
     longPressThreshold: propTypes.number,
@@ -16882,7 +16882,10 @@
         })
       )
       var newMonth = messages[lang].month[labelIndex[0] || 0]
-      var newLabel = lang === 'en' ? label : labelArr[0] + '\u5E74' + newMonth
+      var newLabel =
+        lang === 'en'
+          ? newMonth + ' ' + labelArr[0]
+          : labelArr[0] + '\u5E74' + newMonth
       return /*#__PURE__*/ React__default.createElement(
         'div',
         {
@@ -16896,7 +16899,6 @@
             'data-class': 'rbc-toolbar-label',
           },
           newLabel,
-          ' ',
           /*#__PURE__*/ React__default.createElement(
             'span',
             {
@@ -17680,6 +17682,9 @@
         localizer = _this$state$context.localizer,
         viewNames = _this$state$context.viewNames
       var CalToolbar = components.toolbar || Toolbar
+      var classLength = document.getElementsByClassName(
+        '' + reactStyle['rbc-month-row']
+      ).length
       var label = View.title(current, {
         localizer: localizer,
         length: length,
@@ -17692,7 +17697,8 @@
             reactStyle['rbc-calendar'],
             props.rtl && reactStyle['rbc-rtl'],
             showPosition && reactStyle['index-calendar-small'],
-            wapCalendar && reactStyle['index-calendar-wap']
+            wapCalendar && reactStyle['index-calendar-wap'],
+            classLength === 6 && reactStyle['rbc-calendar-big']
           ),
           style: style,
           'data-class': 'rbc-calendar',
