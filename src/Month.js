@@ -181,7 +181,7 @@ class MonthView extends React.Component {
                     key={i}
                     data-class="active-li"
                     onClick={() => {
-                      this.props.clickDate(date)
+                      this.props.clickDate(date, 'detail')
                     }}
                   >
                     <a
@@ -348,9 +348,10 @@ class MonthView extends React.Component {
   currectData = (date, events) => {
     let timeStamp = (el, type) => {
       el = type ? el : new Date(el)
-      return Date.parse(
-        `${el.getFullYear()}-${el.getMonth() + 1}-${el.getDate()}`
-      )
+      let newMonth =
+        el.getMonth() < 9 ? '0' + (el.getMonth() + 1) : el.getMonth() + 1
+      let newDate = el.getDate() < 10 ? '0' + el.getDate() : el.getDate()
+      return Date.parse(`${el.getFullYear()}-${newMonth}-${newDate}`)
     }
 
     let currectData = events.filter(

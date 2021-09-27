@@ -12751,9 +12751,10 @@
       _this.currectData = function(date, events) {
         var timeStamp = function timeStamp(el, type) {
           el = type ? el : new Date(el)
-          return Date.parse(
-            el.getFullYear() + '-' + (el.getMonth() + 1) + '-' + el.getDate()
-          )
+          var newMonth =
+            el.getMonth() < 9 ? '0' + (el.getMonth() + 1) : el.getMonth() + 1
+          var newDate = el.getDate() < 10 ? '0' + el.getDate() : el.getDate()
+          return Date.parse(el.getFullYear() + '-' + newMonth + '-' + newDate)
         }
 
         var currectData = events.filter(function(el) {
@@ -13168,7 +13169,7 @@
                         key: i,
                         'data-class': 'active-li',
                         onClick: function onClick() {
-                          _this3.props.clickDate(date)
+                          _this3.props.clickDate(date, 'detail')
                         },
                       },
                       /*#__PURE__*/ React__default.createElement(

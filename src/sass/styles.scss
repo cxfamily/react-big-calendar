@@ -131,7 +131,6 @@
 @mixin screen-767 {
   .rbc-calendar {
     padding: 30px 0;
-    min-height: 325px;
   }
   .index-calendar-wap {
     padding-bottom: 0;
@@ -140,6 +139,7 @@
     margin-top: 0;
     padding: 0 15px;
     border: 0;
+    min-height: 500px;
   }
   .rbc-month-header {
     display: none;
@@ -306,8 +306,9 @@
   @include screen-767;
   max-width: 750px;
   margin: 0 auto;
-  min-height: 300px;
+  min-height: 700px;
   padding: 30px 0 0;
+  width: 100%;
   .wap-render-list-position {
     display: none;
   }
@@ -358,6 +359,7 @@
   }
   .rbc-month-view {
     padding: 0 7px;
+    min-height: 250px;
   }
   .rbc-date-cell {
     padding: 8px;
@@ -402,6 +404,7 @@
 @media screen and (max-width: 600px) {
 
   .index-calendar-wap {
+    min-height: 500px;
     @include screen-600;
   }
 
@@ -415,6 +418,9 @@
           margin-top: 10px;
         }
       }
+    }
+    .rbc-month-view {
+      min-height: 200px;
     }
   }
 
@@ -467,7 +473,7 @@
     display: block;
     position: absolute;
     max-width: 360px;
-    min-width: 200px;
+    min-width: 250px;
     width: max-content;
     top: 2px;
     right: 100%;

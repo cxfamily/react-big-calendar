@@ -5562,12 +5562,12 @@
           }),
           (t.currectData = function(e, t) {
             var n = function(e, t) {
-              return (
-                (e = t ? e : new Date(e)),
-                Date.parse(
-                  e.getFullYear() + '-' + (e.getMonth() + 1) + '-' + e.getDate()
-                )
-              )
+              var n =
+                  (e = t ? e : new Date(e)).getMonth() < 9
+                    ? '0' + (e.getMonth() + 1)
+                    : e.getMonth() + 1,
+                r = e.getDate() < 10 ? '0' + e.getDate() : e.getDate()
+              return Date.parse(e.getFullYear() + '-' + n + '-' + r)
             }
             return t.filter(function(t) {
               return n(t.start) <= n(e, 'date') && n(t.end) >= n(e, 'date')
@@ -5846,7 +5846,7 @@
                               key: t,
                               'data-class': 'active-li',
                               onClick: function() {
-                                n.props.clickDate(i)
+                                n.props.clickDate(i, 'detail')
                               },
                             },
                             r.createElement(

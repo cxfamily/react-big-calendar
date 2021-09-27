@@ -802,12 +802,12 @@ button.rbc-input::-moz-focus-inner {
 .index-calendar-wap {
   max-width: 750px;
   margin: 0 auto;
-  min-height: 300px;
+  min-height: 700px;
   padding: 30px 0 0;
+  width: 100%;
 }
 .index-calendar-wap .rbc-calendar {
   padding: 30px 0;
-  min-height: 325px;
 }
 .index-calendar-wap .index-calendar-wap {
   padding-bottom: 0;
@@ -816,6 +816,7 @@ button.rbc-input::-moz-focus-inner {
   margin-top: 0;
   padding: 0 15px;
   border: 0;
+  min-height: 500px;
 }
 .index-calendar-wap .rbc-month-header {
   display: none;
@@ -978,7 +979,6 @@ button.rbc-input::-moz-focus-inner {
 @media screen and (max-width: 767px) {
   .rbc-calendar {
     padding: 30px 0;
-    min-height: 325px;
   }
   .index-calendar-wap {
     padding-bottom: 0;
@@ -987,6 +987,7 @@ button.rbc-input::-moz-focus-inner {
     margin-top: 0;
     padding: 0 15px;
     border: 0;
+    min-height: 500px;
   }
   .rbc-month-header {
     display: none;
@@ -1139,6 +1140,9 @@ button.rbc-input::-moz-focus-inner {
 }
 
 @media screen and (max-width: 600px) {
+  .index-calendar-wap {
+    min-height: 500px;
+  }
   .index-calendar-wap .rbc-calendar {
     padding: 15px 0 0;
   }
@@ -1177,6 +1181,7 @@ button.rbc-input::-moz-focus-inner {
   }
   .index-calendar-wap .rbc-month-view {
     padding: 0 7px;
+    min-height: 250px;
   }
   .index-calendar-wap .rbc-date-cell {
     padding: 8px;
@@ -1215,6 +1220,9 @@ button.rbc-input::-moz-focus-inner {
   .index-calendar-wap .rbc-date-cell.rbc-data .current-text-wrap:before {
     margin-top: 10px;
   }
+  .index-calendar-wap .rbc-month-view {
+    min-height: 200px;
+  }
 }
 
 .wap-render-list-position {
@@ -1227,7 +1235,6 @@ button.rbc-input::-moz-focus-inner {
 }
 .index-calendar-small .rbc-calendar {
   padding: 30px 0;
-  min-height: 325px;
 }
 .index-calendar-small .index-calendar-wap {
   padding-bottom: 0;
@@ -1236,6 +1243,7 @@ button.rbc-input::-moz-focus-inner {
   margin-top: 0;
   padding: 0 15px;
   border: 0;
+  min-height: 500px;
 }
 .index-calendar-small .rbc-month-header {
   display: none;
@@ -1425,6 +1433,7 @@ button.rbc-input::-moz-focus-inner {
 }
 .index-calendar-small .rbc-month-view {
   padding: 0 7px;
+  min-height: 250px;
 }
 .index-calendar-small .rbc-date-cell {
   padding: 8px;
@@ -1490,7 +1499,7 @@ button.rbc-input::-moz-focus-inner {
   display: block;
   position: absolute;
   max-width: 360px;
-  min-width: 200px;
+  min-width: 250px;
   width: max-content;
   top: 2px;
   right: 100%;
