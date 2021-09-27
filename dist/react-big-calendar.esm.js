@@ -5446,7 +5446,15 @@
   wc.propTypes = {}
   var Ec = ['date', 'className'],
     _c = function(e, t, n, r) {
-      return e.filter(function(e) {
+      return (e =
+        e &&
+        e.map(function(e) {
+          return (
+            (e.start = e.start.replace(/-/g, '/')),
+            (e.end = e.end.replace(/-/g, '/')),
+            e
+          )
+        })).filter(function(e) {
         return nc(e, t, n, r)
       })
     },
@@ -5563,15 +5571,19 @@
           (t.currectData = function(e, t) {
             var n = function(e, t) {
               var n =
-                  (e = t ? e : new Date(e)).getMonth() < 9
+                  (e = t ? e : new Date(e && e.replace(/-/g, '/'))).getMonth() <
+                  9
                     ? '0' + (e.getMonth() + 1)
                     : e.getMonth() + 1,
                 r = e.getDate() < 10 ? '0' + e.getDate() : e.getDate()
               return Date.parse(e.getFullYear() + '-' + n + '-' + r)
             }
-            return t.filter(function(t) {
-              return n(t.start) <= n(e, 'date') && n(t.end) >= n(e, 'date')
-            })
+            return (
+              t &&
+              t.filter(function(t) {
+                return n(t.start) <= n(e, 'date') && n(t.end) >= n(e, 'date')
+              })
+            )
           }),
           (t.readerDateHeading = function(e) {
             var n,

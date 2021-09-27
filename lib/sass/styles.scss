@@ -134,6 +134,7 @@
   }
   .index-calendar-wap {
     padding-bottom: 0;
+    min-height: 250px;
   }
   .rbc-month-view {
     margin-top: 0;
@@ -306,7 +307,8 @@
   @include screen-767;
   max-width: 750px;
   margin: 0 auto;
-  min-height: 700px;
+  min-height: 325px;
+  //min-height: 700px;
   padding: 30px 0 0;
   width: 100%;
   .wap-render-list-position {
@@ -396,15 +398,11 @@
   }
 }
 
-@media screen and (max-width: 767px) {
-  @include screen-767;
-}
-
 
 @media screen and (max-width: 600px) {
 
   .index-calendar-wap {
-    min-height: 500px;
+    //min-height: 500px;
     @include screen-600;
   }
 

@@ -88,6 +88,7 @@ class EventEndingRow extends React.Component {
     let newDate = range[slot - 1]
     let currentMonth = newDate.getMonth() + 1
     let currentDate = newDate.getDate()
+
     segments =
       segments.filter(
         el =>

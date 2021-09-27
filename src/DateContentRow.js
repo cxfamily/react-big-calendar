@@ -211,6 +211,7 @@ class DateContentRow extends React.Component {
                   reactStyle={reactStyle}
                 />
               ))}
+
               {!!extra.length && (
                 <EventEndingRow
                   segments={extra}

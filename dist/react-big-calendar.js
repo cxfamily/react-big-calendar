@@ -12599,6 +12599,13 @@
   var _excluded$1 = ['date', 'className']
 
   var eventsForWeek = function eventsForWeek(evts, start, end, accessors) {
+    evts =
+      evts &&
+      evts.map(function(el) {
+        el.start = el.start.replace(/-/g, '/')
+        el.end = el.end.replace(/-/g, '/')
+        return el
+      })
     return evts.filter(function(e) {
       return inRange$1(e, start, end, accessors)
     })
@@ -12750,19 +12757,21 @@
 
       _this.currectData = function(date, events) {
         var timeStamp = function timeStamp(el, type) {
-          el = type ? el : new Date(el)
+          el = type ? el : new Date(el && el.replace(/-/g, '/'))
           var newMonth =
             el.getMonth() < 9 ? '0' + (el.getMonth() + 1) : el.getMonth() + 1
           var newDate = el.getDate() < 10 ? '0' + el.getDate() : el.getDate()
           return Date.parse(el.getFullYear() + '-' + newMonth + '-' + newDate)
         }
 
-        var currectData = events.filter(function(el) {
-          return (
-            timeStamp(el.start) <= timeStamp(date, 'date') &&
-            timeStamp(el.end) >= timeStamp(date, 'date')
-          )
-        })
+        var currectData =
+          events &&
+          events.filter(function(el) {
+            return (
+              timeStamp(el.start) <= timeStamp(date, 'date') &&
+              timeStamp(el.end) >= timeStamp(date, 'date')
+            )
+          })
         return currectData
       }
 

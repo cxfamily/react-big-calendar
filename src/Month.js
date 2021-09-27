@@ -21,8 +21,16 @@ import DateHeader from './DateHeader'
 
 import { inRange, sortEvents } from './utils/eventLevels'
 
-let eventsForWeek = (evts, start, end, accessors) =>
-  evts.filter(e => inRange(e, start, end, accessors))
+let eventsForWeek = (evts, start, end, accessors) => {
+  evts =
+    evts &&
+    evts.map(el => {
+      el.start = el.start.replace(/-/g, '/')
+      el.end = el.end.replace(/-/g, '/')
+      return el
+    })
+  return evts.filter(e => inRange(e, start, end, accessors))
+}
 
 let wapFirstRender = true //触屏初次渲染
 
@@ -303,9 +311,7 @@ class MonthView extends React.Component {
     } = this.props
 
     const { needLimitMeasure, rowLimit, newWeeks } = this.state
-
     events = eventsForWeek(events, week[0], week[week.length - 1], accessors)
-
     events.sort((a, b) => sortEvents(a, b, accessors))
 
     return (
@@ -347,18 +353,19 @@ class MonthView extends React.Component {
 
   currectData = (date, events) => {
     let timeStamp = (el, type) => {
-      el = type ? el : new Date(el)
+      el = type ? el : new Date(el && el.replace(/-/g, '/'))
       let newMonth =
         el.getMonth() < 9 ? '0' + (el.getMonth() + 1) : el.getMonth() + 1
       let newDate = el.getDate() < 10 ? '0' + el.getDate() : el.getDate()
       return Date.parse(`${el.getFullYear()}-${newMonth}-${newDate}`)
     }
-
-    let currectData = events.filter(
-      el =>
-        timeStamp(el.start) <= timeStamp(date, 'date') &&
-        timeStamp(el.end) >= timeStamp(date, 'date')
-    )
+    let currectData =
+      events &&
+      events.filter(
+        el =>
+          timeStamp(el.start) <= timeStamp(date, 'date') &&
+          timeStamp(el.end) >= timeStamp(date, 'date')
+      )
 
     return currectData
   }
