@@ -13169,7 +13169,7 @@
                         key: i,
                         'data-class': 'active-li',
                         onClick: function onClick() {
-                          _this3.props.clickDate(date, 'detail')
+                          _this3.props.clickDate(date, item)
                         },
                       },
                       /*#__PURE__*/ React__default.createElement(

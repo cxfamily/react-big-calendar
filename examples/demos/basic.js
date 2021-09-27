@@ -29,7 +29,7 @@ export default class Basic extends React.Component {
     this.setState({ changeStatus: `${date.getMonth() + 1}${date.getDate()}` })
   }
 
-  clickDate(date, value) {
+  clickDate(date, item) {
     // console.log('111',date,value);
   }
 
@@ -60,7 +60,7 @@ export default class Basic extends React.Component {
         showPosition={showPosition}
         wapCalendar={wapCalendar}
         changeCalendar={(date, action) => this.changeCalendar(date, action)}
-        clickDate={(date, value) => this.clickDate(date, value)}
+        clickDate={(date, item) => this.clickDate(date, item)}
         detailUrl={detailUrl}
       />
     )

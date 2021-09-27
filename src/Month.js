@@ -181,7 +181,7 @@ class MonthView extends React.Component {
                     key={i}
                     data-class="active-li"
                     onClick={() => {
-                      this.props.clickDate(date, 'detail')
+                      this.props.clickDate(date, item)
                     }}
                   >
                     <a

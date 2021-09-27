@@ -5846,7 +5846,7 @@
                               key: t,
                               'data-class': 'active-li',
                               onClick: function() {
-                                n.props.clickDate(i, 'detail')
+                                n.props.clickDate(i, e)
                               },
                             },
                             r.createElement(
