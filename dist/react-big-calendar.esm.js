@@ -5805,9 +5805,11 @@
             c = a.className,
             l = a.loading,
             u = a.reactStyle,
-            f = wo(qr(i, s), 7)
+            f = a.isApp,
+            d = a.wapCalendar,
+            p = wo(qr(i, s), 7)
           return (
-            (this._weekCount = f.length),
+            (this._weekCount = p.length),
             r.createElement(
               r.Fragment,
               null,
@@ -5830,9 +5832,9 @@
                     role: 'row',
                     'data-class': 'rbc-row',
                   },
-                  this.renderHeaders(f[0])
+                  this.renderHeaders(p[0])
                 ),
-                f.map(this.renderWeek),
+                p.map(this.renderWeek),
                 this.props.popup && this.renderOverlay()
               ),
               o.date &&
@@ -5864,9 +5866,9 @@
                             r.createElement(
                               'a',
                               {
-                                href: e.url,
+                                href: f && d ? 'javascript:void(0)' : e.url,
                                 title: e.title,
-                                target: '_blank',
+                                target: f && d ? '_self' : '_blank',
                                 className: u['active-li-title'],
                                 'data-class': 'active-li-title',
                               },

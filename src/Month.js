@@ -141,7 +141,15 @@ class MonthView extends React.Component {
 
   render() {
     let { clickActiveDate } = this.state
-    let { date, localizer, className, loading, reactStyle } = this.props,
+    let {
+        date,
+        localizer,
+        className,
+        loading,
+        reactStyle,
+        isApp,
+        wapCalendar,
+      } = this.props,
       month = dates.visibleDays(date, localizer),
       weeks = chunk(month, 7)
 
@@ -193,9 +201,11 @@ class MonthView extends React.Component {
                     }}
                   >
                     <a
-                      href={item.url}
+                      href={
+                        isApp && wapCalendar ? `javascript:void(0)` : item.url
+                      }
                       title={item.title}
-                      target="_blank"
+                      target={isApp && wapCalendar ? '_self' : '_blank'}
                       className={reactStyle['active-li-title']}
                       data-class="active-li-title"
                     >
@@ -646,6 +656,7 @@ MonthView.propTypes = {
   lang: PropTypes.string,
   detailUrl: PropTypes.string,
   wapCalendar: PropTypes.bool,
+  isApp: PropTypes.bool,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
