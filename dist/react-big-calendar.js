@@ -13118,8 +13118,6 @@
         className = _this$props6.className,
         loading = _this$props6.loading,
         reactStyle = _this$props6.reactStyle,
-        isApp = _this$props6.isApp,
-        wapCalendar = _this$props6.wapCalendar,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -13186,12 +13184,9 @@
                       /*#__PURE__*/ React__default.createElement(
                         'a',
                         {
-                          href:
-                            isApp && wapCalendar
-                              ? 'javascript:void(0)'
-                              : item.url,
+                          href: item.url,
                           title: item.title,
-                          target: isApp && wapCalendar ? '_self' : '_blank',
+                          target: '_blank',
                           className: reactStyle['active-li-title'],
                           'data-class': 'active-li-title',
                         },
@@ -13378,7 +13373,6 @@
     lang: propTypes.string,
     detailUrl: propTypes.string,
     wapCalendar: propTypes.bool,
-    isApp: propTypes.bool,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
     longPressThreshold: propTypes.number,

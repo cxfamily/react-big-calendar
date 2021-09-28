@@ -120,7 +120,6 @@ class Example extends React.Component {
               showPosition={false}
               wapCalendar={false}
               detailUrl={'//www.baodu.com?ceshi=123'}
-              isApp={false}
             />
           </div>
         </div>

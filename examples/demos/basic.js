@@ -41,7 +41,6 @@ export default class Basic extends React.Component {
       showPosition,
       wapCalendar,
       detailUrl,
-      isApp,
     } = this.props
     return (
       <Calendar
@@ -63,7 +62,6 @@ export default class Basic extends React.Component {
         changeCalendar={(date, action) => this.changeCalendar(date, action)}
         clickDate={(date, item) => this.clickDate(date, item)}
         detailUrl={detailUrl}
-        isApp={isApp}
       />
     )
   }
