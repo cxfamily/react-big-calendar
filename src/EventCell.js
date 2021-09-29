@@ -4,6 +4,19 @@ import clsx from 'clsx'
 import * as dates from './utils/dates'
 
 class EventCell extends React.Component {
+  mouseOver(id, type) {
+    let dataId = document.querySelectorAll(`[dataid='${id}']`)
+    for (let i = 0; i < dataId.length; i++) {
+      dataId[i].style.backgroundColor = type === '1' ? '#b4defc' : '#fbcbb0'
+    }
+  }
+  mouseOut(id, type) {
+    let dataId = document.querySelectorAll(`[dataid='${id}']`)
+    for (let i = 0; i < dataId.length; i++) {
+      dataId[i].style.backgroundColor = type === '1' ? '#D9EFFF' : '#FFEBE0'
+    }
+  }
+
   render() {
     let {
       style,
@@ -48,6 +61,13 @@ class EventCell extends React.Component {
         )}
         target="_blank"
         title={tooltip || undefined}
+        dataid={event.id}
+        onMouseOver={() => {
+          this.mouseOver(event.id, event.type)
+        }}
+        onMouseOut={() => {
+          this.mouseOut(event.id, event.type)
+        }}
       >
         {/*todo日历li*/}
         {title}

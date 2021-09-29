@@ -24,6 +24,8 @@ import defaults from 'lodash/defaults'
 import transform from 'lodash/transform'
 import mapValues from 'lodash/mapValues'
 import { wrapAccessor } from './utils/accessors'
+import * as dates from './utils/dates'
+import chunk from 'lodash/chunk'
 
 function viewNames(_views) {
   return !Array.isArray(_views) ? Object.keys(_views) : _views
@@ -961,9 +963,10 @@ class Calendar extends React.Component {
     } = this.state.context
 
     let CalToolbar = components.toolbar || Toolbar
-    let classLength = document.getElementsByClassName(
-      `${reactStyle['rbc-month-row']}`
-    ).length
+
+    let month = dates.visibleDays(current, localizer)
+    let weeks = chunk(month, 7)
+
     const label = View.title(current, { localizer, length })
     return (
       <div
@@ -974,7 +977,7 @@ class Calendar extends React.Component {
           props.rtl && reactStyle['rbc-rtl'],
           showPosition && reactStyle['index-calendar-small'],
           wapCalendar && reactStyle['index-calendar-wap'],
-          classLength === 6 && reactStyle['rbc-calendar-big']
+          weeks.length === 6 && reactStyle['rbc-calendar-big']
         )}
         style={style}
         data-class="rbc-calendar"

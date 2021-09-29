@@ -93,7 +93,6 @@ class MonthView extends React.Component {
     this.setState({
       newWeeks: newWeeks,
       clickActiveEle: clickActiveEle,
-      clickActiveEleHeader: cloneDeep(clickActiveEle),
     })
   }
 

@@ -119,7 +119,7 @@ class Example extends React.Component {
               lang={this.state.lang}
               reactStyle={reactStyle}
               showPosition={false}
-              wapCalendar={true}
+              wapCalendar={false}
               detailUrl={'//www.baidu.com?ceshi=123'}
               query={query}
             />

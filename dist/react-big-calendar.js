@@ -5568,7 +5568,25 @@
 
     var _proto = EventCell.prototype
 
+    _proto.mouseOver = function mouseOver(id, type) {
+      var dataId = document.querySelectorAll("[dataid='" + id + "']")
+
+      for (var i = 0; i < dataId.length; i++) {
+        dataId[i].style.backgroundColor = type === '1' ? '#b4defc' : '#fbcbb0'
+      }
+    }
+
+    _proto.mouseOut = function mouseOut(id, type) {
+      var dataId = document.querySelectorAll("[dataid='" + id + "']")
+
+      for (var i = 0; i < dataId.length; i++) {
+        dataId[i].style.backgroundColor = type === '1' ? '#D9EFFF' : '#FFEBE0'
+      }
+    }
+
     _proto.render = function render() {
+      var _this = this
+
       var _this$props = this.props,
         style = _this$props.style,
         className = _this$props.className,
@@ -5603,6 +5621,13 @@
           ),
           target: '_blank',
           title: tooltip || undefined,
+          dataid: event.id,
+          onMouseOver: function onMouseOver() {
+            _this.mouseOver(event.id, event.type)
+          },
+          onMouseOut: function onMouseOut() {
+            _this.mouseOut(event.id, event.type)
+          },
         },
         title
       )
@@ -13062,7 +13087,6 @@
       this.setState({
         newWeeks: newWeeks,
         clickActiveEle: clickActiveEle,
-        clickActiveEleHeader: cloneDeep(clickActiveEle),
       })
     }
 
@@ -17708,9 +17732,8 @@
         localizer = _this$state$context.localizer,
         viewNames = _this$state$context.viewNames
       var CalToolbar = components.toolbar || Toolbar
-      var classLength = document.getElementsByClassName(
-        '' + reactStyle['rbc-month-row']
-      ).length
+      var month = visibleDays(current, localizer)
+      var weeks = chunk(month, 7)
       var label = View.title(current, {
         localizer: localizer,
         length: length,
@@ -17724,7 +17747,7 @@
             props.rtl && reactStyle['rbc-rtl'],
             showPosition && reactStyle['index-calendar-small'],
             wapCalendar && reactStyle['index-calendar-wap'],
-            classLength === 6 && reactStyle['rbc-calendar-big']
+            weeks.length === 6 && reactStyle['rbc-calendar-big']
           ),
           style: style,
           'data-class': 'rbc-calendar',
