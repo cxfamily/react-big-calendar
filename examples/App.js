@@ -118,8 +118,8 @@ class Example extends React.Component {
               localizer={globalizeLocalizer}
               lang={this.state.lang}
               reactStyle={reactStyle}
-              showPosition={true}
-              wapCalendar={false}
+              showPosition={false}
+              wapCalendar={true}
               detailUrl={'//www.baidu.com?ceshi=123'}
               query={query}
             />

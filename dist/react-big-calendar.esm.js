@@ -4573,9 +4573,7 @@
         null != e &&
         !so(e)
       ) ||
-      _s.test(e) ||
-      !Ss.test(e) ||
-      (null != t && e in Object(t))
+      _s.test(e) || !Ss.test(e) || (null != t && e in Object(t))
     )
   }
   var Ms = 'Expected a function'
