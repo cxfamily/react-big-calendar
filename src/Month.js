@@ -141,7 +141,7 @@ class MonthView extends React.Component {
 
   render() {
     let { clickActiveDate } = this.state
-    let { date, localizer, className, loading, reactStyle } = this.props,
+    let { date, localizer, className, loading, reactStyle, query } = this.props,
       month = dates.visibleDays(date, localizer),
       weeks = chunk(month, 7)
 
@@ -183,17 +183,23 @@ class MonthView extends React.Component {
             </div>
             {clickActiveDate.list?.length > 0 ? (
               clickActiveDate.list?.map((item, i) => {
+                let url = item.url
+                let newUrl =
+                  url && url.indexOf('?') !== -1
+                    ? `${url}&app=${query && query.app}`
+                    : `${url}?app=${query && query.app}`
+                let itemNewUrl = query && query.isApp ? newUrl : item.url
                 return (
                   <div
                     className={reactStyle['active-li']}
                     key={i}
                     data-class="active-li"
                     onClick={() => {
-                      this.props.clickDate(date, item)
+                      this.props.clickDate(date, item, itemNewUrl)
                     }}
                   >
                     <a
-                      href={item.url}
+                      href={itemNewUrl}
                       title={item.title}
                       target="_blank"
                       className={reactStyle['active-li-title']}
@@ -424,12 +430,23 @@ class MonthView extends React.Component {
   }
 
   renderHeaders(row) {
-    let { localizer, components, lang, reactStyle } = this.props
+    let {
+      localizer,
+      components,
+      lang,
+      reactStyle,
+      showPosition,
+      wapCalendar,
+    } = this.props
     let first = row[0]
     let last = row[row.length - 1]
     let HeaderComponent = components.header || Header
     lang = lang ? lang : 'en'
-    var label = localizer.messages[lang].weeks
+
+    var label =
+      showPosition || wapCalendar
+        ? localizer.messages[lang].wapWeeks
+        : localizer.messages[lang].weeks
     return dates.range(first, last, 'day').map((day, idx) => (
       <div
         key={'header_' + idx}
@@ -645,7 +662,9 @@ MonthView.propTypes = {
   localizer: PropTypes.object.isRequired,
   lang: PropTypes.string,
   detailUrl: PropTypes.string,
+  showPosition: PropTypes.bool,
   wapCalendar: PropTypes.bool,
+  query: PropTypes.object,
 
   selected: PropTypes.object,
   selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),

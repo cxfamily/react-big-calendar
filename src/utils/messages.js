@@ -31,6 +31,7 @@ let mes = {
       'Friday',
       'Saturday',
     ],
+    wapWeeks: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     showMore: total => `${total} more ${total > 1 ? 'activities' : 'activity'}`,
     month: [
       'January',
@@ -75,6 +76,7 @@ let mes = {
   cn: {
     today: '今天',
     weeks: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+    wapWeeks: ['日', '一', '二', '三', '四', '五', '六'],
     showMore: total => `更多${total}个活动`,
     month: [
       '1月',

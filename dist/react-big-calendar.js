@@ -2156,6 +2156,7 @@
         'Friday',
         'Saturday',
       ],
+      wapWeeks: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
       showMore: function showMore(total) {
         return total + ' more ' + (total > 1 ? 'activities' : 'activity')
       },
@@ -2202,6 +2203,7 @@
     cn: {
       today: '今天',
       weeks: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+      wapWeeks: ['日', '一', '二', '三', '四', '五', '六'],
       showMore: function showMore(total) {
         return '\u66F4\u591A' + total + '\u4E2A\u6D3B\u52A8'
       },
@@ -3467,7 +3469,9 @@
     return (
       !!length &&
       (type == 'number' || (type != 'symbol' && reIsUint.test(value))) &&
-      value > -1 && value % 1 == 0 && value < length
+      value > -1 &&
+      value % 1 == 0 &&
+      value < length
     )
   }
 
@@ -8404,14 +8408,12 @@
     var popperInstanceRef = React.useRef()
     var update = React.useCallback(function() {
       var _popperInstanceRef$cu
-
       ;(_popperInstanceRef$cu = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu.update()
     }, [])
     var forceUpdate = React.useCallback(function() {
       var _popperInstanceRef$cu2
-
       ;(_popperInstanceRef$cu2 = popperInstanceRef.current) == null
         ? void 0
         : _popperInstanceRef$cu2.forceUpdate()
@@ -10657,7 +10659,8 @@
       // Non `Object` object instances with different constructors are not equal.
       if (
         objCtor != othCtor &&
-        'constructor' in object && 'constructor' in other &&
+        'constructor' in object &&
+        'constructor' in other &&
         !(
           typeof objCtor == 'function' &&
           objCtor instanceof objCtor &&
@@ -13118,6 +13121,7 @@
         className = _this$props6.className,
         loading = _this$props6.loading,
         reactStyle = _this$props6.reactStyle,
+        query = _this$props6.query,
         month = visibleDays(date, localizer),
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
@@ -13171,6 +13175,12 @@
               ? (_clickActiveDate$list2 = clickActiveDate.list) == null
                 ? void 0
                 : _clickActiveDate$list2.map(function(item, i) {
+                    var url = item.url
+                    var newUrl =
+                      url && url.indexOf('?') !== -1
+                        ? url + '&app=' + (query && query.app)
+                        : url + '?app=' + (query && query.app)
+                    var itemNewUrl = query && query.isApp ? newUrl : item.url
                     return /*#__PURE__*/ React__default.createElement(
                       'div',
                       {
@@ -13178,13 +13188,13 @@
                         key: i,
                         'data-class': 'active-li',
                         onClick: function onClick() {
-                          _this3.props.clickDate(date, item)
+                          _this3.props.clickDate(date, item, itemNewUrl)
                         },
                       },
                       /*#__PURE__*/ React__default.createElement(
                         'a',
                         {
-                          href: item.url,
+                          href: itemNewUrl,
                           title: item.title,
                           target: '_blank',
                           className: reactStyle['active-li-title'],
@@ -13243,12 +13253,17 @@
         localizer = _this$props7.localizer,
         components = _this$props7.components,
         lang = _this$props7.lang,
-        reactStyle = _this$props7.reactStyle
+        reactStyle = _this$props7.reactStyle,
+        showPosition = _this$props7.showPosition,
+        wapCalendar = _this$props7.wapCalendar
       var first = row[0]
       var last = row[row.length - 1]
       var HeaderComponent = components.header || Header
       lang = lang ? lang : 'en'
-      var label = localizer.messages[lang].weeks
+      var label =
+        showPosition || wapCalendar
+          ? localizer.messages[lang].wapWeeks
+          : localizer.messages[lang].weeks
       return range(first, last, 'day').map(function(day, idx) {
         return /*#__PURE__*/ React__default.createElement(
           'div',
@@ -13372,6 +13387,7 @@
     localizer: propTypes.object.isRequired,
     lang: propTypes.string,
     detailUrl: propTypes.string,
+    showPosition: propTypes.bool,
     wapCalendar: propTypes.bool,
     selected: propTypes.object,
     selectable: propTypes.oneOf([true, false, 'ignoreEvents']),
@@ -17750,6 +17766,7 @@
             lang: lang,
             label: label,
             reactStyle: reactStyle,
+            showPosition: showPosition,
             wapCalendar: wapCalendar,
           })
         )

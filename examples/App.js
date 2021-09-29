@@ -19,6 +19,7 @@ import ExampleControlSlot from './ExampleControlSlot'
 import Basic from './demos/basic'
 
 const globalizeLocalizer = localizer(globalize)
+let query = { isApp: true, app: '123' }
 
 let demoRoot =
   'https://github.com/intljusticemission/react-big-calendar/tree/master/examples/demos'
@@ -117,9 +118,10 @@ class Example extends React.Component {
               localizer={globalizeLocalizer}
               lang={this.state.lang}
               reactStyle={reactStyle}
-              showPosition={false}
+              showPosition={true}
               wapCalendar={false}
-              detailUrl={'//www.baodu.com?ceshi=123'}
+              detailUrl={'//www.baidu.com?ceshi=123'}
+              query={query}
             />
           </div>
         </div>

@@ -820,7 +820,13 @@ button.rbc-input::-moz-focus-inner {
   min-height: 500px;
 }
 .index-calendar-wap .rbc-month-header {
-  display: none;
+  margin-top: 0;
+}
+.index-calendar-wap .rbc-month-header .rbc-header {
+  text-align: center;
+  font-size: 24px;
+  color: #888;
+  font-weight: normal;
 }
 .index-calendar-wap .rbc-day-bg + .rbc-day-bg {
   border-left: 0;
@@ -1018,6 +1024,9 @@ button.rbc-input::-moz-focus-inner {
     padding: 0 7px;
     min-height: 250px;
   }
+  .index-calendar-wap .rbc-month-header .rbc-header {
+    font-size: 12px;
+  }
   .index-calendar-wap .rbc-date-cell {
     padding: 8px;
     font-size: 14px;
@@ -1065,7 +1074,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .index-calendar-small {
-  max-width: 360px;
+  max-width: 248px;
   padding: 0 !important;
 }
 .index-calendar-small .rbc-calendar {
@@ -1082,7 +1091,13 @@ button.rbc-input::-moz-focus-inner {
   min-height: 500px;
 }
 .index-calendar-small .rbc-month-header {
-  display: none;
+  margin-top: 0;
+}
+.index-calendar-small .rbc-month-header .rbc-header {
+  text-align: center;
+  font-size: 24px;
+  color: #888;
+  font-weight: normal;
 }
 .index-calendar-small .rbc-day-bg + .rbc-day-bg {
   border-left: 0;
@@ -1271,6 +1286,9 @@ button.rbc-input::-moz-focus-inner {
   padding: 0 7px;
   min-height: 250px;
 }
+.index-calendar-small .rbc-month-header .rbc-header {
+  font-size: 12px;
+}
 .index-calendar-small .rbc-date-cell {
   padding: 8px;
   font-size: 14px;
@@ -1392,4 +1410,7 @@ button.rbc-input::-moz-focus-inner {
 }
 .index-calendar-small .rbc-month-row:last-child {
   border-width: 0;
+}
+.index-calendar-small .rbc-month-view {
+  min-height: 168px;
 }

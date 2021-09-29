@@ -143,7 +143,13 @@
     min-height: 500px;
   }
   .rbc-month-header {
-    display: none;
+    margin-top: 0;
+    .rbc-header {
+      text-align: center;
+      font-size: 24px;
+      color: #888;
+      font-weight: normal;
+    }
   }
   .rbc-day-bg + .rbc-day-bg {
     border-left: 0;
@@ -363,6 +369,11 @@
     padding: 0 7px;
     min-height: 250px;
   }
+  .rbc-month-header {
+    .rbc-header {
+      font-size: 12px;
+    }
+  }
   .rbc-date-cell {
     padding: 8px;
     font-size: 14px;
@@ -429,7 +440,7 @@
 }
 
 .index-calendar-small {
-  max-width: 360px;
+  max-width: 248px;
   padding: 0 !important;
   @include screen-767;
   @include screen-600;
@@ -528,6 +539,10 @@
     &:last-child {
       border-width: 0;
     }
+  }
+
+  .rbc-month-view {
+    min-height: 168px;
   }
 
 }
