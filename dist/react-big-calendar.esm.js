@@ -5272,7 +5272,6 @@
             resourceId: S,
             slotMetrics: j,
             resizable: M,
-            reactStyle: A,
           }
         return r.createElement(
           'div',
@@ -7244,20 +7243,25 @@
           s = n.getters.dayProp,
           c = n.components.header,
           l = void 0 === c ? yc : c,
-          u = i()
+          u = n.reactStyle,
+          f = i()
         return e.map(function(e, n) {
           var i = a(e),
             c = o.format(e, 'dayFormat'),
-            f = s(e),
-            d = f.className,
-            p = f.style,
-            v = r.createElement(l, { date: e, label: c, localizer: o })
+            d = s(e),
+            p = d.className,
+            v = d.style,
+            h = r.createElement(l, { date: e, label: c, localizer: o })
           return r.createElement(
             'div',
             {
               key: n,
-              style: p,
-              className: G('rbc-header', d, xr(e, u, 'day') && 'rbc-today'),
+              style: v,
+              className: G(
+                u['rbc-header'],
+                p,
+                xr(e, f, 'day') && u['rbc-today']
+              ),
             },
             i
               ? r.createElement(
@@ -7268,9 +7272,9 @@
                       return t.handleHeaderClick(e, i, n)
                     },
                   },
-                  v
+                  h
                 )
-              : r.createElement('span', null, v)
+              : r.createElement('span', null, h)
           )
         })
       }),
@@ -7295,20 +7299,21 @@
           y = m.resourceHeader,
           b = void 0 === y ? ul : y,
           w = t.resizable,
-          E = {}
-        h && (E[o ? 'marginLeft' : 'marginRight'] = ll() + 'px')
-        var S = a.groupEvents(s)
+          E = t.reactStyle,
+          S = {}
+        h && (S[o ? 'marginLeft' : 'marginRight'] = ll() + 'px')
+        var _ = a.groupEvents(s)
         return r.createElement(
           'div',
           {
-            style: E,
+            style: S,
             ref: p,
-            className: G('rbc-time-header', h && 'rbc-overflowing'),
+            className: G(E['rbc-time-header'], h && E['rbc-overflowing']),
           },
           r.createElement(
             'div',
             {
-              className: 'rbc-label rbc-time-header-gutter',
+              className: G(E['rbc-label'], E['rbc-time-header-gutter']),
               style: { width: n, minWidth: n, maxWidth: n },
             },
             g && r.createElement(g, null)
@@ -7318,17 +7323,17 @@
               s = t[1]
             return r.createElement(
               'div',
-              { className: 'rbc-time-header-content', key: a || n },
+              { className: G(E['rbc-time-header-content']), key: a || n },
               s &&
                 r.createElement(
                   'div',
                   {
-                    className: 'rbc-row rbc-row-resource',
+                    className: G(E['rbc-row'], E['rbc-row-resource']),
                     key: 'resource_' + n,
                   },
                   r.createElement(
                     'div',
-                    { className: 'rbc-header' },
+                    { className: G(E['rbc-header']) },
                     r.createElement(b, {
                       index: n,
                       label: l.resourceTitle(s),
@@ -7339,9 +7344,11 @@
               r.createElement(
                 'div',
                 {
-                  className:
-                    'rbc-row rbc-time-header-cell' +
-                    (i.length <= 1 ? ' rbc-time-header-cell-single-day' : ''),
+                  className: G(
+                    E['rbc-row'],
+                    E['rbc-time-header-cell'],
+                    i.length <= 1 && E['rbc-time-header-cell-single-day']
+                  ),
                 },
                 e.renderHeaderCells(i)
               ),
@@ -7351,9 +7358,9 @@
                 getNow: c,
                 minRows: 2,
                 range: i,
-                events: S.get(a) || [],
+                events: _.get(a) || [],
                 resourceId: s && a,
-                className: 'rbc-allday-cell',
+                className: G(E['rbc-allday-cell']),
                 selectable: u,
                 selected: e.props.selected,
                 components: f,
@@ -7366,6 +7373,7 @@
                 onSelectSlot: e.props.onSelectSlot,
                 longPressThreshold: e.props.longPressThreshold,
                 resizable: w,
+                reactStyle: E,
               })
             )
           })
@@ -7594,6 +7602,7 @@
               onDrillDown: this.props.onDrillDown,
               getDrilldownView: this.props.getDrilldownView,
               resizable: y,
+              reactStyle: b,
             }),
             r.createElement(
               'div',

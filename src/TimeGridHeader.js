@@ -22,6 +22,7 @@ class TimeGridHeader extends React.Component {
       getNow,
       getters: { dayProp },
       components: { header: HeaderComponent = Header },
+      reactStyle,
     } = this.props
 
     const today = getNow()
@@ -41,9 +42,9 @@ class TimeGridHeader extends React.Component {
           key={i}
           style={style}
           className={clsx(
-            'rbc-header',
+            reactStyle['rbc-header'],
             className,
-            dates.eq(date, today, 'day') && 'rbc-today'
+            dates.eq(date, today, 'day') && reactStyle['rbc-today']
           )}
         >
           {drilldownView ? (
@@ -125,6 +126,7 @@ class TimeGridHeader extends React.Component {
         resourceHeader: ResourceHeaderComponent = ResourceHeader,
       },
       resizable,
+      reactStyle,
     } = this.props
 
     let style = {}
@@ -138,20 +140,35 @@ class TimeGridHeader extends React.Component {
       <div
         style={style}
         ref={scrollRef}
-        className={clsx('rbc-time-header', isOverflowing && 'rbc-overflowing')}
+        className={clsx(
+          reactStyle['rbc-time-header'],
+          isOverflowing && reactStyle['rbc-overflowing']
+        )}
       >
         <div
-          className="rbc-label rbc-time-header-gutter"
+          className={clsx(
+            reactStyle['rbc-label'],
+            reactStyle['rbc-time-header-gutter']
+          )}
           style={{ width, minWidth: width, maxWidth: width }}
         >
           {TimeGutterHeader && <TimeGutterHeader />}
         </div>
 
         {resources.map(([id, resource], idx) => (
-          <div className="rbc-time-header-content" key={id || idx}>
+          <div
+            className={clsx(reactStyle['rbc-time-header-content'])}
+            key={id || idx}
+          >
             {resource && (
-              <div className="rbc-row rbc-row-resource" key={`resource_${idx}`}>
-                <div className="rbc-header">
+              <div
+                className={clsx(
+                  reactStyle['rbc-row'],
+                  reactStyle['rbc-row-resource']
+                )}
+                key={`resource_${idx}`}
+              >
+                <div className={clsx(reactStyle['rbc-header'])}>
                   <ResourceHeaderComponent
                     index={idx}
                     label={accessors.resourceTitle(resource)}
@@ -161,9 +178,12 @@ class TimeGridHeader extends React.Component {
               </div>
             )}
             <div
-              className={`rbc-row rbc-time-header-cell${
-                range.length <= 1 ? ' rbc-time-header-cell-single-day' : ''
-              }`}
+              className={clsx(
+                reactStyle['rbc-row'],
+                reactStyle['rbc-time-header-cell'],
+                range.length <= 1 &&
+                  reactStyle['rbc-time-header-cell-single-day']
+              )}
             >
               {this.renderHeaderCells(range)}
             </div>
@@ -175,7 +195,7 @@ class TimeGridHeader extends React.Component {
               range={range}
               events={groupedEvents.get(id) || []}
               resourceId={resource && id}
-              className="rbc-allday-cell"
+              className={clsx(reactStyle['rbc-allday-cell'])}
               selectable={selectable}
               selected={this.props.selected}
               components={components}
@@ -188,6 +208,7 @@ class TimeGridHeader extends React.Component {
               onSelectSlot={this.props.onSelectSlot}
               longPressThreshold={this.props.longPressThreshold}
               resizable={resizable}
+              reactStyle={reactStyle}
             />
           </div>
         ))}
@@ -205,6 +226,7 @@ TimeGridHeader.propTypes = {
 
   rtl: PropTypes.bool,
   resizable: PropTypes.bool,
+  reactStyle: PropTypes.object,
   width: PropTypes.number,
 
   localizer: PropTypes.object.isRequired,

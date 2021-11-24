@@ -254,6 +254,7 @@ export default class TimeGrid extends Component {
           onDrillDown={this.props.onDrillDown}
           getDrilldownView={this.props.getDrilldownView}
           resizable={resizable}
+          reactStyle={reactStyle}
         />
         <div
           ref={this.contentRef}

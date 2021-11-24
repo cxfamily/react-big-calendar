@@ -64,6 +64,7 @@ export default class Basic extends React.Component {
         clickDate={(date, item) => this.clickDate(date, item)}
         detailUrl={detailUrl}
         query={query}
+        // defaultView={'week'}
       />
     )
   }

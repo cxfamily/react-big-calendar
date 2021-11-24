@@ -12324,8 +12324,7 @@
         onKeyPress: onKeyPress,
         resourceId: resourceId,
         slotMetrics: metrics,
-        resizable: resizable,
-        reactStyle: reactStyle,
+        resizable: resizable, // reactStyle,
       }
       return /*#__PURE__*/ React__default.createElement(
         'div',
@@ -15483,7 +15482,8 @@
         dayProp = _this$props2.getters.dayProp,
         _this$props2$componen = _this$props2.components.header,
         HeaderComponent =
-          _this$props2$componen === void 0 ? Header : _this$props2$componen
+          _this$props2$componen === void 0 ? Header : _this$props2$componen,
+        reactStyle = _this$props2.reactStyle
       var today = getNow()
       return range.map(function(date, i) {
         var drilldownView = getDrilldownView(date)
@@ -15507,9 +15507,9 @@
             key: i,
             style: style,
             className: clsx(
-              'rbc-header',
+              reactStyle['rbc-header'],
               className,
-              eq$1(date, today, 'day') && 'rbc-today'
+              eq$1(date, today, 'day') && reactStyle['rbc-today']
             ),
           },
           drilldownView
@@ -15552,7 +15552,8 @@
           _this$props3$componen2 === void 0
             ? ResourceHeader
             : _this$props3$componen2,
-        resizable = _this$props3.resizable
+        resizable = _this$props3.resizable,
+        reactStyle = _this$props3.reactStyle
       var style = {}
 
       if (isOverflowing) {
@@ -15566,14 +15567,17 @@
           style: style,
           ref: scrollRef,
           className: clsx(
-            'rbc-time-header',
-            isOverflowing && 'rbc-overflowing'
+            reactStyle['rbc-time-header'],
+            isOverflowing && reactStyle['rbc-overflowing']
           ),
         },
         /*#__PURE__*/ React__default.createElement(
           'div',
           {
-            className: 'rbc-label rbc-time-header-gutter',
+            className: clsx(
+              reactStyle['rbc-label'],
+              reactStyle['rbc-time-header-gutter']
+            ),
             style: {
               width: width,
               minWidth: width,
@@ -15589,20 +15593,23 @@
           return /*#__PURE__*/ React__default.createElement(
             'div',
             {
-              className: 'rbc-time-header-content',
+              className: clsx(reactStyle['rbc-time-header-content']),
               key: id || idx,
             },
             resource &&
               /*#__PURE__*/ React__default.createElement(
                 'div',
                 {
-                  className: 'rbc-row rbc-row-resource',
+                  className: clsx(
+                    reactStyle['rbc-row'],
+                    reactStyle['rbc-row-resource']
+                  ),
                   key: 'resource_' + idx,
                 },
                 /*#__PURE__*/ React__default.createElement(
                   'div',
                   {
-                    className: 'rbc-header',
+                    className: clsx(reactStyle['rbc-header']),
                   },
                   /*#__PURE__*/ React__default.createElement(
                     ResourceHeaderComponent,
@@ -15617,9 +15624,12 @@
             /*#__PURE__*/ React__default.createElement(
               'div',
               {
-                className:
-                  'rbc-row rbc-time-header-cell' +
-                  (range.length <= 1 ? ' rbc-time-header-cell-single-day' : ''),
+                className: clsx(
+                  reactStyle['rbc-row'],
+                  reactStyle['rbc-time-header-cell'],
+                  range.length <= 1 &&
+                    reactStyle['rbc-time-header-cell-single-day']
+                ),
               },
               _this3.renderHeaderCells(range)
             ),
@@ -15631,7 +15641,7 @@
               range: range,
               events: groupedEvents.get(id) || [],
               resourceId: resource && id,
-              className: 'rbc-allday-cell',
+              className: clsx(reactStyle['rbc-allday-cell']),
               selectable: selectable,
               selected: _this3.props.selected,
               components: components,
@@ -15644,6 +15654,7 @@
               onSelectSlot: _this3.props.onSelectSlot,
               longPressThreshold: _this3.props.longPressThreshold,
               resizable: resizable,
+              reactStyle: reactStyle,
             })
           )
         })
@@ -15661,6 +15672,7 @@
     isOverflowing: propTypes.bool,
     rtl: propTypes.bool,
     resizable: propTypes.bool,
+    reactStyle: propTypes.object,
     width: propTypes.number,
     localizer: propTypes.object.isRequired,
     accessors: propTypes.object.isRequired,
@@ -15984,6 +15996,7 @@
           onDrillDown: this.props.onDrillDown,
           getDrilldownView: this.props.getDrilldownView,
           resizable: resizable,
+          reactStyle: reactStyle,
         }),
         /*#__PURE__*/ React__default.createElement(
           'div',

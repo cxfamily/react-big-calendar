@@ -168,7 +168,7 @@ class DateContentRow extends React.Component {
       resourceId,
       slotMetrics: metrics,
       resizable,
-      reactStyle,
+      // reactStyle,
     }
     return (
       <div className={className} role="rowgroup">
